@@ -1,0 +1,186 @@
+{
+ "schema": "eldpc.results.build_listing.v1",
+ "what": "The built wheel of `pip wheel` from this repository and the GPU images in its decoder cores: the wheel file list with sizes (python -m zipfile -l) and `cuobjdump --list-elf` / `--list-ptx` of every native library. Evidence for docs/CLAIMS.md rows 6, 16 and 34. The licence files (LICENSE, NOTICE, THIRD_PARTY_NOTICES, AUTHORS) are in the wheel's eldpc-0.1.0.dist-info/licenses/.",
+ "machine": {
+  "cpu": "AMD Ryzen 9 7950X3D (Zen 4)",
+  "gpu": "NVIDIA GeForce RTX 5080",
+  "os": "Ubuntu 24.04 (glibc 2.39)",
+  "compiler": "GCC 13.3.0",
+  "cuda_toolkit": "NVIDIA 13.3.73",
+  "note": "the second machine of tools/results/matrix/tested-configurations.json"
+ },
+ "source": "the package sources of main 45df670 (the licence commit; the commit that adds this record changes only documentation and records)",
+ "build_command": "python -m pip wheel --no-build-isolation --no-deps -w <dir> .",
+ "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx512; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2 -mavx512f -mavx512vl -mavx512dq -mavx512bw; build_type=Release; isa=avx512; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+ "cuobjdump": "Cuda compilation tools, release 13.3, V13.3.73",
+ "wheel": {
+  "name": "eldpc-0.1.0-py3-none-linux_x86_64.whl",
+  "bytes": 9096576,
+  "files": [
+   {
+    "path": "eldpc/__init__.py",
+    "bytes": 18051
+   },
+   {
+    "path": "eldpc/_abi.py",
+    "bytes": 10853
+   },
+   {
+    "path": "eldpc/_config.py",
+    "bytes": 3992
+   },
+   {
+    "path": "eldpc/_dem.py",
+    "bytes": 4315
+   },
+   {
+    "path": "eldpc/_devices.py",
+    "bytes": 10881
+   },
+   {
+    "path": "eldpc/_libs/libeldpc.so",
+    "bytes": 47512
+   },
+   {
+    "path": "eldpc/_libs/libeldpc_core_avx2.so",
+    "bytes": 8249456
+   },
+   {
+    "path": "eldpc/_libs/libeldpc_core_avx2_ada64.so",
+    "bytes": 8249456
+   },
+   {
+    "path": "eldpc/_libs/libeldpc_core_avx512.so",
+    "bytes": 8253552
+   },
+   {
+    "path": "eldpc/_libs/libeldpc_core_avx512_ada64.so",
+    "bytes": 8253552
+   },
+   {
+    "path": "eldpc/_libs/libeldpc_cpu_avx2.so",
+    "bytes": 240608
+   },
+   {
+    "path": "eldpc/_libs/libeldpc_cpu_avx512.so",
+    "bytes": 252896
+   },
+   {
+    "path": "eldpc/_matrix.py",
+    "bytes": 2135
+   },
+   {
+    "path": "eldpc/_status.py",
+    "bytes": 1336
+   },
+   {
+    "path": "eldpc/_variant.py",
+    "bytes": 2408
+   },
+   {
+    "path": "eldpc/include/eldpc.h",
+    "bytes": 8648
+   },
+   {
+    "path": "eldpc/lib/cmake/eldpc/eldpcConfig.cmake",
+    "bytes": 424
+   },
+   {
+    "path": "eldpc/lib/cmake/eldpc/eldpcConfigVersion.cmake",
+    "bytes": 275
+   },
+   {
+    "path": "eldpc/lib/pkgconfig/eldpc.pc",
+    "bytes": 240
+   },
+   {
+    "path": "eldpc/py.typed",
+    "bytes": 0
+   },
+   {
+    "path": "eldpc/qldpc.py",
+    "bytes": 28733
+   },
+   {
+    "path": "eldpc-0.1.0.dist-info/METADATA",
+    "bytes": 39573
+   },
+   {
+    "path": "eldpc-0.1.0.dist-info/WHEEL",
+    "bytes": 105
+   },
+   {
+    "path": "eldpc-0.1.0.dist-info/licenses/LICENSE",
+    "bytes": 11391
+   },
+   {
+    "path": "eldpc-0.1.0.dist-info/licenses/NOTICE",
+    "bytes": 410
+   },
+   {
+    "path": "eldpc-0.1.0.dist-info/licenses/THIRD_PARTY_NOTICES",
+    "bytes": 5951
+   },
+   {
+    "path": "eldpc-0.1.0.dist-info/licenses/AUTHORS",
+    "bytes": 59
+   },
+   {
+    "path": "eldpc-0.1.0.dist-info/RECORD",
+    "bytes": 2327
+   }
+  ]
+ },
+ "native_libraries": [
+  "eldpc/_libs/libeldpc.so",
+  "eldpc/_libs/libeldpc_core_avx2.so",
+  "eldpc/_libs/libeldpc_core_avx2_ada64.so",
+  "eldpc/_libs/libeldpc_core_avx512.so",
+  "eldpc/_libs/libeldpc_core_avx512_ada64.so",
+  "eldpc/_libs/libeldpc_cpu_avx2.so",
+  "eldpc/_libs/libeldpc_cpu_avx512.so"
+ ],
+ "gpu_images": {
+  "libeldpc_core_avx2.so": {
+   "list_elf": [
+    "compute_120.sm_89.cubin",
+    "compute_120.sm_120.cubin"
+   ],
+   "list_ptx": [
+    "compute_120.sm_120.ptx"
+   ]
+  },
+  "libeldpc_core_avx2_ada64.so": {
+   "list_elf": [
+    "compute_120.sm_89.cubin",
+    "compute_120.sm_120.cubin"
+   ],
+   "list_ptx": [
+    "compute_120.sm_120.ptx"
+   ]
+  },
+  "libeldpc_core_avx512.so": {
+   "list_elf": [
+    "compute_120.sm_89.cubin",
+    "compute_120.sm_120.cubin"
+   ],
+   "list_ptx": [
+    "compute_120.sm_120.ptx"
+   ]
+  },
+  "libeldpc_core_avx512_ada64.so": {
+   "list_elf": [
+    "compute_120.sm_89.cubin",
+    "compute_120.sm_120.cubin"
+   ],
+   "list_ptx": [
+    "compute_120.sm_120.ptx"
+   ]
+  }
+ },
+ "no_device_code": [
+  "libeldpc_cpu_avx2.so",
+  "libeldpc_cpu_avx512.so",
+  "libeldpc.so"
+ ]
+}

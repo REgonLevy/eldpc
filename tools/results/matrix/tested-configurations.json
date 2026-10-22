@@ -1,0 +1,1943 @@
+{
+ "schema": "eldpc.tested_configurations.v1",
+ "what": "The machines of docs/SUPPORT.md \"Tested configurations\": per machine the GPU, CPU, driver and toolkit, the package revision built from source, and each check with its result line, transcribed from the integration-test logs (numbers as recorded). The bit-identity check compares the installed package with a separately built library of the same decoder sources on corpora of the bb72 z, bb144 xyz and hgp98 z problems at a03125c3 and ms30 (2,000 shots per row); the forced-AVX2 run covers bb144 xyz at both configs (500 shots per row). No latency is quoted from these machines except the --quick benchmark screen of the RTX 5090 fresh-clone install test, which is labelled as a screen; the wall-clock times of the fresh-clone tests are approximate. The RTX 5090 and RTX 3090 entries are transcribed from those fresh-clone install tests' step logs and their verify, bench and tuner records (paths, host and user names removed). The RTX 3090 (compute capability 8.6) is not a supported GPU: its entry records the build with CUDA 13.0 and the CPU-core checks.",
+ "machines": [
+  {
+   "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
+   "gpu": "NVIDIA GeForce RTX 5080",
+   "compute_capability": "12.0",
+   "sm_count": 84,
+   "l2_bytes": 67108864,
+   "nvidia_driver": "580.159.03",
+   "virtual_machine_guest": false,
+   "cuda_toolkit": "13.3",
+   "runs": [
+    {
+     "rev": "33dfb4659ac8a8cff5d6daa062fa014c675e1448",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "default (this revision has no ada64 variant)",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx512",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "test suite",
+       "command": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (qLDPC installed, so the qLDPC tests run)",
+       "result": "248 passed, 4 skipped in 35.47s"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches (156.4 s)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "cpu": "AMD Ryzen 9 7950X3D 16-Core Processor",
+   "gpu": "NVIDIA GeForce RTX 5080",
+   "compute_capability": "12.0",
+   "sm_count": 84,
+   "l2_bytes": 67108864,
+   "nvidia_driver": "595.91.07",
+   "virtual_machine_guest": false,
+   "cuda_toolkit": "13.3",
+   "note": "the machine of tools/results/cpu/ (same revision)",
+   "runs": [
+    {
+     "rev": "f40d6f908fbd8196cb2f66bb01499e09c989f0e2",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "default",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx512",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "qLDPC tests",
+       "command": "python -m pytest tests/qldpc",
+       "result": "82 passed in 2.91s"
+      },
+      {
+       "check": "test suite",
+       "command": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (qLDPC installed, so the qLDPC tests run)",
+       "result": "326 passed, 6 skipped in 35.48s"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches; corrections and observables vs the reference, status words vs the separately built library (91.9 s)"
+      },
+      {
+       "check": "benchmark",
+       "command": "python bench/bench.py all --quick",
+       "result": "exit 0; results.json written (2 warnings: the machine is not prepared for timing; no timing is quoted from it)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "cpu": "AMD Ryzen 9 7900 12-Core Processor",
+   "gpu": "NVIDIA GeForce RTX 4090",
+   "compute_capability": "8.9",
+   "sm_count": 128,
+   "l2_bytes": 75497472,
+   "nvidia_driver": "610.43.02",
+   "virtual_machine_guest": true,
+   "cuda_toolkit": "13.3",
+   "runs": [
+    {
+     "rev": "b518f4c42921522f688c124239a56182d28eb364",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "ada64",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx512",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "test suite",
+       "command": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (qLDPC installed, so the qLDPC tests run)",
+       "result": "277 passed, 4 skipped in 32.57s"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches (101.4 s)"
+      }
+     ]
+    },
+    {
+     "rev": "e7cd508bfb54e4b1ea1452e1b220dc5bb838102b",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "default (this revision has no ada64 variant)",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx512",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "test suite",
+       "command": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (qLDPC installed, so the qLDPC tests run)",
+       "result": "248 passed, 4 skipped in 31.97s"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches (106.8 s)"
+      },
+      {
+       "check": "benchmark",
+       "command": "python bench/bench.py all --quick",
+       "result": "exit 0; results.json written (4 warnings: the machine is not prepared for timing; no timing is quoted from it)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "cpu": "Intel(R) Xeon(R) Platinum 8559C",
+   "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+   "compute_capability": "12.0",
+   "sm_count": 188,
+   "l2_bytes": 134217728,
+   "nvidia_driver": "615.71.09",
+   "virtual_machine_guest": true,
+   "cuda_toolkit": "13.3",
+   "runs": [
+    {
+     "rev": "b518f4c42921522f688c124239a56182d28eb364",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "default",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx512",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "test suite",
+       "command": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (qLDPC installed, so the qLDPC tests run)",
+       "result": "277 passed, 4 skipped in 52.61s"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches (173.6 s)"
+      }
+     ]
+    },
+    {
+     "rev": "e7cd508bfb54e4b1ea1452e1b220dc5bb838102b",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "default (this revision has no ada64 variant)",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx512",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "test suite",
+       "command": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (qLDPC installed, so the qLDPC tests run)",
+       "result": "248 passed, 4 skipped in 51.78s"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches (182.2 s)"
+      },
+      {
+       "check": "benchmark",
+       "command": "python bench/bench.py all --quick",
+       "result": "exit 0; results.json written (4 warnings: the machine is not prepared for timing; no timing is quoted from it)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "cpu": "2x INTEL(R) XEON(R) SILVER 4514Y",
+   "gpu": "NVIDIA L40S",
+   "compute_capability": "8.9",
+   "sm_count": 142,
+   "l2_bytes": 100663296,
+   "nvidia_driver": "595.84",
+   "virtual_machine_guest": false,
+   "cuda_toolkit": "13.3",
+   "runs": [
+    {
+     "rev": "6e91d5ff54ddfc2714a8bf591a7141192a9bc137",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "ada64",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx512",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "test suite",
+       "command": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (qLDPC installed, so the qLDPC tests run)",
+       "result": "277 passed, 4 skipped in 64.71s (0:01:04)"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches (219.9 s)"
+      }
+     ],
+     "rev_note": "the run was made at 94b77fd, a commit later amended into this one; the two differ only in docs/tools/test_results_tools.py, so the package sources that ran are this commit's"
+    }
+   ]
+  },
+  {
+   "cpu": "2x INTEL(R) XEON(R) SILVER 4514Y",
+   "gpu": "NVIDIA L40S",
+   "compute_capability": "8.9",
+   "sm_count": 142,
+   "l2_bytes": 100663296,
+   "nvidia_driver": "595.84",
+   "cuda_toolkit": "13.2",
+   "virtual_machine_guest": false,
+   "note": "fresh-clone install test that followed the README in a new account; the machine was shared (load average 9-26), so the wall-clock times are approximate",
+   "runs": [
+    {
+     "rev": "97ed43ac0f65d1cff598374502029a0d7ebcb123",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.2.86",
+     "core_variant": "ada64",
+     "checks": [
+      {
+       "check": "install",
+       "command": "pip install \".[test,qldpc]\"",
+       "result": "installed; The CUDA compiler identification is NVIDIA 13.2.86 (the machine default nvcc); wall clock 1 min 56 s"
+      },
+      {
+       "check": "install without the qldpc extra",
+       "command": "pip install \".[test]\"",
+       "result": "installed; wall clock 1 min 10 s"
+      },
+      {
+       "check": "test suite",
+       "command": "python -m pytest tests (qLDPC installed; ELDPC_REQUIRE_GPU not set, ELDPC_REFERENCE_LIB not set)",
+       "result": "237 passed, 23 skipped in 50.37s; wall clock 0 min 52 s"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches; corrections and observables vs the reference; status words not compared (no separately built library, see docs/VERIFY.md) (231.7 s); wall clock 3 min 53 s"
+      },
+      {
+       "check": "verification suite with the status words",
+       "command": "ELDPC_REFERENCE_LIB=<CMake build of the same tree> python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches; corrections and observables vs the reference, status words vs the separately built library (201.3 s)"
+      },
+      {
+       "check": "benchmark",
+       "command": "python bench/bench.py all --quick",
+       "result": "exit 0; results written; wall clock 4 min 32 s"
+      },
+      {
+       "check": "tuner, 100 us budget",
+       "command": "python tuning/eldpc_tune.py --dem model.dem --ler-target 1e-3 --p99-budget-us 100 --auto --out tune (model.dem from the README code-to-DEM quick start)",
+       "result": "No configuration qualifies: no point that meets the accuracy target is within the latency budget; nearest bposd:a=0.5:c=11: LER upper 0.000954, p50 87.3 us, p99 137.5 us, 1.38x the budget; wall clock 2 min 41 s"
+      },
+      {
+       "check": "tuner, 200 us budget",
+       "command": "the same with --p99-budget-us 200",
+       "result": "tie set: bposd:a=0.5:c=11: p50 86.86 us, p99 137.41 us, LER upper 0.000954  <- chosen; wall clock 2 min 40 s"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "cpu": "2x AMD EPYC 7542 32-Core Processor",
+   "gpu": "NVIDIA RTX 6000 Ada Generation",
+   "compute_capability": "8.9",
+   "sm_count": 142,
+   "l2_bytes": 100663296,
+   "nvidia_driver": "580.126.09",
+   "virtual_machine_guest": false,
+   "cuda_toolkit": "13.3",
+   "note": "AVX2-only host: the front chose the AVX2 core automatically, so both bit-identity runs used it; the records of docs/results/ (RESULTS.md) were taken on this machine",
+   "runs": [
+    {
+     "rev": "a50de4b62481dc1d74cc32817b63eef45176df39",
+     "host_isa": "avx2",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "ada64",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "test suite",
+       "command": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (qLDPC installed, so the qLDPC tests run)",
+       "result": "326 passed, 6 skipped in 84.77s (0:01:24)"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches; corrections and observables vs the reference, status words vs the separately built library (284.9 s)"
+      }
+     ]
+    },
+    {
+     "rev": "894ebb3f178c780090bee95641d0b5c6950df25f",
+     "host_isa": "avx2",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "ada64",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "test suite",
+       "what": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (without tests/qldpc)",
+       "result": "306 passed, 7 skipped in 89.00s (0:01:29)"
+      },
+      {
+       "check": "test suite, AVX2 core forced",
+       "what": "ELDPC_ISA=avx2 ELDPC_REQUIRE_GPU=1 python -m pytest tests (without tests/qldpc)",
+       "result": "306 passed, 7 skipped in 88.31s (0:01:28)"
+      },
+      {
+       "check": "verification suite",
+       "what": "python verify/run_verify.py --quick with ELDPC_REFERENCE_LIB",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches; corrections and observables vs the reference, status words vs the separately built library (243.8 s)"
+      }
+     ],
+     "note": "at revision 894ebb3 (the release's code apart from the benchmark's host-load threshold, changed in f44723c), with the AVX2 core (chosen automatically); a shared host (1-min load average about 3.5 to 6.5 of 128 logical CPUs during the run)"
+    }
+   ]
+  },
+  {
+   "cpu": "Intel(R) Xeon(R) w9-3495X",
+   "gpu": "NVIDIA L40S",
+   "compute_capability": "8.9",
+   "sm_count": 142,
+   "l2_bytes": 100663296,
+   "nvidia_driver": "595.91.07",
+   "virtual_machine_guest": false,
+   "cuda_toolkit": "13.3",
+   "note": "Sapphire Rapids-W, one socket; the records of docs/results/target/ (RESULTS.md section 6) and tools/results/host-sprw/ were taken on this machine at revision 21b2820, which adds one docs/SUPPORT.md line to the revision below",
+   "runs": [
+    {
+     "rev": "95090f303c8f8ab198a0df97cedcb6914fe14212",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "ada64 (the device-class table; the bench.py records of tools/results/host-sprw/ record ada64 handles on this machine)",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx512",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "test suite",
+       "command": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (qLDPC installed, so the qLDPC tests run)",
+       "result": "326 passed, 6 skipped in 46.25s"
+      },
+      {
+       "check": "test suite without the qLDPC tests",
+       "command": "ELDPC_REQUIRE_GPU=1 python -m pytest tests --ignore=tests/qldpc",
+       "result": "244 passed, 6 skipped in 44.50s"
+      },
+      {
+       "check": "test suite without the qLDPC tests, AVX2 core forced",
+       "command": "ELDPC_ISA=avx2 ELDPC_REQUIRE_GPU=1 python -m pytest tests --ignore=tests/qldpc",
+       "result": "244 passed, 6 skipped in 43.69s"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches; corrections and observables vs the reference, status words vs the separately built library (148.1 s)"
+      }
+     ]
+    },
+    {
+     "rev": "894ebb3f178c780090bee95641d0b5c6950df25f",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "ada64 (the device-class table; the bench.py records of tools/results/host-sprw/ record ada64 handles on this machine)",
+     "checks": [
+      {
+       "check": "bit identity, automatic host core",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx512",
+       "result": "ok=true: 6 rows, 12000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb72_unif_p1e-3_r6_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "a03125c3",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "hgp98_unif_p1e-3_r4_z",
+         "config": "ms30",
+         "shots": 2000,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "bit identity, AVX2 core forced (ELDPC_ISA=avx2)",
+       "what": "bit identity of the installed package against a separately built library of the decoder sources: correction, observables and status word, single shot and in batch",
+       "host_isa": "avx2",
+       "result": "ok=true: 2 rows, 1000 shots, mismatches 0 (corr 0, obs 0, status 0, batch_corr 0, batch_obs 0, batch_status 0)",
+       "rows": [
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "a03125c3",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        },
+        {
+         "problem": "bb144_unif_p1e-3_r12_xyz",
+         "config": "ms30",
+         "shots": 500,
+         "mismatches": {
+          "corr": 0,
+          "obs": 0,
+          "status": 0,
+          "batch_corr": 0,
+          "batch_obs": 0,
+          "batch_status": 0
+         },
+         "ok": true
+        }
+       ]
+      },
+      {
+       "check": "test suite",
+       "what": "ELDPC_REQUIRE_GPU=1 python -m pytest tests (without tests/qldpc)",
+       "result": "306 passed, 7 skipped in 76.10s (0:01:16)"
+      },
+      {
+       "check": "test suite, AVX2 core forced",
+       "what": "ELDPC_ISA=avx2 ELDPC_REQUIRE_GPU=1 python -m pytest tests (without tests/qldpc)",
+       "result": "306 passed, 7 skipped in 76.33s (0:01:16)"
+      },
+      {
+       "check": "verification suite",
+       "what": "python verify/run_verify.py --quick with ELDPC_REFERENCE_LIB",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches; corrections and observables vs the reference, status words vs the separately built library (208.3 s)"
+      }
+     ],
+     "note": "correctness checks only, at revision 894ebb3 (the release's code apart from the benchmark's host-load threshold), on a shared host under load (1-min load average 51 to 53 of 112 logical CPUs, a cgroup quota of about 54 CPUs, during the run); no timing was taken"
+    }
+   ]
+  },
+  {
+   "cpu": "AMD Ryzen 7 9700X 8-Core Processor",
+   "gpu": "NVIDIA GeForce RTX 5090",
+   "compute_capability": "12.0",
+   "sm_count": 170,
+   "l2_bytes": 100663296,
+   "nvidia_driver": "595.71.05",
+   "virtual_machine_guest": false,
+   "cuda_toolkit": "13.3 and 13.4",
+   "note": "fresh-clone install test on a desktop machine that followed README.md alone on a fresh Ubuntu 24.04.5 desktop machine (Python 3.12.3, 16 logical CPUs, AVX-512; the driver reports CUDA 13.2, so the 13.3 and 13.4 builds ran under minor-version compatibility); the toolkits came from NVIDIA's apt repository as cuda-toolkit-13-3 and cuda-toolkit-13-4 (no driver change), each built into its own clone and virtual environment; ELDPC_REQUIRE_GPU, the reference library and the corpus bit-identity check were not used; the benchmark is a --quick screen on a desktop not prepared for timing (CPU governor powersave, GPU clocks rising from idle during the run), not a timing-grade result; wall-clock times are approximate",
+   "runs": [
+    {
+     "rev": "46cd59e926037bfa38236069b75376501dc81115",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.3.73",
+     "core_variant": "default",
+     "checks": [
+      {
+       "check": "install with nvcc not on PATH",
+       "command": "pip install \".[test,qldpc]\" (the 13.3 toolkit installed, its nvcc not on PATH, CUDACXX unset)",
+       "result": "installed without a warning in pip's default output; a CPU-only build (build_info lib=fastbpcpu6g, no cuda= field); a device=\"gpu\" create then failed with the message that the build has no GPU cores; wall clock 33 s"
+      },
+      {
+       "check": "install",
+       "command": "CUDACXX=<cuda-13.3>/bin/nvcc pip install \".[test,qldpc]\"",
+       "result": "installed; build_info lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; wall clock 30 s (into the environment of the step above, its dependencies already installed)"
+      },
+      {
+       "check": "README quick starts",
+       "command": "the Python (DEM, H/O/priors), C, code-to-DEM, qLDPC and CPU-core quick starts of README.md",
+       "result": "every documented output reproduced on the GPU (code to DEM: m=504 n=5184 k=12, logical error rate 0.0043; C: correction 10000, observable 0, 3 iterations) after pkg-config was installed for the C one"
+      },
+      {
+       "check": "test suite",
+       "command": "python -m pytest tests (qLDPC installed; ELDPC_REQUIRE_GPU and ELDPC_REFERENCE_LIB not set)",
+       "result": "309 passed, 25 skipped in 17.4 s with cmake on PATH; before cmake was installed: 297 passed, 24 skipped, 13 errors (cmake was not found on PATH)"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches; corrections and observables vs the reference; status words not compared (no separately built library, see docs/VERIFY.md) (79.3 s); wall clock 1 min 20 s"
+      },
+      {
+       "check": "benchmark screen",
+       "command": "python bench/bench.py all --quick --out bench-results",
+       "result": "exit 0; results written; bb144 xyz (bb144_unif_p1e-3_r12_xyz) at a03125c3, C single shot back to back: p50 33.550 us, p99 43.140 us (2400 shots); batch throughput 26,300 shots/s; LER check 0 errors in 4000 shots; warnings: CPU governor powersave, GPU clock changed during the run (graphics 2092 -> 2580 MHz, memory 810 -> 13801 MHz); a --quick screen, not a timing-grade result; wall clock 2 min 4 s"
+      },
+      {
+       "check": "tuner smoke test",
+       "command": "python tuning/eldpc_tune.py --problem bb72 --p 0.001 --rounds 6 --p99-budget-us 1000000 --ler-target 0.05 --auto --quick --out tune-quick",
+       "result": "chose max_iter=1, ms_scaling_factor=0.3125; wall clock 3 s"
+      },
+      {
+       "check": "tuner, 200 us budget",
+       "command": "python tuning/eldpc_tune.py --dem model.dem --ler-target 1e-3 --p99-budget-us 200 --auto --out tune (model.dem from the README code-to-DEM quick start; eldpc-tune 2.0)",
+       "result": "chose bposd:a=0.5:c=31 (max_iter=31, ms_scaling_factor=0.5): accuracy confirmation 76/99992 failures, upper bound 0.000989; latency confirmation p50 182.1 us, p99 199.3 us; the screen's leader bposd:a=0.5:c=11 and bposd:a=0.5:c=15 failed the accuracy confirmation (82/99992, upper 0.00106; 80/99992, upper 0.00103); wall clock 3 min 9 s"
+      }
+     ]
+    },
+    {
+     "rev": "46cd59e926037bfa38236069b75376501dc81115",
+     "host_isa": "avx512",
+     "cuda_toolkit": "NVIDIA 13.4.92",
+     "core_variant": "default",
+     "checks": [
+      {
+       "check": "install",
+       "command": "CUDACXX=<cuda-13.4>/bin/nvcc pip install \".[test,qldpc]\" (a fresh clone and virtual environment)",
+       "result": "installed; build_info cuda=NVIDIA 13.4.92; wall clock 45 s"
+      },
+      {
+       "check": "README quick start",
+       "command": "the Python quick start from a stim detector error model",
+       "result": "the documented output, on the GPU"
+      },
+      {
+       "check": "verification suite",
+       "command": "python verify/run_verify.py --quick",
+       "result": "PASS: 18 rows, 3600 shots, 0 mismatches; corrections and observables vs the reference; status words not compared (no separately built library, see docs/VERIFY.md) (73.6 s)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "cpu": "AMD EPYC 7K62 48-Core Processor",
+   "gpu": "NVIDIA GeForce RTX 3090",
+   "compute_capability": "8.6",
+   "sm_count": 82,
+   "l2_bytes": null,
+   "nvidia_driver": "580.159.03",
+   "virtual_machine_guest": null,
+   "cuda_toolkit": "13.0",
+   "note": "fresh-clone install test on a GPU the build does not support (compute capability 8.6; the GPU cores carry SASS for 8.9 and 12.0 and PTX for compute_120), README alone, Ubuntu 24.04.5, Python 3.12.3, a shared host (192 logical CPUs visible, AVX2 without AVX-512, load average 25-45); the machine's own CUDA 13.0 toolkit (nvcc V13.0.88) built the package; every GPU create failed with the unsupported-device message, as designed, and the decoder ran on the CPU core (device=\"cpu\" or \"auto\"); the GPU checks (GPU bit identity, GPU benchmark, tuner) could not run; wall-clock times are approximate",
+   "runs": [
+    {
+     "rev": "f9fb27cb77196ea42de65b951afac9acc45feddd",
+     "host_isa": "avx2",
+     "cuda_toolkit": "NVIDIA 13.0.88",
+     "core_variant": "cpu",
+     "checks": [
+      {
+       "check": "install",
+       "command": "pip install \".[test,qldpc]\" (nvcc of the machine's CUDA 13.0 on PATH)",
+       "result": "installed; build_info cuda=NVIDIA 13.0.88; cuda_arch=sm_89,sm_120,compute_120; wall clock 3 min 26 s"
+      },
+      {
+       "check": "GPU create on the unsupported GPU",
+       "command": "the README quick starts with the default device=\"gpu\"",
+       "result": "failed as designed: \"eldpc: device 0 (NVIDIA GeForce RTX 3090) has compute capability 8.6, which the GPU cores of this build do not support: they carry SASS for sm_89, sm_120 and PTX for compute_120 (compute capability 8.9; 12.0 or newer); ...\""
+      },
+      {
+       "check": "README quick starts on the CPU core",
+       "command": "the Python, C, code-to-DEM and qLDPC quick starts with device=\"cpu\" or \"auto\" (C: device=cpu in the config string)",
+       "result": "the documented outputs (code to DEM: m=504 n=5184 k=12, logical error rate 0.0043); device=\"auto\" chose the CPU core with a warning that names compute capability 8.6"
+      },
+      {
+       "check": "CPU-core tests",
+       "command": "CUDA_VISIBLE_DEVICES= python -m pytest -m cpu_core tests",
+       "result": "185 passed, 4 skipped (optional ELDPC_REFERENCE_PYTHON comparisons), 145 deselected in 15.5 s"
+      },
+      {
+       "check": "test suite on the unsupported GPU",
+       "command": "python -m pytest tests",
+       "result": "66 failed, 220 passed, 25 skipped, 23 errors in 48.97 s: the GPU tests ran because a CUDA device was visible (the test library did not yet apply the device=\"auto\" rule) and failed with the unsupported-device message"
+      },
+      {
+       "check": "verification machinery",
+       "command": "python -m pytest tests/verify",
+       "result": "50 passed, 2 skipped (optional reference variables)"
+      },
+      {
+       "check": "CPU-core benchmark screen",
+       "command": "python bench/bench.py all --quick --problem surface --config \"device=cpu;threads=1;<a03125c3's keys>\"",
+       "result": "C single shot on the CPU core, sc9_unif_p1e-3_z (m=720, n=15884), back to back: p50 271.977 us, p99 333.192 us (2400 shots), on a shared host; the Python measurements failed (threads=1 from a config string was rejected); on the default bb144 problem the same CPU-core run finished only the first of the four c-latency modes (about 2 minutes per session) before a 10-minute cap stopped it"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

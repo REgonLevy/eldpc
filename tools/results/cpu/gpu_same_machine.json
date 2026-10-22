@@ -1,0 +1,189 @@
+{
+ "command": "python scripts/eldpc_cpu/gpu_same_machine.py --procs 4 --shots 2000",
+ "config": "decoder=bposd;bp_method=ms;ms_scaling_factor=0.3125;max_iter=3;schedule=parallel;osd_method=osd0;osd_order=0",
+ "cpu_config": "decoder=bposd;bp_method=ms;ms_scaling_factor=0.3125;max_iter=3;schedule=parallel;osd_method=osd0;osd_order=0;threads=8;cpus=1,2,3,4,5,6,7,1",
+ "cpu_latency_ns": {
+  "max": 432104,
+  "mean": 227604.594125,
+  "min": 212435,
+  "n": 8000,
+  "p50": 223537,
+  "p90": 239577,
+  "p99": 288520,
+  "p999": 370898
+ },
+ "cpu_lib": "build-avx512/lib/libdbench_fastbpcpu6g.so",
+ "cpu_over_gpu": {
+  "p50": 6.189,
+  "p99": 6.052,
+  "p999": 4.142
+ },
+ "cpu_processes": [
+  {
+   "max": 319470,
+   "mean": 225744.3895,
+   "min": 212956,
+   "n": 2000,
+   "p50": 223717,
+   "p90": 234678,
+   "p99": 277068,
+   "p999": 292739
+  },
+  {
+   "max": 322495,
+   "mean": 226827.35,
+   "min": 213878,
+   "n": 2000,
+   "p50": 223977,
+   "p90": 238194,
+   "p99": 274995,
+   "p999": 298510
+  },
+  {
+   "max": 378662,
+   "mean": 228951.915,
+   "min": 212435,
+   "n": 2000,
+   "p50": 223226,
+   "p90": 245077,
+   "p99": 349467,
+   "p999": 375236
+  },
+  {
+   "max": 432104,
+   "mean": 228894.722,
+   "min": 212916,
+   "n": 2000,
+   "p50": 223326,
+   "p90": 245207,
+   "p99": 359636,
+   "p999": 378182
+  }
+ ],
+ "generated_utc": "2026-10-21T05:02:35Z",
+ "git_commit": "eacaff5a8c93456bfddec5e62d9bf2e9d639bda1",
+ "gpu_latency_ns": {
+  "max": 119268,
+  "mean": 37094.638375,
+  "min": 31690,
+  "n": 8000,
+  "p50": 36119,
+  "p90": 40848,
+  "p99": 47671,
+  "p999": 89551
+ },
+ "gpu_lib": "build/lib/libdbench_fastbpgpu6g.so",
+ "gpu_processes": [
+  {
+   "max": 114739,
+   "mean": 37094.5015,
+   "min": 31851,
+   "n": 2000,
+   "p50": 36129,
+   "p90": 40758,
+   "p99": 47421,
+   "p999": 89301
+  },
+  {
+   "max": 114198,
+   "mean": 36851.3295,
+   "min": 31741,
+   "n": 2000,
+   "p50": 35918,
+   "p90": 40217,
+   "p99": 47461,
+   "p999": 88769
+  },
+  {
+   "max": 119047,
+   "mean": 37264.2215,
+   "min": 31690,
+   "n": 2000,
+   "p50": 36299,
+   "p90": 41189,
+   "p99": 47641,
+   "p999": 89551
+  },
+  {
+   "max": 119268,
+   "mean": 37168.501,
+   "min": 31961,
+   "n": 2000,
+   "p50": 36169,
+   "p90": 41128,
+   "p99": 47681,
+   "p999": 89000
+  }
+ ],
+ "locked_section": {
+  "duration_s": 540.9,
+  "gpu_run_line": "[gpu_run] waiting for the GPU lock (another process is using the GPU) ...",
+  "stderr_tail": "[gpu_run] waiting for the GPU lock (another process is using the GPU) ...\n[gpu_run] got the GPU lock after 521 s\n"
+ },
+ "machine": {
+  "checked_utc": "2026-10-21T02:20:22Z",
+  "cpu": "AMD Ryzen 9 7950X3D 16-Core Processor",
+  "git_commit_at_check": "58d7b9595c0d3d2d4fc00183d456baab9ad81236",
+  "governor": "32 powersave",
+  "kernel": "Linux <host> 6.8.0-142-generic #142-Ubuntu SMP PREEMPT_DYNAMIC Wed Sep  2 14:24:27 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+  "l3_groups": [
+   {
+    "cpus": "0-7,16-23",
+    "cpus_list": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23
+    ],
+    "l3_kb": 98304,
+    "l3_size": "98304K",
+    "shared_cpu_list": "0-7,16-23"
+   },
+   {
+    "cpus": "8-15,24-31",
+    "cpus_list": [
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31
+    ],
+    "l3_kb": 32768,
+    "l3_size": "32768K",
+    "shared_cpu_list": "8-15,24-31"
+   }
+  ],
+  "loadavg_at_check": "3.00 1.90 2.22 4/1414 134541",
+  "nproc": 32,
+  "nvcc_version": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2026 NVIDIA Corporation\nBuilt on Tue_Jun_09_02:43:40_PM_PDT_2026\nCuda compilation tools, release 13.3, V13.3.73\nBuild cuda_13.3.r13.3/compiler.38244171_0",
+  "nvidia_smi": "name, driver_version, compute_cap\nNVIDIA GeForce RTX 5080, 595.91.07, 12.0"
+ },
+ "nvidia_smi": "name, driver_version, compute_cap, memory.total [MiB]\nNVIDIA GeForce RTX 5080, 595.91.07, 12.0, 16303 MiB",
+ "order": "gccggccg",
+ "problem": "bb144_unif_p1e-3_r12_xyz",
+ "schema": "eldpc.cpu.gpu_same_machine.v1",
+ "shots_per_process": 2000
+}

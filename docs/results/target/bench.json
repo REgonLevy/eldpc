@@ -1,0 +1,2607 @@
+{
+ "c_latency": {
+  "calls_per_variant_per_session": 1500,
+  "configs": {
+   "A": {
+    "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+    "label": "a03125c3"
+   }
+  },
+  "cpu": 8,
+  "kind": "c_latency",
+  "library": {
+   "A": {
+    "name": "libeldpc.so",
+    "sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+    "source": "loaded by the Python package"
+   }
+  },
+  "modes": {
+   "back_to_back": {
+    "a_a_control": {
+     "a": "A",
+     "a_stats": {
+      "converged_calls": 1,
+      "max_us": 179.531,
+      "mean_us": 59.6551,
+      "min_us": 55.876,
+      "p50_us": 59.041,
+      "p99_9_us": 106.256,
+      "p99_unreliable": false,
+      "p99_us": 68.36,
+      "shots": 9000,
+      "slow_calls": 8999,
+      "slow_fraction": 0.9998888888888889,
+      "slow_p50_us": 59.041
+     },
+     "a_status": {
+      "abstain": 0,
+      "converged": 1,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "3": 9000
+      },
+      "iterations_max": 3,
+      "iterations_mean": 3.0,
+      "postprocessed": 8999,
+      "shots": 9000,
+      "syndrome_unmatched": 0
+     },
+     "b": "A",
+     "b_stats": {
+      "converged_calls": 1,
+      "max_us": 172.387,
+      "mean_us": 59.6521,
+      "min_us": 55.58,
+      "p50_us": 59.007,
+      "p99_9_us": 106.264,
+      "p99_unreliable": false,
+      "p99_us": 68.674,
+      "shots": 9000,
+      "slow_calls": 8999,
+      "slow_fraction": 0.9998888888888889,
+      "slow_p50_us": 59.007
+     },
+     "b_status": {
+      "abstain": 0,
+      "converged": 1,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "3": 9000
+      },
+      "iterations_max": 3,
+      "iterations_mean": 3.0,
+      "postprocessed": 8999,
+      "shots": 9000,
+      "syndrome_unmatched": 0
+     },
+     "band": {
+      "mean_us": [
+       -1.0702,
+       1.0396
+      ],
+      "p50_us": [
+       -0.901,
+       0.828
+      ],
+      "p99_9_us": [
+       -8.841,
+       10.565
+      ],
+      "p99_us": [
+       -3.545,
+       3.626
+      ]
+     },
+     "checksums": {
+      "v0": [
+       "439e2ce7ec7718da",
+       "492d730315245491",
+       "6af82eb993091a3c",
+       "831d1f61acad4c24",
+       "cac37cb96fb66466",
+       "cfbfad2e39438a35"
+      ],
+      "v1": [
+       "439e2ce7ec7718da",
+       "492d730315245491",
+       "6af82eb993091a3c",
+       "831d1f61acad4c24",
+       "cac37cb96fb66466",
+       "cfbfad2e39438a35"
+      ]
+     },
+     "delta": {
+      "mean_us": 0.003,
+      "p50_us": 0.034,
+      "p99_9_us": -0.008,
+      "p99_us": -0.314
+     },
+     "delta_blocked": {
+      "mean_us": 0.003,
+      "p50_us": -0.016,
+      "p99_9_us": 0.9963,
+      "p99_us": 0.0677
+     },
+     "delta_blocked_note": "per-session differences averaged within each (create, call) order block and then over blocks with equal weight; equal to delta when the order blocks have equal session counts",
+     "order_blocks": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "mean_delta": {
+        "mean_us": 0.94,
+        "p50_us": 0.7387,
+        "p99_9_us": 7.55,
+        "p99_us": 3.1687
+       },
+       "sessions": 3
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "mean_delta": {
+        "mean_us": -0.9341,
+        "p50_us": -0.7707,
+        "p99_9_us": -5.5573,
+        "p99_us": -3.0333
+       },
+       "sessions": 3
+      }
+     ],
+     "orders": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 0
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 1
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 2
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 3
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 4
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 5
+      }
+     ],
+     "per_session_delta": [
+      {
+       "mean_us": 0.8536,
+       "p50_us": 0.687,
+       "p99_9_us": 10.565,
+       "p99_us": 3.246
+      },
+      {
+       "mean_us": -1.0702,
+       "p50_us": -0.901,
+       "p99_9_us": -8.841,
+       "p99_us": -3.257
+      },
+      {
+       "mean_us": 1.0396,
+       "p50_us": 0.828,
+       "p99_9_us": 4.738,
+       "p99_us": 3.626
+      },
+      {
+       "mean_us": -0.9391,
+       "p50_us": -0.768,
+       "p99_9_us": -4.089,
+       "p99_us": -3.545
+      },
+      {
+       "mean_us": 0.9269,
+       "p50_us": 0.701,
+       "p99_9_us": 7.347,
+       "p99_us": 2.634
+      },
+      {
+       "mean_us": -0.7931,
+       "p50_us": -0.643,
+       "p99_9_us": -3.742,
+       "p99_us": -2.298
+      }
+     ],
+     "sem": {
+      "mean_us": 0.4213,
+      "p50_us": 0.3397,
+      "p99_9_us": 3.1144,
+      "p99_us": 1.403
+     },
+     "session_checksums_equal": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+     ],
+     "sides_equal": true
+    },
+    "checksum_scope": "every session decodes its own syndromes; the two handles of a session are compared on the same shots, not across sessions",
+    "comparison": null,
+    "gap_us": 0,
+    "keep_warm_a": 0,
+    "keep_warm_b": 0,
+    "mode": "back_to_back",
+    "order_design": "alternating",
+    "sessions_per_pair": 6,
+    "shots_per_variant_per_session": 1500,
+    "variants": {
+     "A": {
+      "checksum": null,
+      "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+      "label": "a03125c3",
+      "library": {
+       "name": "libeldpc.so",
+       "sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+       "source": "loaded by the Python package"
+      },
+      "pooled": {
+       "converged_calls": 2,
+       "max_us": 179.531,
+       "mean_us": 59.6536,
+       "min_us": 55.58,
+       "p50_us": 59.026,
+       "p99_9_us": 106.264,
+       "p99_unreliable": false,
+       "p99_us": 68.573,
+       "shots": 18000,
+       "slow_calls": 17998,
+       "slow_fraction": 0.9998888888888889,
+       "slow_p50_us": 59.026
+      },
+      "status": {
+       "abstain": 0,
+       "converged": 2,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "3": 18000
+       },
+       "iterations_max": 3,
+       "iterations_mean": 3.0,
+       "postprocessed": 17998,
+       "shots": 18000,
+       "syndrome_unmatched": 0
+      }
+     }
+    },
+    "warnings": []
+   },
+   "cadence": {
+    "a_a_control": {
+     "a": "A",
+     "a_stats": {
+      "converged_calls": 2,
+      "max_us": 125.99,
+      "mean_us": 60.0259,
+      "min_us": 55.685,
+      "p50_us": 59.452,
+      "p99_9_us": 89.987,
+      "p99_unreliable": false,
+      "p99_us": 69.15,
+      "shots": 9000,
+      "slow_calls": 8998,
+      "slow_fraction": 0.9997777777777778,
+      "slow_p50_us": 59.452
+     },
+     "a_status": {
+      "abstain": 0,
+      "converged": 2,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "3": 9000
+      },
+      "iterations_max": 3,
+      "iterations_mean": 3.0,
+      "postprocessed": 8998,
+      "shots": 9000,
+      "syndrome_unmatched": 0
+     },
+     "b": "A",
+     "b_stats": {
+      "converged_calls": 2,
+      "max_us": 124.201,
+      "mean_us": 60.0364,
+      "min_us": 56.002,
+      "p50_us": 59.456,
+      "p99_9_us": 94.147,
+      "p99_unreliable": false,
+      "p99_us": 69.701,
+      "shots": 9000,
+      "slow_calls": 8998,
+      "slow_fraction": 0.9997777777777778,
+      "slow_p50_us": 59.455
+     },
+     "b_status": {
+      "abstain": 0,
+      "converged": 2,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "3": 9000
+      },
+      "iterations_max": 3,
+      "iterations_mean": 3.0,
+      "postprocessed": 8998,
+      "shots": 9000,
+      "syndrome_unmatched": 0
+     },
+     "band": {
+      "mean_us": [
+       -0.9835,
+       0.9518
+      ],
+      "p50_us": [
+       -0.832,
+       0.852
+      ],
+      "p99_9_us": [
+       -5.91,
+       9.952
+      ],
+      "p99_us": [
+       -3.913,
+       3.077
+      ]
+     },
+     "checksums": {
+      "v0": [
+       "290b5222131b82d6",
+       "75e1f5522731afbe",
+       "83b27d4596b4d295",
+       "9f86905f8779e4d9",
+       "a62b74acb52e26dc",
+       "dfe00ebd3f08c104"
+      ],
+      "v1": [
+       "290b5222131b82d6",
+       "75e1f5522731afbe",
+       "83b27d4596b4d295",
+       "9f86905f8779e4d9",
+       "a62b74acb52e26dc",
+       "dfe00ebd3f08c104"
+      ]
+     },
+     "delta": {
+      "mean_us": -0.0105,
+      "p50_us": -0.004,
+      "p99_9_us": -4.16,
+      "p99_us": -0.551
+     },
+     "delta_blocked": {
+      "mean_us": -0.0105,
+      "p50_us": -0.0008,
+      "p99_9_us": 0.9845,
+      "p99_us": -0.2547
+     },
+     "delta_blocked_note": "per-session differences averaged within each (create, call) order block and then over blocks with equal weight; equal to delta when the order blocks have equal session counts",
+     "order_blocks": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "mean_delta": {
+        "mean_us": 0.837,
+        "p50_us": 0.7127,
+        "p99_9_us": 6.2903,
+        "p99_us": 2.7253
+       },
+       "sessions": 3
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "mean_delta": {
+        "mean_us": -0.858,
+        "p50_us": -0.7143,
+        "p99_9_us": -4.3213,
+        "p99_us": -3.2347
+       },
+       "sessions": 3
+      }
+     ],
+     "orders": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 0
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 1
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 2
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 3
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 4
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 5
+      }
+     ],
+     "per_session_delta": [
+      {
+       "mean_us": 0.7765,
+       "p50_us": 0.653,
+       "p99_9_us": 9.952,
+       "p99_us": 2.872
+      },
+      {
+       "mean_us": -0.6934,
+       "p50_us": -0.583,
+       "p99_9_us": -5.91,
+       "p99_us": -2.487
+      },
+      {
+       "mean_us": 0.7827,
+       "p50_us": 0.633,
+       "p99_9_us": 5.715,
+       "p99_us": 3.077
+      },
+      {
+       "mean_us": -0.8972,
+       "p50_us": -0.728,
+       "p99_9_us": -3.29,
+       "p99_us": -3.304
+      },
+      {
+       "mean_us": 0.9518,
+       "p50_us": 0.852,
+       "p99_9_us": 3.204,
+       "p99_us": 2.227
+      },
+      {
+       "mean_us": -0.9835,
+       "p50_us": -0.832,
+       "p99_9_us": -3.764,
+       "p99_us": -3.913
+      }
+     ],
+     "sem": {
+      "mean_us": 0.3818,
+      "p50_us": 0.3222,
+      "p99_9_us": 2.5565,
+      "p99_us": 1.3503
+     },
+     "session_checksums_equal": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+     ],
+     "sides_equal": true
+    },
+    "checksum_scope": "every session decodes its own syndromes; the two handles of a session are compared on the same shots, not across sessions",
+    "comparison": null,
+    "gap_us": 1000,
+    "keep_warm_a": 0,
+    "keep_warm_b": 0,
+    "mode": "cadence",
+    "order_design": "alternating",
+    "sessions_per_pair": 6,
+    "shots_per_variant_per_session": 1500,
+    "variants": {
+     "A": {
+      "checksum": null,
+      "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+      "label": "a03125c3",
+      "library": {
+       "name": "libeldpc.so",
+       "sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+       "source": "loaded by the Python package"
+      },
+      "pooled": {
+       "converged_calls": 4,
+       "max_us": 125.99,
+       "mean_us": 60.0311,
+       "min_us": 55.685,
+       "p50_us": 59.453,
+       "p99_9_us": 94.147,
+       "p99_unreliable": false,
+       "p99_us": 69.266,
+       "shots": 18000,
+       "slow_calls": 17996,
+       "slow_fraction": 0.9997777777777778,
+       "slow_p50_us": 59.453
+      },
+      "status": {
+       "abstain": 0,
+       "converged": 4,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "3": 18000
+       },
+       "iterations_max": 3,
+       "iterations_mean": 3.0,
+       "postprocessed": 17996,
+       "shots": 18000,
+       "syndrome_unmatched": 0
+      }
+     }
+    },
+    "warnings": []
+   },
+   "cadence_keep_warm": {
+    "a_a_control": {
+     "a": "A",
+     "a_stats": {
+      "converged_calls": 2,
+      "max_us": 144.42,
+      "mean_us": 59.4623,
+      "min_us": 55.684,
+      "p50_us": 58.828,
+      "p99_9_us": 106.862,
+      "p99_unreliable": false,
+      "p99_us": 68.166,
+      "shots": 9000,
+      "slow_calls": 8998,
+      "slow_fraction": 0.9997777777777778,
+      "slow_p50_us": 58.828
+     },
+     "a_status": {
+      "abstain": 0,
+      "converged": 2,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "1": 2,
+       "3": 8998
+      },
+      "iterations_max": 3,
+      "iterations_mean": 2.9996,
+      "postprocessed": 8998,
+      "shots": 9000,
+      "syndrome_unmatched": 0
+     },
+     "b": "A",
+     "b_stats": {
+      "converged_calls": 2,
+      "max_us": 140.909,
+      "mean_us": 59.4515,
+      "min_us": 54.011,
+      "p50_us": 58.824,
+      "p99_9_us": 102.144,
+      "p99_unreliable": false,
+      "p99_us": 68.798,
+      "shots": 9000,
+      "slow_calls": 8998,
+      "slow_fraction": 0.9997777777777778,
+      "slow_p50_us": 58.824
+     },
+     "b_status": {
+      "abstain": 0,
+      "converged": 2,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "1": 2,
+       "3": 8998
+      },
+      "iterations_max": 3,
+      "iterations_mean": 2.9996,
+      "postprocessed": 8998,
+      "shots": 9000,
+      "syndrome_unmatched": 0
+     },
+     "band": {
+      "mean_us": [
+       -0.8278,
+       0.84
+      ],
+      "p50_us": [
+       -0.763,
+       0.665
+      ],
+      "p99_9_us": [
+       -9.134,
+       5.93
+      ],
+      "p99_us": [
+       -3.214,
+       2.434
+      ]
+     },
+     "checksums": {
+      "v0": [
+       "29cc8ae21ca2ea9c",
+       "2bb31c50f972c61d",
+       "4a7eb0da6836335e",
+       "a5f2aae46d519a49",
+       "ab676a6da6eeea61",
+       "fbceedc29947ddeb"
+      ],
+      "v1": [
+       "29cc8ae21ca2ea9c",
+       "2bb31c50f972c61d",
+       "4a7eb0da6836335e",
+       "a5f2aae46d519a49",
+       "ab676a6da6eeea61",
+       "fbceedc29947ddeb"
+      ]
+     },
+     "delta": {
+      "mean_us": 0.0108,
+      "p50_us": 0.004,
+      "p99_9_us": 4.718,
+      "p99_us": -0.632
+     },
+     "delta_blocked": {
+      "mean_us": 0.0109,
+      "p50_us": 0.0013,
+      "p99_9_us": 0.5208,
+      "p99_us": -0.3347
+     },
+     "delta_blocked_note": "per-session differences averaged within each (create, call) order block and then over blocks with equal weight; equal to delta when the order blocks have equal session counts",
+     "order_blocks": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "mean_delta": {
+        "mean_us": 0.7963,
+        "p50_us": 0.6577,
+        "p99_9_us": 4.1023,
+        "p99_us": 2.32
+       },
+       "sessions": 3
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "mean_delta": {
+        "mean_us": -0.7746,
+        "p50_us": -0.655,
+        "p99_9_us": -3.0607,
+        "p99_us": -2.9893
+       },
+       "sessions": 3
+      }
+     ],
+     "orders": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 0
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 1
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 2
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 3
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 4
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 5
+      }
+     ],
+     "per_session_delta": [
+      {
+       "mean_us": 0.7894,
+       "p50_us": 0.643,
+       "p99_9_us": 5.93,
+       "p99_us": 2.434
+      },
+      {
+       "mean_us": -0.8278,
+       "p50_us": -0.763,
+       "p99_9_us": 2.351,
+       "p99_us": -2.583
+      },
+      {
+       "mean_us": 0.84,
+       "p50_us": 0.665,
+       "p99_9_us": 5.404,
+       "p99_us": 2.259
+      },
+      {
+       "mean_us": -0.7981,
+       "p50_us": -0.595,
+       "p99_9_us": -9.134,
+       "p99_us": -3.214
+      },
+      {
+       "mean_us": 0.7595,
+       "p50_us": 0.665,
+       "p99_9_us": 0.973,
+       "p99_us": 2.267
+      },
+      {
+       "mean_us": -0.6978,
+       "p50_us": -0.607,
+       "p99_9_us": -2.399,
+       "p99_us": -3.171
+      }
+     ],
+     "sem": {
+      "mean_us": 0.3519,
+      "p50_us": 0.2945,
+      "p99_9_us": 2.2978,
+      "p99_us": 1.191
+     },
+     "session_checksums_equal": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+     ],
+     "sides_equal": true
+    },
+    "checksum_scope": "every session decodes its own syndromes; the two handles of a session are compared on the same shots, not across sessions",
+    "comparison": null,
+    "gap_us": 1000,
+    "keep_warm_a": 1,
+    "keep_warm_b": 1,
+    "keep_warm_stats": {
+     "calls": 54000,
+     "errors": 0,
+     "final_calls": 18000,
+     "final_max_us": 8.0,
+     "final_mean_us": 1.339,
+     "periodic_calls": 36000,
+     "periodic_max_us": 8.712,
+     "periodic_mean_us": 1.36
+    },
+    "mode": "cadence_keep_warm",
+    "order_design": "alternating",
+    "sessions_per_pair": 6,
+    "shots_per_variant_per_session": 1500,
+    "variants": {
+     "A": {
+      "checksum": null,
+      "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+      "label": "a03125c3",
+      "library": {
+       "name": "libeldpc.so",
+       "sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+       "source": "loaded by the Python package"
+      },
+      "pooled": {
+       "converged_calls": 4,
+       "max_us": 144.42,
+       "mean_us": 59.4569,
+       "min_us": 54.011,
+       "p50_us": 58.826,
+       "p99_9_us": 106.862,
+       "p99_unreliable": false,
+       "p99_us": 68.527,
+       "shots": 18000,
+       "slow_calls": 17996,
+       "slow_fraction": 0.9997777777777778,
+       "slow_p50_us": 58.826
+      },
+      "status": {
+       "abstain": 0,
+       "converged": 4,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "1": 4,
+        "3": 17996
+       },
+       "iterations_max": 3,
+       "iterations_mean": 2.9996,
+       "postprocessed": 17996,
+       "shots": 18000,
+       "syndrome_unmatched": 0
+      }
+     }
+    },
+    "warnings": []
+   },
+   "cadence_keep_warm_pair": {
+    "a_a_controls": {
+     "keep_warm_off": {
+      "a": "idle",
+      "a_stats": {
+       "converged_calls": 6,
+       "max_us": 181.142,
+       "mean_us": 59.8818,
+       "min_us": 52.935,
+       "p50_us": 59.32,
+       "p99_9_us": 84.462,
+       "p99_unreliable": false,
+       "p99_us": 68.576,
+       "shots": 9000,
+       "slow_calls": 8994,
+       "slow_fraction": 0.9993333333333333,
+       "slow_p50_us": 59.32
+      },
+      "a_status": {
+       "abstain": 0,
+       "converged": 6,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "1": 3,
+        "3": 8997
+       },
+       "iterations_max": 3,
+       "iterations_mean": 2.9993,
+       "postprocessed": 8994,
+       "shots": 9000,
+       "syndrome_unmatched": 0
+      },
+      "b": "idle",
+      "b_stats": {
+       "converged_calls": 6,
+       "max_us": 178.778,
+       "mean_us": 59.837,
+       "min_us": 55.859,
+       "p50_us": 59.231,
+       "p99_9_us": 89.722,
+       "p99_unreliable": false,
+       "p99_us": 68.671,
+       "shots": 9000,
+       "slow_calls": 8994,
+       "slow_fraction": 0.9993333333333333,
+       "slow_p50_us": 59.228
+      },
+      "b_status": {
+       "abstain": 0,
+       "converged": 6,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "1": 3,
+        "3": 8997
+       },
+       "iterations_max": 3,
+       "iterations_mean": 2.9993,
+       "postprocessed": 8994,
+       "shots": 9000,
+       "syndrome_unmatched": 0
+      },
+      "band": {
+       "mean_us": [
+        -0.888,
+        0.9439
+       ],
+       "p50_us": [
+        -0.753,
+        0.838
+       ],
+       "p99_9_us": [
+        -9.682,
+        4.791
+       ],
+       "p99_us": [
+        -3.399,
+        4.069
+       ]
+      },
+      "checksums": {
+       "v0": [
+        "0de57a67bdf22de9",
+        "1eefc4be4c149b6c",
+        "42930d4e4ddfbf91",
+        "6b2d74ade6ac775b",
+        "98ec4bfe94675c1f",
+        "dced1fa1c016017f"
+       ],
+       "v1": [
+        "0de57a67bdf22de9",
+        "1eefc4be4c149b6c",
+        "42930d4e4ddfbf91",
+        "6b2d74ade6ac775b",
+        "98ec4bfe94675c1f",
+        "dced1fa1c016017f"
+       ]
+      },
+      "delta": {
+       "mean_us": 0.0448,
+       "p50_us": 0.089,
+       "p99_9_us": -5.26,
+       "p99_us": -0.095
+      },
+      "delta_blocked": {
+       "mean_us": 0.0448,
+       "p50_us": 0.05,
+       "p99_9_us": -1.7872,
+       "p99_us": 0.3678
+      },
+      "delta_blocked_note": "per-session differences averaged within each (create, call) order block and then over blocks with equal weight; equal to delta when the order blocks have equal session counts",
+      "order_blocks": [
+       {
+        "call_order": "ab",
+        "create_order": "ab",
+        "mean_delta": {
+         "mean_us": 0.9329,
+         "p50_us": 0.791,
+         "p99_9_us": 3.921,
+         "p99_us": 3.4857
+        },
+        "sessions": 3
+       },
+       {
+        "call_order": "ba",
+        "create_order": "ba",
+        "mean_delta": {
+         "mean_us": -0.8433,
+         "p50_us": -0.691,
+         "p99_9_us": -7.4953,
+         "p99_us": -2.75
+        },
+        "sessions": 3
+       }
+      ],
+      "orders": [
+       {
+        "call_order": "ab",
+        "create_order": "ab",
+        "session": 0
+       },
+       {
+        "call_order": "ba",
+        "create_order": "ba",
+        "session": 1
+       },
+       {
+        "call_order": "ab",
+        "create_order": "ab",
+        "session": 2
+       },
+       {
+        "call_order": "ba",
+        "create_order": "ba",
+        "session": 3
+       },
+       {
+        "call_order": "ab",
+        "create_order": "ab",
+        "session": 4
+       },
+       {
+        "call_order": "ba",
+        "create_order": "ba",
+        "session": 5
+       }
+      ],
+      "per_session_delta": [
+       {
+        "mean_us": 0.9352,
+        "p50_us": 0.768,
+        "p99_9_us": 4.791,
+        "p99_us": 2.775
+       },
+       {
+        "mean_us": -0.888,
+        "p50_us": -0.753,
+        "p99_9_us": -5.831,
+        "p99_us": -2.464
+       },
+       {
+        "mean_us": 0.9439,
+        "p50_us": 0.838,
+        "p99_9_us": 4.15,
+        "p99_us": 3.613
+       },
+       {
+        "mean_us": -0.7904,
+        "p50_us": -0.596,
+        "p99_9_us": -6.973,
+        "p99_us": -3.399
+       },
+       {
+        "mean_us": 0.9197,
+        "p50_us": 0.767,
+        "p99_9_us": 2.822,
+        "p99_us": 4.069
+       },
+       {
+        "mean_us": -0.8516,
+        "p50_us": -0.724,
+        "p99_9_us": -9.682,
+        "p99_us": -2.387
+       }
+      ],
+      "sem": {
+       "mean_us": 0.3974,
+       "p50_us": 0.3323,
+       "p99_9_us": 2.6162,
+       "p99_us": 1.4121
+      },
+      "session_checksums_equal": [
+       true,
+       true,
+       true,
+       true,
+       true,
+       true
+      ],
+      "sides_equal": true
+     },
+     "keep_warm_on": {
+      "a": "warm",
+      "a_stats": {
+       "converged_calls": 1,
+       "max_us": 121.796,
+       "mean_us": 59.3709,
+       "min_us": 55.596,
+       "p50_us": 58.777,
+       "p99_9_us": 107.78,
+       "p99_unreliable": false,
+       "p99_us": 68.159,
+       "shots": 9000,
+       "slow_calls": 8999,
+       "slow_fraction": 0.9998888888888889,
+       "slow_p50_us": 58.777
+      },
+      "a_status": {
+       "abstain": 0,
+       "converged": 1,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "3": 9000
+       },
+       "iterations_max": 3,
+       "iterations_mean": 3.0,
+       "postprocessed": 8999,
+       "shots": 9000,
+       "syndrome_unmatched": 0
+      },
+      "b": "warm",
+      "b_stats": {
+       "converged_calls": 1,
+       "max_us": 123.589,
+       "mean_us": 59.4044,
+       "min_us": 55.514,
+       "p50_us": 58.801,
+       "p99_9_us": 101.015,
+       "p99_unreliable": false,
+       "p99_us": 68.283,
+       "shots": 9000,
+       "slow_calls": 8999,
+       "slow_fraction": 0.9998888888888889,
+       "slow_p50_us": 58.801
+      },
+      "b_status": {
+       "abstain": 0,
+       "converged": 1,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "3": 9000
+       },
+       "iterations_max": 3,
+       "iterations_mean": 3.0,
+       "postprocessed": 8999,
+       "shots": 9000,
+       "syndrome_unmatched": 0
+      },
+      "band": {
+       "mean_us": [
+        -0.8628,
+        0.7271
+       ],
+       "p50_us": [
+        -0.753,
+        0.596
+       ],
+       "p99_9_us": [
+        -5.977,
+        3.852
+       ],
+       "p99_us": [
+        -2.926,
+        2.923
+       ]
+      },
+      "checksums": {
+       "v0": [
+        "21481e3677b7156f",
+        "2aaf7421e88efcb2",
+        "2c47ab16f045217f",
+        "426657198ab1b10b",
+        "7198c1d555e96f92",
+        "80ba9ca8aec66e3d"
+       ],
+       "v1": [
+        "21481e3677b7156f",
+        "2aaf7421e88efcb2",
+        "2c47ab16f045217f",
+        "426657198ab1b10b",
+        "7198c1d555e96f92",
+        "80ba9ca8aec66e3d"
+       ]
+      },
+      "delta": {
+       "mean_us": -0.0335,
+       "p50_us": -0.024,
+       "p99_9_us": 6.765,
+       "p99_us": -0.124
+      },
+      "delta_blocked": {
+       "mean_us": -0.0334,
+       "p50_us": -0.026,
+       "p99_9_us": -0.2503,
+       "p99_us": -0.0047
+      },
+      "delta_blocked_note": "per-session differences averaged within each (create, call) order block and then over blocks with equal weight; equal to delta when the order blocks have equal session counts",
+      "order_blocks": [
+       {
+        "call_order": "ab",
+        "create_order": "ab",
+        "mean_delta": {
+         "mean_us": 0.7035,
+         "p50_us": 0.5743,
+         "p99_9_us": 2.3463,
+         "p99_us": 2.763
+        },
+        "sessions": 3
+       },
+       {
+        "call_order": "ba",
+        "create_order": "ba",
+        "mean_delta": {
+         "mean_us": -0.7704,
+         "p50_us": -0.6263,
+         "p99_9_us": -2.847,
+         "p99_us": -2.7723
+        },
+        "sessions": 3
+       }
+      ],
+      "orders": [
+       {
+        "call_order": "ab",
+        "create_order": "ab",
+        "session": 0
+       },
+       {
+        "call_order": "ba",
+        "create_order": "ba",
+        "session": 1
+       },
+       {
+        "call_order": "ab",
+        "create_order": "ab",
+        "session": 2
+       },
+       {
+        "call_order": "ba",
+        "create_order": "ba",
+        "session": 3
+       },
+       {
+        "call_order": "ab",
+        "create_order": "ab",
+        "session": 4
+       },
+       {
+        "call_order": "ba",
+        "create_order": "ba",
+        "session": 5
+       }
+      ],
+      "per_session_delta": [
+       {
+        "mean_us": 0.7271,
+        "p50_us": 0.58,
+        "p99_9_us": 3.852,
+        "p99_us": 2.694
+       },
+       {
+        "mean_us": -0.6638,
+        "p50_us": -0.478,
+        "p99_9_us": -0.567,
+        "p99_us": -2.926
+       },
+       {
+        "mean_us": 0.7081,
+        "p50_us": 0.596,
+        "p99_9_us": 2.189,
+        "p99_us": 2.672
+       },
+       {
+        "mean_us": -0.7846,
+        "p50_us": -0.648,
+        "p99_9_us": -5.977,
+        "p99_us": -2.757
+       },
+       {
+        "mean_us": 0.6753,
+        "p50_us": 0.547,
+        "p99_9_us": 0.998,
+        "p99_us": 2.923
+       },
+       {
+        "mean_us": -0.8628,
+        "p50_us": -0.753,
+        "p99_9_us": -1.997,
+        "p99_us": -2.634
+       }
+      ],
+      "sem": {
+       "mean_us": 0.3307,
+       "p50_us": 0.2709,
+       "p99_9_us": 1.4176,
+       "p99_us": 1.2388
+      },
+      "session_checksums_equal": [
+       true,
+       true,
+       true,
+       true,
+       true,
+       true
+      ],
+      "sides_equal": true
+     }
+    },
+    "comparison": {
+     "a": "warm",
+     "a_stats": {
+      "converged_calls": 1,
+      "max_us": 156.378,
+      "mean_us": 59.6514,
+      "min_us": 55.768,
+      "p50_us": 59.013,
+      "p99_9_us": 103.902,
+      "p99_unreliable": false,
+      "p99_us": 69.182,
+      "shots": 9000,
+      "slow_calls": 8999,
+      "slow_fraction": 0.9998888888888889,
+      "slow_p50_us": 59.013
+     },
+     "a_status": {
+      "abstain": 0,
+      "converged": 1,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "3": 9000
+      },
+      "iterations_max": 3,
+      "iterations_mean": 3.0,
+      "postprocessed": 8999,
+      "shots": 9000,
+      "syndrome_unmatched": 0
+     },
+     "aa_band": {
+      "mean_us": [
+       -0.888,
+       0.9439
+      ],
+      "p50_us": [
+       -0.753,
+       0.838
+      ],
+      "p99_9_us": [
+       -9.682,
+       4.791
+      ],
+      "p99_us": [
+       -3.399,
+       4.069
+      ]
+     },
+     "aa_band_note": "range of the per-session A/A deltas of the keep-warm-on/on and keep-warm-off/off controls at the same cadence (the noise band of this machine)",
+     "aa_band_sessions": 12,
+     "b": "idle",
+     "b_stats": {
+      "converged_calls": 1,
+      "max_us": 162.452,
+      "mean_us": 60.0935,
+      "min_us": 55.891,
+      "p50_us": 59.423,
+      "p99_9_us": 104.966,
+      "p99_unreliable": false,
+      "p99_us": 70.218,
+      "shots": 9000,
+      "slow_calls": 8999,
+      "slow_fraction": 0.9998888888888889,
+      "slow_p50_us": 59.423
+     },
+     "b_status": {
+      "abstain": 0,
+      "converged": 1,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "3": 9000
+      },
+      "iterations_max": 3,
+      "iterations_mean": 3.0,
+      "postprocessed": 8999,
+      "shots": 9000,
+      "syndrome_unmatched": 0
+     },
+     "band": {
+      "mean_us": [
+       -1.3968,
+       0.5446
+      ],
+      "p50_us": [
+       -1.206,
+       0.412
+      ],
+      "p99_9_us": [
+       -7.962,
+       5.259
+      ],
+      "p99_us": [
+       -4.241,
+       2.091
+      ]
+     },
+     "checksums": {
+      "v0": [
+       "16d5d02e1e2dec5c",
+       "2dba7b7e34f38b90",
+       "7704846513def45a",
+       "80a36c502c19e9f4",
+       "8abd3e42708c253f",
+       "b4d8639dbd7f89a2"
+      ],
+      "v1": [
+       "16d5d02e1e2dec5c",
+       "2dba7b7e34f38b90",
+       "7704846513def45a",
+       "80a36c502c19e9f4",
+       "8abd3e42708c253f",
+       "b4d8639dbd7f89a2"
+      ]
+     },
+     "delta": {
+      "mean_us": -0.4421,
+      "p50_us": -0.41,
+      "p99_9_us": -1.064,
+      "p99_us": -1.036
+     },
+     "delta_blocked": {
+      "mean_us": -0.4421,
+      "p50_us": -0.4415,
+      "p99_9_us": -1.9377,
+      "p99_us": -1.1048
+     },
+     "delta_blocked_note": "per-session differences averaged within each (create, call) order block and then over blocks with equal weight; equal to delta when the order blocks have equal session counts",
+     "order_blocks": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "mean_delta": {
+        "mean_us": 0.4344,
+        "p50_us": 0.3047,
+        "p99_9_us": 3.7427,
+        "p99_us": 1.9023
+       },
+       "sessions": 3
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "mean_delta": {
+        "mean_us": -1.3187,
+        "p50_us": -1.1877,
+        "p99_9_us": -7.618,
+        "p99_us": -4.112
+       },
+       "sessions": 3
+      }
+     ],
+     "orders": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 0
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 1
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 2
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 3
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 4
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 5
+      }
+     ],
+     "per_session_delta": [
+      {
+       "mean_us": 0.394,
+       "p50_us": 0.27,
+       "p99_9_us": 2.909,
+       "p99_us": 1.787
+      },
+      {
+       "mean_us": -1.3968,
+       "p50_us": -1.199,
+       "p99_9_us": -7.344,
+       "p99_us": -4.241
+      },
+      {
+       "mean_us": 0.3647,
+       "p50_us": 0.232,
+       "p99_9_us": 3.06,
+       "p99_us": 1.829
+      },
+      {
+       "mean_us": -1.2888,
+       "p50_us": -1.206,
+       "p99_9_us": -7.548,
+       "p99_us": -4.237
+      },
+      {
+       "mean_us": 0.5446,
+       "p50_us": 0.412,
+       "p99_9_us": 5.259,
+       "p99_us": 2.091
+      },
+      {
+       "mean_us": -1.2704,
+       "p50_us": -1.158,
+       "p99_9_us": -7.962,
+       "p99_us": -3.858
+      }
+     ],
+     "sem": {
+      "mean_us": 0.3932,
+      "p50_us": 0.3347,
+      "p99_9_us": 2.5642,
+      "p99_us": 1.3467
+     },
+     "session_checksums_equal": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+     ],
+     "sides_equal": true,
+     "within_band": {
+      "mean_us": true,
+      "p50_us": true,
+      "p99_9_us": true,
+      "p99_us": true
+     },
+     "within_band_blocked": {
+      "mean_us": true,
+      "p50_us": true,
+      "p99_9_us": true,
+      "p99_us": true
+     }
+    },
+    "control_sessions": 6,
+    "description": "the same decoder with keep-warm during the gap (side A) against no keep-warm (side B), in the same sessions",
+    "gap_us": 1000,
+    "keep_warm_a": 1,
+    "keep_warm_b": 0,
+    "keep_warm_stats": {
+     "calls": 54000,
+     "errors": 0,
+     "final_calls": 18000,
+     "final_max_us": 7.194,
+     "final_mean_us": 1.3287,
+     "periodic_calls": 36000,
+     "periodic_max_us": 10.077,
+     "periodic_mean_us": 1.3611
+    },
+    "mode": "cadence_keep_warm_pair",
+    "order_design": "alternating",
+    "sessions_per_pair": 6,
+    "shots_per_variant_per_session": 1500,
+    "variants": {
+     "A": {
+      "checksum": null,
+      "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+      "label": "a03125c3",
+      "library": {
+       "name": "libeldpc.so",
+       "sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+       "source": "loaded by the Python package"
+      },
+      "pooled": {
+       "converged_calls": 1,
+       "max_us": 156.378,
+       "mean_us": 59.6514,
+       "min_us": 55.768,
+       "p50_us": 59.013,
+       "p99_9_us": 103.902,
+       "p99_unreliable": false,
+       "p99_us": 69.182,
+       "shots": 9000,
+       "slow_calls": 8999,
+       "slow_fraction": 0.9998888888888889,
+       "slow_p50_us": 59.013
+      },
+      "status": {
+       "abstain": 0,
+       "converged": 1,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "3": 9000
+       },
+       "iterations_max": 3,
+       "iterations_mean": 3.0,
+       "postprocessed": 8999,
+       "shots": 9000,
+       "syndrome_unmatched": 0
+      },
+      "treatment": "keep_warm"
+     },
+     "B": {
+      "checksum": null,
+      "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+      "label": "a03125c3",
+      "library": {
+       "name": "libeldpc.so",
+       "sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+       "source": "loaded by the Python package"
+      },
+      "pooled": {
+       "converged_calls": 1,
+       "max_us": 162.452,
+       "mean_us": 60.0935,
+       "min_us": 55.891,
+       "p50_us": 59.423,
+       "p99_9_us": 104.966,
+       "p99_unreliable": false,
+       "p99_us": 70.218,
+       "shots": 9000,
+       "slow_calls": 8999,
+       "slow_fraction": 0.9998888888888889,
+       "slow_p50_us": 59.423
+      },
+      "status": {
+       "abstain": 0,
+       "converged": 1,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "3": 9000
+       },
+       "iterations_max": 3,
+       "iterations_mean": 3.0,
+       "postprocessed": 8999,
+       "shots": 9000,
+       "syndrome_unmatched": 0
+      },
+      "treatment": "idle"
+     }
+    },
+    "warnings": []
+   }
+  },
+  "order_design": "alternating",
+  "problem": {
+   "build_seconds": 1.712,
+   "dem_sha256": "083163f2ecf9eb495b1dfbef2fab06b21c141b2161880f97b77ac216d68f52b0",
+   "k": 24,
+   "m": 1872,
+   "n": 75600,
+   "name": "model.dem",
+   "nnz_h": 437184,
+   "nnz_o": 288776,
+   "problem_file": {
+    "sha256": "678616e410f533a0deefebe1dda2607aa0818849dd40fa8b78696d60b04086ca"
+   },
+   "recipe": {
+    "kind": "detector error model file"
+   },
+   "shots": {
+    "latency": {
+     "seed": 1017674381,
+     "sha256": "f7e20ea344aa1ee1c61885fc19c78fd2116b905370fac2ebd3a5eea6af09afc5",
+     "shots": 8192
+    },
+    "ler": {
+     "seed": 295702708,
+     "sha256": "aaf592fbe8d5280f39d665b21175d070d0201cf16541c1b37f27d7e36343a5a0",
+     "shots": 40000
+    }
+   },
+   "source": "dem file",
+   "timings_seconds": {
+    "latency_shots": 0.092,
+    "ler_shots": 0.895,
+    "open": 0.651
+   }
+  },
+  "sessions_per_pair": 6,
+  "syndromes": {
+   "distinct": 9000,
+   "distinct_definition": "distinct sampled shots timed per handle over the sessions of a pair, minimum over pairs; each session draws its own seeded shots and both handles of a session decode the same set",
+   "per_session": [
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 136646831,
+     "session": 0,
+     "sha256": "39a7c4e4cf2f2387d3a4bfde52fc2aa9d85e29d466188e77a6e50c7101f3b9bc",
+     "shots": 1500
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 1461219977,
+     "session": 1,
+     "sha256": "ec230d96459106ea567ce3b1bd8ab75095334681ec3f9c00d2cfc28ffa77927a",
+     "shots": 1500
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 1236329845,
+     "session": 2,
+     "sha256": "03882d8626dbde1f48a4e9498f803371eb4fa6548b89ff896dbc402575b5545b",
+     "shots": 1500
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 1166848941,
+     "session": 3,
+     "sha256": "c8b049d89c482724274cf3fba916ccabbcf17339f9ebcfa5da9f9975d29e49e2",
+     "shots": 1500
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 495676837,
+     "session": 4,
+     "sha256": "c8ebf6f686dee8ea335496e7a1dea47acdf8a71fc739a747ed8f9ac62e2adbc1",
+     "shots": 1500
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 1888988290,
+     "session": 5,
+     "sha256": "b663dd0737a53e796376cf21eb18454d8ca22d2a471f5140ba247c17bdaa9f6f",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence",
+     "pair": "a_a",
+     "seed": 965172326,
+     "session": 0,
+     "sha256": "407eda49a88acf5f36688316843d1e12f555eb7444f5c582285b88a08a784d7b",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence",
+     "pair": "a_a",
+     "seed": 1297897956,
+     "session": 1,
+     "sha256": "db04991d0cffcffc19767a8b6556f93e8d15241931c772f62320f9be4fcc4107",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence",
+     "pair": "a_a",
+     "seed": 884995313,
+     "session": 2,
+     "sha256": "1123959cdc3e210d8773c62b334c54e0542c316fd2af70876801a46049e81c73",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence",
+     "pair": "a_a",
+     "seed": 616101382,
+     "session": 3,
+     "sha256": "ea4ecf6113fc9a52d07ba45bdfcd175c20970e771921c56b526b681f64e6612c",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence",
+     "pair": "a_a",
+     "seed": 1573957226,
+     "session": 4,
+     "sha256": "506fcf00bade459663e21fc9f0cc8d4980ff270201782799d9aa701d2f91cbf6",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence",
+     "pair": "a_a",
+     "seed": 1469542995,
+     "session": 5,
+     "sha256": "4dc2332791607f883fc92d0b9aea5c75f7ae7ea1e0353c887504ee3340d48c0a",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm",
+     "pair": "a_a",
+     "seed": 60914812,
+     "session": 0,
+     "sha256": "f5fdb5f0e535b41ea2763bbf16a4a769d41b6af46d5c7610efabb76f376d3203",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm",
+     "pair": "a_a",
+     "seed": 893674118,
+     "session": 1,
+     "sha256": "9efd94de05ff0491c5c200d06589f589c4a831af2734b20d21d981043fa3b984",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm",
+     "pair": "a_a",
+     "seed": 1884498983,
+     "session": 2,
+     "sha256": "578b78fe54966c2e96ea36e7b90a75e09920df6a0b8f0ff93983568cf8717124",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm",
+     "pair": "a_a",
+     "seed": 1971809637,
+     "session": 3,
+     "sha256": "62ec4c8e70e792b3a434cfe16c8b0e35755d17d71f1d4585a91c1f4e0c2bae4c",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm",
+     "pair": "a_a",
+     "seed": 1310335252,
+     "session": 4,
+     "sha256": "8e919a2eb554ff245b5540efa4f17d4f2db5172f43e5ea0d343d31692993d296",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm",
+     "pair": "a_a",
+     "seed": 1113410220,
+     "session": 5,
+     "sha256": "0a806897fb01c9fe666bb24e4bbfab9023df5626745910c190498a3d5bde50ea",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_on",
+     "seed": 1690452143,
+     "session": 0,
+     "sha256": "e8f423346ecbba2dfe03cb4e01343ba0e24850c4c62193c3956cb2553d67da5f",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_on",
+     "seed": 1004811173,
+     "session": 1,
+     "sha256": "c2741f67c7126c8f7d08a1efa59a8c20b881f49f3b1185d4a4cbeafc9036a547",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_on",
+     "seed": 1656936033,
+     "session": 2,
+     "sha256": "914fc13e0dc3828b31e5336ddebf2ad439e7cdbde0b4cc4f385c9d7a4fbe81c0",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_on",
+     "seed": 1061726468,
+     "session": 3,
+     "sha256": "18b0bd8f26efaef87f698a56c3ca301ee8ddde57804a16d791a82dfc370dd6f9",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_on",
+     "seed": 498618705,
+     "session": 4,
+     "sha256": "8b0fb120eb760ce4b3afbd221f05216715e94922751ee4a7f858abd2ccc403aa",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_on",
+     "seed": 1823734305,
+     "session": 5,
+     "sha256": "ab153c520c941fa89f7fc2fa10f8f5a4b333de4c3d2a7bd8e515a7920ff3fbc3",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_off",
+     "seed": 1216213806,
+     "session": 0,
+     "sha256": "8707f24572099144fbf4473702120e0797ec77080b082d206b357aecdf0345bf",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_off",
+     "seed": 2101063799,
+     "session": 1,
+     "sha256": "7cefd500c31c30b773a1900acfb3d374652786a9a906353dbe3325ed1c2daddf",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_off",
+     "seed": 1005609885,
+     "session": 2,
+     "sha256": "0f525f870fc46a99011c150d7aaa7418d2eff64dee80d259084005d8d6cdecfd",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_off",
+     "seed": 388918000,
+     "session": 3,
+     "sha256": "23385048676be900e37638cd353c5e8a0296a4657e03b1cc8c9bb681cf979ab2",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_off",
+     "seed": 1979694598,
+     "session": 4,
+     "sha256": "196ab8f4b5dea5c9140377eb4b857ccc747816ba17d6e99747bcb448083d078f",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_off",
+     "seed": 992771642,
+     "session": 5,
+     "sha256": "877f7edeabc48d3d0ad8521a7bc23e3b166c303047e12919e462ebee9c03d181",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_ab",
+     "seed": 1874802729,
+     "session": 0,
+     "sha256": "fe4a09d05e49e6eee930a392aa05f7d32c6cc943dade8721c3023de3b674ba60",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_ab",
+     "seed": 79631125,
+     "session": 1,
+     "sha256": "7856459aa93532d49192cbffbd9edd8f18ea4596a9d864dd821e1bb257c528a6",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_ab",
+     "seed": 1769896003,
+     "session": 2,
+     "sha256": "e44e343393cd4e3e7e489e17684299ce9bc044c9f1602d2068e2a8c7b5caeccb",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_ab",
+     "seed": 655878498,
+     "session": 3,
+     "sha256": "0cf3f2a4edbff59e945a33d94d0fd2a238195052530268895cc8647c42d26f66",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_ab",
+     "seed": 1379873732,
+     "session": 4,
+     "sha256": "a7b97287ac5785e757dbed1282c541c85f8e5c7403c2a7f7fb89f8034bf3ea86",
+     "shots": 1500
+    },
+    {
+     "mode": "cadence_keep_warm_pair",
+     "pair": "keep_warm_ab",
+     "seed": 1281476253,
+     "session": 5,
+     "sha256": "c8642bdb4a3f395ab6d2bb81d8ccb18c0aefbad41c60d24757f0945e3bf5af35",
+     "shots": 1500
+    }
+   ],
+   "seed": 1465797760
+  },
+  "wall_s": 321.383,
+  "warmup_calls_per_variant": 2000,
+  "what_is_timed": "one eldpc_decode call per shot, CLOCK_MONOTONIC around the call: transfers and synchronisation included"
+ },
+ "command": "python bench/bench.py all --problem docs/results/tuning-bb144/model.dem --cpu 8 --out ../eldpc-results/target-bench2",
+ "commit": "21b2820",
+ "elapsed_s": 565.367,
+ "environment": {
+  "clocks": {
+   "after": {
+    "graphics_mhz": 2520.0,
+    "memory_mhz": 9001.0
+   },
+   "before": {
+    "graphics_mhz": 495.0,
+    "memory_mhz": 9001.0
+   },
+   "source": "recorded by the benchmark before and after the measurements"
+  },
+  "cpu": {
+   "logical_cores": 112,
+   "model": "Intel(R) Xeon(R) w9-3495X",
+   "physical_cores": 56,
+   "pinned_cpu": 8
+  },
+  "cpu_frequency": {
+   "boost": "1",
+   "cur_freq_khz": 4400044,
+   "governor": "powersave"
+  },
+  "cuda_driver_version": "13.2",
+  "cuda_runtime": "NVIDIA 13.3.73, linked statically (eldpc.build_info())",
+  "driver": "595.91.07",
+  "eldpc": {
+   "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx512; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2 -mavx512f -mavx512vl -mavx512dq -mavx512bw; build_type=Release; isa=avx512; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+   "isa": "avx512",
+   "version": "0.1.0"
+  },
+  "gpu": {
+   "compute_capability": "8.9",
+   "l2_bytes": 100663296,
+   "name": "NVIDIA L40S",
+   "sm_count": 142
+  },
+  "python_packages": {
+   "numpy": "2.5.4",
+   "qldpc": "0.4.2.dev20261004",
+   "scipy": "1.18.1",
+   "stim": "1.16.0"
+  },
+  "toolkit": "CUDA 13.3 (V13.3.73)"
+ },
+ "failures": [],
+ "kind": "bench",
+ "ler": {
+  "batch_shots": 2048,
+  "kind": "ler",
+  "problem": {
+   "build_seconds": 1.712,
+   "dem_sha256": "083163f2ecf9eb495b1dfbef2fab06b21c141b2161880f97b77ac216d68f52b0",
+   "k": 24,
+   "m": 1872,
+   "n": 75600,
+   "name": "model.dem",
+   "nnz_h": 437184,
+   "nnz_o": 288776,
+   "problem_file": {
+    "sha256": "678616e410f533a0deefebe1dda2607aa0818849dd40fa8b78696d60b04086ca"
+   },
+   "recipe": {
+    "kind": "detector error model file"
+   },
+   "shots": {
+    "latency": {
+     "seed": 1017674381,
+     "sha256": "f7e20ea344aa1ee1c61885fc19c78fd2116b905370fac2ebd3a5eea6af09afc5",
+     "shots": 8192
+    },
+    "ler": {
+     "seed": 295702708,
+     "sha256": "aaf592fbe8d5280f39d665b21175d070d0201cf16541c1b37f27d7e36343a5a0",
+     "shots": 40000
+    }
+   },
+   "source": "dem file",
+   "timings_seconds": {
+    "latency_shots": 0.092,
+    "ler_shots": 0.895,
+    "open": 0.651
+   }
+  },
+  "shots": 40000,
+  "variants": {
+   "A": {
+    "checksum": "31c097f01f5fc31b1d123a1f468d88711b57582d94d4b3328b27a4f3f77e7079",
+    "ci95": [
+     4.41e-06,
+     0.00014161
+    ],
+    "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+    "decode_wall_s": 2.854271029,
+    "errors": 1,
+    "label": "a03125c3",
+    "ler": 2.5e-05,
+    "shots": 40000,
+    "shots_per_s_including_io": 14014.1
+   }
+  },
+  "wall_s": 5.822,
+  "what_is_measured": "logical error rate over shots sampled from the problem's model: a shot is wrong when any predicted observable flip differs from the true one"
+ },
+ "package_tree_clean": true,
+ "package_version": "0.1.0",
+ "problem": {
+  "dem_sha256": "083163f2ecf9eb495b1dfbef2fab06b21c141b2161880f97b77ac216d68f52b0",
+  "k": 24,
+  "m": 1872,
+  "n": 75600,
+  "name": "model.dem",
+  "nnz_h": 437184,
+  "nnz_o": 288776,
+  "recipe": {
+   "kind": "detector error model file",
+   "path": "docs/results/tuning-bb144/model.dem"
+  },
+  "shots": {
+   "latency": {
+    "seed": 1017674381,
+    "sha256": "f7e20ea344aa1ee1c61885fc19c78fd2116b905370fac2ebd3a5eea6af09afc5",
+    "shots": 8192
+   },
+   "ler": {
+    "seed": 295702708,
+    "sha256": "aaf592fbe8d5280f39d665b21175d070d0201cf16541c1b37f27d7e36343a5a0",
+    "shots": 40000
+   }
+  },
+  "source": "dem file"
+ },
+ "py_latency": {
+  "calls_per_variant_per_session": 1500,
+  "configs": {
+   "A": {
+    "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+    "label": "a03125c3"
+   }
+  },
+  "cpu": 8,
+  "kind": "py_latency",
+  "modes": {
+   "back_to_back": {
+    "a_a_control": {
+     "a": "A",
+     "a_stats": {
+      "converged_calls": 1,
+      "max_us": 7137.557,
+      "mean_us": 70.1969,
+      "min_us": 63.682,
+      "p50_us": 67.5,
+      "p99_9_us": 134.836,
+      "p99_unreliable": false,
+      "p99_us": 116.974,
+      "shots": 9000,
+      "slow_calls": 8999,
+      "slow_fraction": 0.9998888888888889,
+      "slow_p50_us": 67.5
+     },
+     "a_status": {
+      "abstain": 0,
+      "converged": 1,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "3": 9000
+      },
+      "iterations_max": 3,
+      "iterations_mean": 3.0,
+      "postprocessed": 8999,
+      "shots": 9000,
+      "syndrome_unmatched": 0
+     },
+     "b": "A",
+     "b_stats": {
+      "converged_calls": 1,
+      "max_us": 7242.947,
+      "mean_us": 71.7916,
+      "min_us": 63.659,
+      "p50_us": 67.506,
+      "p99_9_us": 141.678,
+      "p99_unreliable": false,
+      "p99_us": 119.461,
+      "shots": 9000,
+      "slow_calls": 8999,
+      "slow_fraction": 0.9998888888888889,
+      "slow_p50_us": 67.506
+     },
+     "b_status": {
+      "abstain": 0,
+      "converged": 1,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "3": 9000
+      },
+      "iterations_max": 3,
+      "iterations_mean": 3.0,
+      "postprocessed": 8999,
+      "shots": 9000,
+      "syndrome_unmatched": 0
+     },
+     "band": {
+      "mean_us": [
+       -5.7593,
+       5.6212
+      ],
+      "p50_us": [
+       -1.033,
+       1.055
+      ],
+      "p99_9_us": [
+       -25.983,
+       56.818
+      ],
+      "p99_us": [
+       -28.26,
+       7.81
+      ]
+     },
+     "checksums": {
+      "v0": [
+       "13ee4775a2616e73e5fec7cbd4817917d0d59a24aacf717c58ea9a9f35b5af6d",
+       "6a938cdaa2f99ffda55f2232f287ed07c87852cc246d728d9b3825b58784d7e6",
+       "868c2723f2f4c7b570abb1cd37a62df9341d4ff28fbe17ca3d26fad2b72b7c74",
+       "a626954e46a22703fae3a132e762b6e2a713e32b33cfc340c29f278e5b14f9b7",
+       "b21b81c8d1400191c966721fce419a91928dd0356a5fe6aef70cfadb95fb6561",
+       "b53ede3bd67ca4e3f2c35a0880eb217050c03c8cdb248b6dca58d1c5a23f67ec"
+      ],
+      "v1": [
+       "13ee4775a2616e73e5fec7cbd4817917d0d59a24aacf717c58ea9a9f35b5af6d",
+       "6a938cdaa2f99ffda55f2232f287ed07c87852cc246d728d9b3825b58784d7e6",
+       "868c2723f2f4c7b570abb1cd37a62df9341d4ff28fbe17ca3d26fad2b72b7c74",
+       "a626954e46a22703fae3a132e762b6e2a713e32b33cfc340c29f278e5b14f9b7",
+       "b21b81c8d1400191c966721fce419a91928dd0356a5fe6aef70cfadb95fb6561",
+       "b53ede3bd67ca4e3f2c35a0880eb217050c03c8cdb248b6dca58d1c5a23f67ec"
+      ]
+     },
+     "delta": {
+      "mean_us": -1.5947,
+      "p50_us": -0.006,
+      "p99_9_us": -6.842,
+      "p99_us": -2.487
+     },
+     "delta_blocked": {
+      "mean_us": -1.5947,
+      "p50_us": -0.0295,
+      "p99_9_us": 3.5043,
+      "p99_us": -5.2408
+     },
+     "delta_blocked_note": "per-session differences averaged within each (create, call) order block and then over blocks with equal weight; equal to delta when the order blocks have equal session counts",
+     "order_blocks": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "mean_delta": {
+        "mean_us": 2.5068,
+        "p50_us": 0.81,
+        "p99_9_us": 21.186,
+        "p99_us": 1.8507
+       },
+       "sessions": 3
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "mean_delta": {
+        "mean_us": -5.6962,
+        "p50_us": -0.869,
+        "p99_9_us": -14.1773,
+        "p99_us": -12.3323
+       },
+       "sessions": 3
+      }
+     ],
+     "orders": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 0
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 1
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 2
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 3
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 4
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 5
+      }
+     ],
+     "per_session_delta": [
+      {
+       "mean_us": 5.6212,
+       "p50_us": 0.768,
+       "p99_9_us": 56.818,
+       "p99_us": 1.95
+      },
+      {
+       "mean_us": -5.7593,
+       "p50_us": -1.033,
+       "p99_9_us": -1.299,
+       "p99_us": -2.737
+      },
+      {
+       "mean_us": -3.6741,
+       "p50_us": 1.055,
+       "p99_9_us": -5.99,
+       "p99_us": -4.208
+      },
+      {
+       "mean_us": -5.6324,
+       "p50_us": -0.782,
+       "p99_9_us": -15.25,
+       "p99_us": -6.0
+      },
+      {
+       "mean_us": 5.5733,
+       "p50_us": 0.607,
+       "p99_9_us": 12.73,
+       "p99_us": 7.81
+      },
+      {
+       "mean_us": -5.6968,
+       "p50_us": -0.792,
+       "p99_9_us": -25.983,
+       "p99_us": -28.26
+      }
+     ],
+     "sem": {
+      "mean_us": 2.2967,
+      "p50_us": 0.3817,
+      "p99_9_us": 11.919,
+      "p99_us": 5.0326
+     },
+     "session_checksums_equal": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+     ],
+     "sides_equal": true
+    },
+    "checksum_scope": "every session decodes its own syndromes; the two handles of a session are compared on the same shots, not across sessions",
+    "comparison": null,
+    "gap_us": 0,
+    "keep_warm_a": 0,
+    "keep_warm_b": 0,
+    "mode": "back_to_back",
+    "order_design": "alternating",
+    "sessions_per_pair": 6,
+    "shots_per_variant_per_session": 1500,
+    "variants": {
+     "A": {
+      "checksum": null,
+      "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+      "label": "a03125c3",
+      "library": {
+       "name": "libeldpc.so",
+       "sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+       "source": "loaded by the Python package"
+      },
+      "pooled": {
+       "converged_calls": 2,
+       "max_us": 7242.947,
+       "mean_us": 70.9942,
+       "min_us": 63.659,
+       "p50_us": 67.502,
+       "p99_9_us": 139.19,
+       "p99_unreliable": false,
+       "p99_us": 117.846,
+       "shots": 18000,
+       "slow_calls": 17998,
+       "slow_fraction": 0.9998888888888889,
+       "slow_p50_us": 67.502
+      },
+      "status": {
+       "abstain": 0,
+       "converged": 2,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "3": 18000
+       },
+       "iterations_max": 3,
+       "iterations_mean": 3.0,
+       "postprocessed": 17998,
+       "shots": 18000,
+       "syndrome_unmatched": 0
+      }
+     }
+    },
+    "warnings": [
+     "back_to_back A: one shot took 7242.9 us, 107 times the p50 (67.502 us); host or GPU interference during the run"
+    ]
+   }
+  },
+  "order_design": "alternating",
+  "problem": {
+   "build_seconds": 1.712,
+   "dem_sha256": "083163f2ecf9eb495b1dfbef2fab06b21c141b2161880f97b77ac216d68f52b0",
+   "k": 24,
+   "m": 1872,
+   "n": 75600,
+   "name": "model.dem",
+   "nnz_h": 437184,
+   "nnz_o": 288776,
+   "problem_file": {
+    "sha256": "678616e410f533a0deefebe1dda2607aa0818849dd40fa8b78696d60b04086ca"
+   },
+   "recipe": {
+    "kind": "detector error model file"
+   },
+   "shots": {
+    "latency": {
+     "seed": 1017674381,
+     "sha256": "f7e20ea344aa1ee1c61885fc19c78fd2116b905370fac2ebd3a5eea6af09afc5",
+     "shots": 8192
+    },
+    "ler": {
+     "seed": 295702708,
+     "sha256": "aaf592fbe8d5280f39d665b21175d070d0201cf16541c1b37f27d7e36343a5a0",
+     "shots": 40000
+    }
+   },
+   "source": "dem file",
+   "timings_seconds": {
+    "latency_shots": 0.092,
+    "ler_shots": 0.895,
+    "open": 0.651
+   }
+  },
+  "sessions_per_pair": 6,
+  "syndromes": {
+   "distinct": 9000,
+   "distinct_definition": "distinct sampled shots timed per handle over the sessions of a pair, minimum over pairs; each session draws its own seeded shots and both handles of a session decode the same set",
+   "per_session": [
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 136646831,
+     "session": 0,
+     "sha256": "39a7c4e4cf2f2387d3a4bfde52fc2aa9d85e29d466188e77a6e50c7101f3b9bc",
+     "shots": 1500
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 1461219977,
+     "session": 1,
+     "sha256": "ec230d96459106ea567ce3b1bd8ab75095334681ec3f9c00d2cfc28ffa77927a",
+     "shots": 1500
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 1236329845,
+     "session": 2,
+     "sha256": "03882d8626dbde1f48a4e9498f803371eb4fa6548b89ff896dbc402575b5545b",
+     "shots": 1500
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 1166848941,
+     "session": 3,
+     "sha256": "c8b049d89c482724274cf3fba916ccabbcf17339f9ebcfa5da9f9975d29e49e2",
+     "shots": 1500
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 495676837,
+     "session": 4,
+     "sha256": "c8ebf6f686dee8ea335496e7a1dea47acdf8a71fc739a747ed8f9ac62e2adbc1",
+     "shots": 1500
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 1888988290,
+     "session": 5,
+     "sha256": "b663dd0737a53e796376cf21eb18454d8ca22d2a471f5140ba247c17bdaa9f6f",
+     "shots": 1500
+    }
+   ],
+   "seed": 1465797760
+  },
+  "wall_s": 38.492,
+  "warmup_calls_per_variant": 2000,
+  "what_is_not_timed": "creating the decoder, warm-up, and converting the syndrome from another dtype",
+  "what_is_timed": "Decoder.decode(syndrome) from Python, the syndrome already a uint8 numpy array; Decoder.last_status is read after the call"
+ },
+ "quick": false,
+ "schema": "eldpc.results.v2",
+ "settings": {
+  "c_shots": 1500,
+  "latency_shots": 8192,
+  "ler_shots": 40000,
+  "processes": 6,
+  "throughput_batch": 4096,
+  "throughput_reps": 24,
+  "warmup": 2000,
+  "warmup_ms": 1500
+ },
+ "started_utc": "2026-10-21T15:33:07Z",
+ "throughput": {
+  "a_a_control": {
+   "A": {
+    "seconds": 42.075534,
+    "shots": 589824,
+    "shots_per_s": 14018.218
+   },
+   "B": {
+    "seconds": 42.070559,
+    "shots": 589824,
+    "shots_per_s": 14019.875
+   },
+   "band_ratio": [
+    0.9976,
+    1.0041
+   ],
+   "per_session_ratio_b_over_a": [
+    1.004075,
+    0.998401,
+    1.000626,
+    0.99763,
+    1.001928,
+    0.998064
+   ],
+   "per_session_shots_per_s": {
+    "A": [
+     13987.795937749235,
+     14053.213169280129,
+     14006.773842764933,
+     14025.964320285286,
+     14005.412356158397,
+     14030.336307415337
+    ],
+    "B": [
+     14044.799107066236,
+     14030.739243015276,
+     14015.545868282776,
+     13992.72091182401,
+     14032.408590198773,
+     14003.176558438116
+    ]
+   },
+   "ratio_b_over_a": 1.000118,
+   "sessions": 6
+  },
+  "batch_shots": 4096,
+  "c_driver": {
+   "a_a_control": {
+    "A": {
+     "seconds": 19.046326,
+     "shots": 294912,
+     "shots_per_s": 15483.931
+    },
+    "B": {
+     "seconds": 18.95601,
+     "shots": 294912,
+     "shots_per_s": 15557.705
+    },
+    "band_ratio": [
+     0.9875,
+     1.0142
+    ],
+    "per_session_ratio_b_over_a": [
+     1.012848,
+     0.987476,
+     1.014183
+    ],
+    "per_session_shots_per_s": {
+     "A": [
+      15402.134710238219,
+      15628.064530506032,
+      15423.594170664821
+     ],
+     "B": [
+      15600.023789274559,
+      15432.33990591814,
+      15642.341671519862
+     ]
+    },
+    "ratio_b_over_a": 1.004765,
+    "sessions": 3
+   },
+   "batch_shots": 4096,
+   "kind": "throughput_c_driver",
+   "repetitions_per_variant_per_session": 24,
+   "sessions_per_pair": 3,
+   "variants": {
+    "A": {
+     "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+     "label": "a03125c3",
+     "library": {
+      "name": "libeldpc.so",
+      "sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+      "source": "loaded by the Python package"
+     },
+     "seconds": 19.046326,
+     "shots": 294912,
+     "shots_per_s": 15483.931
+    }
+   },
+   "what_is_measured": "eldpc_decode_batch called directly from the C driver with reused output buffers: the decoder's batch throughput without the Python call and its output allocation"
+  },
+  "kind": "throughput",
+  "repetitions_per_variant_per_session": 24,
+  "sessions_per_pair": 6,
+  "variants": {
+   "A": {
+    "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+    "label": "a03125c3",
+    "library": {
+     "name": "libeldpc.so",
+     "sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+     "source": "loaded by the Python package"
+    },
+    "seconds": 42.075534,
+    "shots": 589824,
+    "shots_per_s": 14018.218
+   }
+  },
+  "wall_s": 197.77,
+  "what_is_measured": "Decoder.decode_batch over whole batches: shots per second, batch latency included"
+ },
+ "warnings": [
+  "back_to_back A: one shot took 7242.9 us, 107 times the p50 (67.502 us); host or GPU interference during the run",
+  "CPU governor is 'powersave' on the pinned CPU: its frequency may change during the run; use the 'performance' governor for publishable numbers",
+  "CPU energy-performance preference is 'balance_performance' on the pinned CPU: its frequency may be slower to rise; set it to 'performance' for stable latency",
+  "GPU clock changed during the run: graphics_mhz 495 -> 2520 MHz (the GPU was not at a steady clock)"
+ ]
+}

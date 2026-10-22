@@ -1,0 +1,4548 @@
+{
+ "about": {
+  "what": "Facts behind tuning/KNOWLEDGE.md, taken from the package's tuning measurements; numbers as recorded, and the measurements predate the shipped build 6g. Every record of the entries the knowledge base draws on is kept; only labels and wording were generalised.",
+  "fields": {
+   "knob": "the knob, idea or condition the record is about (in dead_ends: the idea that was measured)",
+   "metric": "what the record carries (a registry field name such as status, notes, effect, setting, or the measured quantity)",
+   "value": "the knob's value (alpha for the alpha / cap / LER rows; otherwise the setting or measured value as named by knob / metric)",
+   "cap": "max_iter (BP iteration cap)",
+   "code": "the problem (code and basis), e.g. bb144 xyz = bb144_unif_p1e-3_r12_xyz",
+   "p": "the circuit-level noise rate",
+   "shots": "number of shots",
+   "ratio": "a ratio (paired failure ratio against the reference named in metric, unless metric says otherwise); a list is a range",
+   "ci": "95 % confidence interval of ratio",
+   "p_value": "McNemar p-value of the paired comparison",
+   "failures": "failures of the configuration on those shots",
+   "ref_failures": "failures of the reference on the same shots",
+   "ler": "logical error rate (failures / shots) as recorded",
+   "p50_us": "median latency or change of it, microseconds",
+   "p99_us": "99th-percentile latency or change of it, microseconds",
+   "p999_us": "99.9th-percentile latency, microseconds",
+   "rel": "relative change (fraction, negative = faster)",
+   "range": "the recorded range of value",
+   "exact": "true when the knob changes no output (bit-identical), false when it is lossy",
+   "machine": "key of about.machines (a list when the record spans several machines)",
+   "build": "key of about.builds",
+   "study": "key of about.studies",
+   "revive_if": "the registry's condition under which the dead end should be re-measured",
+   "check_per_problem": "the registry marks the result as problem-dependent: re-check it per problem",
+   "note": "the measurement record's text; labels and wording were generalised, numbers are as recorded"
+  },
+  "machines": {
+   "A-oc": {
+    "gpu": "RTX 5080 (Blackwell, sm_120, 84 SMs, 64 MiB L2)",
+    "host": "Ryzen 7 9850X3D (Zen 5, 8 cores, AVX-512); bench mode: isolated cores, process pinned to one isolated core, performance governor",
+    "clocks_driver_toolkit": "GPU and memory overclocked: +400 MHz graphics offset (3,172-3,187 MHz while decoding vs ~2,880 MHz stock), +3,000 MHz memory offset, power limit 396 W (110 %); driver 615.71.09; library built with CUDA 13.3.73",
+    "grade": "timing-grade"
+   },
+   "A-stock": {
+    "gpu": "same machine",
+    "host": "same",
+    "clocks_driver_toolkit": "stock clocks, power limit 360 W; driver 615.71.09; CUDA 13.3.73",
+    "grade": "timing-grade"
+   },
+   "B": {
+    "gpu": "RTX 5080 (84 SMs)",
+    "host": "Threadripper 3970X (Zen 2, AVX2)",
+    "clocks_driver_toolkit": "clocks not recorded; CUDA 13.3",
+    "grade": "development machine: stage shares and ratios"
+   },
+   "C": {
+    "gpu": "RTX 5090 (170 SMs)",
+    "host": "Ryzen 9 9950X3D (Zen 5), virtual-machine guest",
+    "clocks_driver_toolkit": "clocks not recorded; CUDA 13.3",
+    "grade": "development machine"
+   },
+   "D": {
+    "gpu": "RTX 5080 (84 SMs)",
+    "host": "Core i9-14900K (AVX2 only)",
+    "clocks_driver_toolkit": "driver 580.95; CUDA 13.0 / 13.2 / 13.3",
+    "grade": "development machine; the registry calls its rows \"relative only\""
+   },
+   "E": {
+    "gpu": "RTX 5080 (84 SMs)",
+    "host": "Ryzen 9 7950X3D (Zen 4, AVX-512)",
+    "clocks_driver_toolkit": "driver 595.91.07; CUDA 13.3.73",
+    "grade": "shared development machine, not a timing measurement; used here only for exactness and LER"
+   },
+   "F": {
+    "gpu": "RTX 5090 (170 SMs)",
+    "host": "not recorded",
+    "clocks_driver_toolkit": "driver 575.57.08; CUDA 12.8.93; an older build of the decoder",
+    "grade": "development machine: probe values of an older build"
+   },
+   "G": {
+    "gpu": "RTX 5070 Ti (70 SMs)",
+    "host": "EPYC 7532 / 7K62 (Zen 2)",
+    "clocks_driver_toolkit": "not recorded",
+    "grade": "development machine (dead-end rows)",
+    "hosts": "hosts of this class (two with EPYC 7532, one with EPYC 7K62)"
+   },
+   "H": {
+    "gpu": "RTX 5080 (84 SMs)",
+    "host": "Ryzen 9 9950X (Zen 5)",
+    "clocks_driver_toolkit": "not recorded",
+    "grade": "development machine (host-ISA and hand-off rows)"
+   },
+   "I": {
+    "gpu": "RTX PRO 4000",
+    "host": "Ryzen 9 7950X3D (Zen 4, V-Cache CCD)",
+    "clocks_driver_toolkit": "not recorded",
+    "grade": "development machine (host-ISA rows)"
+   },
+   "J": {
+    "gpu": "not recorded",
+    "host": "EPYC 7663",
+    "clocks_driver_toolkit": "not recorded",
+    "grade": "shared development machine (dead-end rows)"
+   },
+   "A": "machine A where the clock profile does not apply or is not stated (for example CPU-only rows)",
+   "not recorded": "the record names no machine, or one whose identity is not recorded"
+  },
+  "builds": {
+   "6g": "the shipped build (src/core/fastbpgpu6g); the registry predates it, so no record here is of 6g",
+   "6f": "the build before 6g; no machine-A row in the registry",
+   "6e": "earlier build of the same decoder line; the registry's components fit and most platform rows are 6e on machine A",
+   "6d": "earlier build of the same decoder line (before 6e)",
+   "6c": "earlier build of the same decoder line (before 6d); the registry's cap rows on machine A",
+   "6b": "earlier build of the same decoder line (before 6c)",
+   "6a": "earlier build of the same decoder line (before 6b)",
+   "5b": "earlier build (before 6a)",
+   "5": "earlier build (before 5b)",
+   "5-early": "an early form of build 5 that passed the exactness acceptance; measured beside the legacy base, built from the same source tree",
+   "legacy base": "fastbpgpu3_a: the exact base before builds 5 and 6; ~2.7x slower per iteration than 6e",
+   "older build": "a development build before 6a whose exact label the record does not give"
+  },
+  "studies": {
+   "2M-shot alpha x cap screen": "bb144 xyz at p = 1e-3: alpha 0.3125 / 0.375 / 0.4375 x caps 7 / 11 / 31, 2M shots paired against (0.5, 31)",
+   "2M-shot i8 x cap screen": "bb144 xyz at p = 1e-3: i8 messages at caps 7 / 11, 2M shots paired against exact (0.5, 31)",
+   "500k-shot cap screen": "bb144 xyz at p = 2e-3: alpha 0.5 at caps 7 / 11, 500k shots paired against (0.5, 31)",
+   "500k-shot alpha x cap screen": "bb144 xyz at p = 2e-3: alpha 0.375 / 0.4375 / 0.5 at caps 7 / 11, i8 and f32 messages at cap 11, 500k shots paired against (0.5, 31)",
+   "2M-shot f32 x cap screen": "bb144 xyz at p = 1e-3: f32 messages at caps 7 / 11, 2M shots paired against exact (0.5, 31)",
+   "three-point alpha x cap screen": "alpha 0.3125 / 0.375 / 0.4375 / 0.5 at caps 5-11 on bb144 xyz at p = 2e-3 (500k shots) and 3e-3 (300k shots) and on bb144 z at p = 2e-3 (1M shots), paired against (0.5, 31)",
+   "alpha x cap surface screen": "alpha 0.3125-0.75 x odd caps 3-31 on bb144 xyz at p = 1e-3 (2M shots), 2e-3 (500k) and 3e-3 (300k) and on bb144 z at p = 2e-3 (1M), paired against (0.5, 31)",
+   "10M-shot confirmation": "pre-registered confirmation on bb144 xyz at p = 1e-3: 10M fresh shots paired against (0.5, 31)",
+   "3M-shot confirmation": "confirmation of the fast configurations on bb144 xyz: 3M shots at p = 1e-3 plus 500k at p = 2e-3; acceptable = one-sided 99 % Clopper-Pearson bound (CP99) below 1e-4",
+   "5M-shot cap sweep": "alpha 0.5 caps 9-21 against cap 31 on bb144 xyz at p = 1e-3, 5M shots paired (the primary result of the cap study)",
+   "3M-shot cap screen": "alpha 0.5 caps 3-11 against cap 31 on bb144 xyz at p = 1e-3, 3M shots paired (the screen of the cap study)",
+   "800k-shot alpha study": "stock (0.625, 30) and other alpha / cap settings on bb144 xyz at p = 1e-3, 800k shots",
+   "2-cycle early-exit study": "the 2-cycle early exit tested as an exact change on bb144",
+   "message-format study": "f32 / i16 / i8 BP messages against f64 at the tuned configuration on bb144 xyz",
+   "10M-shot message-format study": "i16 and i8 messages at the tuned configuration on bb144 xyz, 10M fresh shots",
+   "12.5M-shot pooled reference": "(0.5, 31) on bb144 xyz at p = 1e-3, pooled over two fresh-shot sets of the message-format study (12.5M shots in all)"
+  }
+ },
+ "target": [
+  {
+   "metric": "problem",
+   "code": "bb144_unif_p1e-3_r12_xyz"
+  },
+  {
+   "metric": "hardware",
+   "machine": "A",
+   "note": "RTX 5080 (84 SMs) + Ryzen 7 9850X3D: the bench machine"
+  },
+  {
+   "metric": "reference_config",
+   "value": 0.5,
+   "cap": 31,
+   "build": "legacy base",
+   "note": "alpha 0.5, max_iter 31, exact BP + OSD-0 (legacy base)"
+  },
+  {
+   "metric": "stock_config",
+   "value": 0.625,
+   "cap": 30,
+   "note": "alpha 0.625, max_iter 30 (the production setting before the 800k-shot alpha study)"
+  },
+  {
+   "metric": "ler_bar",
+   "value": 0.0001,
+   "note": "acceptance rule: anything that cleanly beats the previous stock (2.2e-4) is acceptable, say 1e-4; judged by what it buys in speed"
+  }
+ ],
+ "ler_reference": [
+  {
+   "knob": "stock",
+   "value": 0.625,
+   "cap": 30,
+   "ler": 0.00022,
+   "failures": 174,
+   "shots": 800000,
+   "study": "800k-shot alpha study"
+  },
+  {
+   "value": 0.5,
+   "cap": 31,
+   "ler": 1.28e-05,
+   "failures": 160,
+   "shots": 12500000,
+   "study": "12.5M-shot pooled reference",
+   "note": "~17x below stock (95 % 15-20x)"
+  },
+  {
+   "knob": "primary result",
+   "value": 0.5,
+   "cap": 31,
+   "ler": 1.36e-05,
+   "failures": 68,
+   "shots": 5000000,
+   "study": "5M-shot cap sweep"
+  }
+ ],
+ "components": [
+  {
+   "metric": "fit_note",
+   "build": "6e",
+   "machine": "A-oc",
+   "note": "us, p50 / p99 of the call on machine A. Best exact library at the time = build 6e; 6f is not yet measured on machine A. Refit: the 6e line is p = t_fixed + cap * t_iter (+ osd_path_p99 for the tail), where t_fixed now INCLUDES the OSD path (osd_path_p50 is folded into it = 0.0): the new libraries (OSD prefix on the device, mapped hand-over) no longer permit the old fixed/OSD split from BP-only cap 1 lines. 6e has only ONE directly measured point on machine A (cap 3, alpha 0.3125: 40.60 / 52.30, the paired series); the other caps are DERIVED = 6c's machine-A rows of the second pooled series (cap 3/5/7/11/31 at alphas .3125/.3125/.375/.5/.5) plus the 6e-vs-6c per-class OSD deltas of the paired series (cap 7 -8.76, cap 11 -13.85, cap 31 -39.08 p50; -8.58 / -13.69 / -40.37 p99). Least-squares over cap 3/7/11/31: p50 = 16.07 + 8.191*cap (residuals <= 0.4 us), p99 = 27.08 + 8.481*cap (residuals <= 1.4 us). Alpha shifts the line by <~1 us (legacy-base low-cap series). A direct 6e cap sweep on machine A replaces this. Raw measured points: target_points. Note for predictions with extra knobs: every exact knob up to and including 6e (the build steps of 6a .. 6e, and all knobs before 6a) is ALREADY INSIDE this fit; its deltas are per-step values vs the previous step and must not be added again. Adding a knob is only meaningful for knobs landing after 6e (the 6f steps are measured on machine D with CUDA 13.3, relative only: bench on machine A before use)."
+  },
+  {
+   "metric": "t_iter",
+   "build": "6e",
+   "note": "DERIVED slope (see fit_note), 6e on machine A; derived from machine-A rows (6c rows of the second pooled series + 6e-vs-6c deltas of the paired series)",
+   "value": 8.19,
+   "range": [
+    8.14,
+    8.48
+   ],
+   "machine": "A-oc"
+  },
+  {
+   "metric": "t_fixed",
+   "build": "6e",
+   "note": "intercept of the 6e p50 line (includes the OSD path, launch + observe ~3.3, host part ~4.4); 6c's own line has intercept 15.65, slope 9.467 (second pooled series); derived from machine-A rows",
+   "value": 16.07,
+   "range": [
+    15.6,
+    16.1
+   ],
+   "machine": "A-oc"
+  },
+  {
+   "metric": "frac_converged",
+   "build": "6e",
+   "note": "NOT re-measured; the legacy base's value (from its GPU BP study) for xyz at alpha 0.5. Per-class counts: a 6e machine-A series (a05c11 converged class n 1532, a05ms31 n 3932 in the runs there); measured (the legacy base's GPU BP study), stale",
+   "value": 0.053,
+   "machine": "not recorded"
+  },
+  {
+   "metric": "osd_path_p50",
+   "build": "6e",
+   "note": "folded into t_fixed in the 6e refit (see fit_note); refit convention",
+   "value": 0.0,
+   "machine": "A-oc"
+  },
+  {
+   "metric": "osd_path_p99",
+   "build": "6e",
+   "note": "p99 intercept 27.08 minus p50 intercept 16.07 (derived); the cap 3 call is 52.30 p99 vs 40.60 p50; derived from machine-A rows",
+   "value": 11.0,
+   "machine": "A-oc"
+  },
+  {
+   "metric": "device_split_cap3",
+   "build": "6e",
+   "note": "6e machine-A cadence series, a03125c3 preset (0.3125, 3), gap 0, machine A (Ryzen 7 9850X3D Zen 5 + RTX 5080 84 SM, at the validated OC, bench mode, CPU 4), driver 615.71.09, CUDA 13.3.73: call 40.56 / 52.34 (p50 / p99); device body (kernel entry -> status publish) 32.74; host part = call - (launch -> observed generation) 4.36 p50 / 13.75 p99; launch + observe ~3.3 p50, ~12.4 p99 (the ~9 us launch tail on ~6-7 % of shots, driver-615 launch-ring wrap). Stage measurement on machine D with CUDA 13.3 (6e vs 6d): body -2.31, elimination +0.33 (a machine-D artefact, +0.03 on machine A).",
+   "value": 0.3125,
+   "machine": "A-oc",
+   "cap": 3,
+   "p50_us": 40.56,
+   "p99_us": 52.34
+  },
+  {
+   "metric": "e2e_measured_legacy",
+   "value": 0.625,
+   "cap": 30,
+   "p99_us": 601.6,
+   "build": "older build",
+   "machine": "not recorded",
+   "note": "(0.625, 30) ms30; RTX 5090"
+  },
+  {
+   "metric": "e2e_measured_legacy",
+   "value": 0.5,
+   "cap": 31,
+   "p99_us": [
+    590,
+    606
+   ],
+   "build": "older build",
+   "machine": "not recorded",
+   "note": "(0.5, 31); RTX 5090"
+  },
+  {
+   "metric": "e2e_measured_legacy",
+   "value": 0.5,
+   "cap": 31,
+   "p50_us": 933.6,
+   "p99_us": 1039.2,
+   "build": "older build",
+   "machine": "D",
+   "note": "(0.5, 31); RTX 5080 under contention from other GPU load (~3 processes), Core i9-14900K host (the column-pass study's hardware-variant base timing); contended GPU; relative only"
+  }
+ ],
+ "components_legacy": [
+  {
+   "metric": "fit_note",
+   "build": "legacy base",
+   "machine": "A",
+   "note": "SUPERSEDED by the 6e refit (components). This is the legacy-base fit (machine A, RTX 5080, the legacy base, t_iter 22.0 us/it stock): the library is now ~2.7x faster per iteration. Kept for the old knob deltas, which were measured on that base."
+  },
+  {
+   "metric": "t_iter",
+   "build": "legacy base",
+   "note": "machine A RTX 5080, the legacy base, (BP cap 31 - cap 1)/30 per full-length xyz shot: stock 22.0-22.1, OC 21.0; measured on machine A (legacy-base series)",
+   "value": 22.0,
+   "range": [
+    21.0,
+    22.1
+   ],
+   "machine": "A"
+  },
+  {
+   "metric": "t_fixed",
+   "build": "legacy base",
+   "note": "BP-only cap 1 p50 (50.7 stock / 49.0 OC) minus one t_iter; measured on machine A (legacy-base series)",
+   "value": 28.7,
+   "range": [
+    28.0,
+    28.7
+   ],
+   "machine": "A"
+  },
+  {
+   "metric": "frac_converged",
+   "build": "legacy base",
+   "note": "fraction of xyz shots on which BP converges before the cap; the rest run to the cap; measured (the legacy base's GPU BP study)",
+   "value": 0.053,
+   "machine": "A"
+  },
+  {
+   "metric": "osd_path_p50",
+   "build": "legacy base",
+   "note": "machine A: e2e - BP-only per shot on OSD shots, xyz (0.5, 11) and (0.5, 31), stock and OC alike (59.3-59.7); measured on machine A (legacy-base series)",
+   "value": 59.5,
+   "machine": "A"
+  },
+  {
+   "metric": "osd_path_p99",
+   "build": "legacy base",
+   "note": "machine A, same method: 109.7-111.1; measured on machine A (legacy-base series)",
+   "value": 110,
+   "machine": "A"
+  },
+  {
+   "metric": "e2e_measured",
+   "value": 0.625,
+   "cap": 30,
+   "p99_us": 601.6,
+   "build": "older build",
+   "machine": "not recorded",
+   "note": "(0.625, 30) ms30; RTX 5090"
+  },
+  {
+   "metric": "e2e_measured",
+   "value": 0.5,
+   "cap": 31,
+   "p99_us": [
+    590,
+    606
+   ],
+   "build": "older build",
+   "machine": "not recorded",
+   "note": "(0.5, 31); RTX 5090"
+  },
+  {
+   "metric": "e2e_measured",
+   "value": 0.5,
+   "cap": 31,
+   "p50_us": 933.6,
+   "p99_us": 1039.2,
+   "build": "older build",
+   "machine": "D",
+   "note": "(0.5, 31); RTX 5080 under contention from other GPU load (~3 processes), Core i9-14900K host (the column-pass study's hardware-variant base timing); contended GPU; relative only"
+  }
+ ],
+ "target_points": {
+  "setup": [
+   {
+    "metric": "setup",
+    "machine": "A-oc",
+    "note": "measured on machine A, a03125c3 preset on bb144 xyz (alpha 0.3125, max_iter 3) unless stated; 6 x 20k shots pooled (first and second pooled series) or paired runs (the later paired series); validated OC, bench mode, back-to-back calls (gap 0) unless stated"
+   }
+  ],
+  "rows": [
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "5",
+    "machine": "A-oc",
+    "p50_us": 84.1,
+    "p99_us": 105.0,
+    "p999_us": 134.0,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc not stated; first pooled series"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "5b",
+    "machine": "A-oc",
+    "p50_us": 75.3,
+    "p99_us": 96.7,
+    "p999_us": 124.7,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc not stated; first pooled series"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "6b",
+    "machine": "A-oc",
+    "p50_us": 56.6,
+    "p99_us": 67.1,
+    "p999_us": 90.2,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc not stated; first and second pooled series; first pooled series alone: 56.6 / 67.4; bb144 z (0.5, 15): 65.0 / 98.7"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "6c",
+    "machine": "A-oc",
+    "p50_us": 44.0,
+    "p99_us": 56.0,
+    "p999_us": 77.2,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc not stated; second pooled series; in the paired series: 44.30 / 56.06; bb144 z (0.5, 15) p50 +2.1 vs 6b (converged-class cost; 6d cleared it per class)"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "6d",
+    "machine": "A-oc",
+    "p50_us": 42.68,
+    "p99_us": 54.39,
+    "p999_us": 78.38,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc 13.3.73; paired series (6e against 6c and 6d)"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "6e",
+    "machine": "A-oc",
+    "p50_us": 40.6,
+    "p99_us": 52.3,
+    "p999_us": 77.3,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc 13.3.73; paired series (6e against 6c and 6d); 6 paired runs; mean 41.52; 6e vs 6d -2.08 / -2.09; single-shot max moves +-10 us between runs"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "6e",
+    "machine": "A-oc",
+    "p50_us": 40.19,
+    "p99_us": 50.94,
+    "note": "6e plus the host-walk step of 6f; RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc 13.3.73; paired series (6e against 6c and 6d); paired vs 6e: -0.25 / -0.87, p99.9 -2.76; this is the host-walk step of 6f"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 5,
+    "build": "6c",
+    "machine": "A-oc",
+    "p50_us": 62.6,
+    "p99_us": 73.9,
+    "p999_us": 84.5,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc not stated; second pooled series"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 7,
+    "build": "6c",
+    "machine": "A-oc",
+    "p50_us": 81.9,
+    "p99_us": 94.1,
+    "p999_us": 108.8,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc not stated; second pooled series"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 11,
+    "build": "6c",
+    "machine": "A-oc",
+    "p50_us": 120.4,
+    "p99_us": 135.5,
+    "p999_us": 166.6,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc not stated; second pooled series"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 31,
+    "build": "6c",
+    "machine": "A-oc",
+    "p50_us": 309.0,
+    "p99_us": 330.1,
+    "p999_us": 348.8,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc not stated; second pooled series"
+   },
+   {
+    "code": "bb144 z",
+    "value": 0.5,
+    "cap": 15,
+    "build": "6c",
+    "machine": "A-oc",
+    "p50_us": 67.1,
+    "p99_us": 90.9,
+    "p999_us": 92.2,
+    "note": "RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc not stated; second pooled series"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "6e",
+    "machine": "A-oc",
+    "p50_us": 46.83,
+    "p99_us": 62.62,
+    "p999_us": 94.45,
+    "note": "a03125c3 preset, call spacing 10 ms; RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc 13.3.73; call-cadence series; device body 32.74 -> 37.50 (clock 3172-3187 -> 2677 MHz); host part 4.36 -> 5.61"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "6e",
+    "machine": "A-oc",
+    "p50_us": 41.84,
+    "p99_us": 56.82,
+    "p999_us": 86.33,
+    "note": "6e plus a bench-side keepalive every 500 us; a03125c3 preset, 10 ms cycle; RTX 5080 OC + 9850X3D, AVX-512 Release build, CPU 4; driver 615.71.09; nvcc 13.3.73; keep-warm series; +8.6 W; 100 us keepalive + host touch: 42.08 / 53.81 / 80.51"
+   }
+  ],
+  "notes": [
+   {
+    "metric": "notes",
+    "note": "no row for 6f on machine A yet"
+   },
+   {
+    "metric": "notes",
+    "machine": "D",
+    "build": "6e",
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "p50_us": 48.9,
+    "p99_us": 63.3,
+    "note": "development-machine chain at the a03125c3 preset (Core i9-14900K AVX2 + RTX 5080, CUDA 13.3, 12k paired shots): relative only, machine A's host part and clocks differ"
+   },
+   {
+    "metric": "notes",
+    "machine": "D",
+    "build": "6f",
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "p50_us": 42.4,
+    "p99_us": 56.1,
+    "note": "6f, then a candidate: -6.5 / -7.2 against 6e (48.9 / 63.3) on the same chain; two-point slope ratio 0.822; relative only"
+   },
+   {
+    "metric": "notes",
+    "machine": [
+     "D",
+     "not recorded",
+     "A-oc"
+    ],
+    "note": "same-machine 6d -> 6e (p50): machine D -1.9, a machine not recorded -2.4, machine A -2.08"
+   }
+  ]
+ },
+ "bench": {
+  "setup": [
+   {
+    "metric": "setup",
+    "machine": "A",
+    "build": "legacy base",
+    "note": "LEGACY LIBRARY (the legacy base, superseded; 6e/6f-era points are in target_points). The legacy base (then the exact base, before integration) on machine A (9850X3D + RTX 5080), bench mode, isolated cores, acceptance shots (20k x 6 processes); stock 2880 MHz median under load, OC (+400 core cap 3200, mem +3000, PL 110) 3180 MHz"
+   },
+   {
+    "metric": "notes",
+    "machine": "A",
+    "note": "CPU 1-thread rows ~20% slower than the non-bench dry run (9.35 vs 7.7 ms): suspected bench mode's C-state hold (cpu_dma_latency 0) costing X3D single-core boost; A/B it before quoting CPU/host numbers. The Nsight Compute pass failed (missing --per-shot-out flag)."
+   }
+  ],
+  "cap_curve": [
+   {
+    "code": "bb144 xyz",
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 159.1,
+    "p99_us": 222.2
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 155.6,
+    "p99_us": 218.1
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 198.3,
+    "p99_us": 248.2
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 195.1,
+    "p99_us": 245.4
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 7,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 243.9,
+    "p99_us": 295.5
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 7,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 235.9,
+    "p99_us": 287.6
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 9,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 286.3,
+    "p99_us": 338.6
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 9,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 281.2,
+    "p99_us": 333.7
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 11,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 330.0,
+    "p99_us": 381.1
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 11,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 319.6,
+    "p99_us": 371.1
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 13,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 378.0,
+    "p99_us": 429.2
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 13,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 366.1,
+    "p99_us": 417.3
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 15,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 416.1,
+    "p99_us": 469.4
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 15,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 403.5,
+    "p99_us": 456.2
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 21,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 550.4,
+    "p99_us": 602.4
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 21,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 529.3,
+    "p99_us": 581.9
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 31,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 771.6,
+    "p99_us": 821.7
+   },
+   {
+    "code": "bb144 xyz",
+    "cap": 31,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 739.5,
+    "p99_us": 789.7
+   }
+  ],
+  "stock_config": [
+   {
+    "code": "bb144 xyz",
+    "value": 0.625,
+    "cap": 30,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 764.8,
+    "p99_us": 846.1,
+    "note": "the stock configuration (target: stock_config)"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.625,
+    "cap": 30,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 739.7,
+    "p99_us": 821.0,
+    "note": "the stock configuration (target: stock_config)"
+   }
+  ],
+  "cpu": [
+   {
+    "knob": "ldpc reference through the C ABI, one core",
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 31,
+    "machine": "A",
+    "p50_us": 63270.7,
+    "p99_us": 81391.0,
+    "note": "CPU only, machine A's host in bench mode"
+   },
+   {
+    "knob": "ldpc reference through the C ABI, one core",
+    "code": "bb144 xyz",
+    "value": 0.625,
+    "cap": 30,
+    "machine": "A",
+    "p50_us": 65043.1,
+    "p99_us": 116663.9,
+    "note": "CPU only, machine A's host in bench mode"
+   },
+   {
+    "knob": "CPU BP+OSD library, AVX-512, 1 thread",
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 31,
+    "machine": "A",
+    "p50_us": 9350.1,
+    "p99_us": 9456.9,
+    "note": "CPU only, machine A's host in bench mode"
+   },
+   {
+    "knob": "CPU multi-thread BP+OSD library, AVX-512, 6 threads",
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 31,
+    "machine": "A",
+    "p50_us": 1973.4,
+    "p99_us": 2067.0,
+    "note": "CPU only, machine A's host in bench mode"
+   }
+  ],
+  "low_caps_oc": [
+   {
+    "metric": "setup",
+    "machine": "A-oc",
+    "build": "legacy base",
+    "note": "machine A, OC profile of the same boot as the legacy-base cap curve, bench mode, 6 processes x 20k acceptance shots, exact legacy base"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 1,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 115.6,
+    "p99_us": 253.0
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 2,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 159.9,
+    "p99_us": 244.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 152.5,
+    "p99_us": 201.4
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 4,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 183.6,
+    "p99_us": 256.1
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 192.0,
+    "p99_us": 232.7
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 6,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 229.5,
+    "p99_us": 296.9
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 7,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 232.2,
+    "p99_us": 272.9
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 1,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 115.1,
+    "p99_us": 251.4
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 2,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 151.8,
+    "p99_us": 226.6
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 153.6,
+    "p99_us": 202.3
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 4,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 187.0,
+    "p99_us": 263.3
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 193.0,
+    "p99_us": 236.2
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 6,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 229.2,
+    "p99_us": 300.2
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 7,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 233.5,
+    "p99_us": 276.8
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 1,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 116.7,
+    "p99_us": 248.1
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 155.1,
+    "p99_us": 217.3
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 195.1,
+    "p99_us": 245.0
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 7,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 235.4,
+    "p99_us": 286.6
+   },
+   {
+    "metric": "notes",
+    "note": "p50/p99 us. Even caps have a worse p99 than the next odd cap (alpha-0.5 period-2 oscillation, see the 2-cycle early-exit study, also at low alpha); cap 1's p99 is heavy (p99.9 464-609 us). By p99 cap 3 is the fastest (201-217 us OC); at cap 3 the OSD path sets the tail (p99 converged 98 vs OSD 201)."
+   }
+  ],
+  "legacy_vs_5early_oc": [
+   {
+    "metric": "setup",
+    "machine": "A-oc",
+    "note": "machine A, OC, bench mode, 6 processes x 20k acceptance shots; an earlier build (before 6c; passed the exactness acceptance on its acceptance shots) and the legacy base built from one source tree"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 152.9,
+    "p99_us": 201.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 124.1,
+    "p99_us": 172.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 153.8,
+    "p99_us": 202.1
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 3,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 125.6,
+    "p99_us": 174.3
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 192.1,
+    "p99_us": 233.0
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 5,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 154.7,
+    "p99_us": 195.0
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 193.3,
+    "p99_us": 236.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 5,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 155.5,
+    "p99_us": 198.2
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 7,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 233.7,
+    "p99_us": 277.4
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 7,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 180.2,
+    "p99_us": 222.7
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 11,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 319.0,
+    "p99_us": 370.7
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 11,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 233.1,
+    "p99_us": 284.1
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 31,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 739.3,
+    "p99_us": 789.0
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 31,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 502.6,
+    "p99_us": 551.8
+   },
+   {
+    "metric": "notes",
+    "note": "p50/p99 us at the validated OC. The best exact library at the time at the cap 3 presets: 124 / 173 us."
+   }
+  ],
+  "legacy_vs_5early_stock_oc": [
+   {
+    "metric": "setup",
+    "machine": "A",
+    "note": "machine A: fresh isolated-core boot, stock rows then the validated OC once from idle; 6 processes x 20k acceptance shots; one source tree"
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 156.6,
+    "p99_us": 205.3
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "5-early",
+    "machine": "A-stock",
+    "p50_us": 131.5,
+    "p99_us": 179.8
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 152.8,
+    "p99_us": 201.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 3,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 124.2,
+    "p99_us": 172.6
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 195.0,
+    "p99_us": 236.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 5,
+    "build": "5-early",
+    "machine": "A-stock",
+    "p50_us": 154.8,
+    "p99_us": 195.2
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 192.1,
+    "p99_us": 232.8
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.3125,
+    "cap": 5,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 154.9,
+    "p99_us": 195.0
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 157.9,
+    "p99_us": 206.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 3,
+    "build": "5-early",
+    "machine": "A-stock",
+    "p50_us": 132.5,
+    "p99_us": 181.2
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 3,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 154.2,
+    "p99_us": 202.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 3,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 125.6,
+    "p99_us": 173.8
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 196.5,
+    "p99_us": 240.9
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 5,
+    "build": "5-early",
+    "machine": "A-stock",
+    "p50_us": 156.1,
+    "p99_us": 199.0
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 5,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 193.4,
+    "p99_us": 236.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 5,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 155.8,
+    "p99_us": 198.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 7,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 243.1,
+    "p99_us": 285.9
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 7,
+    "build": "5-early",
+    "machine": "A-stock",
+    "p50_us": 183.9,
+    "p99_us": 226.7
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 7,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 233.8,
+    "p99_us": 277.7
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.375,
+    "cap": 7,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 180.4,
+    "p99_us": 223.1
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 11,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 330.3,
+    "p99_us": 381.7
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 11,
+    "build": "5-early",
+    "machine": "A-stock",
+    "p50_us": 243.5,
+    "p99_us": 294.0
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 11,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 319.0,
+    "p99_us": 371.3
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 11,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 233.5,
+    "p99_us": 284.6
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 31,
+    "build": "legacy base",
+    "machine": "A-stock",
+    "p50_us": 771.9,
+    "p99_us": 821.3
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 31,
+    "build": "5-early",
+    "machine": "A-stock",
+    "p50_us": 527.7,
+    "p99_us": 577.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 31,
+    "build": "legacy base",
+    "machine": "A-oc",
+    "p50_us": 738.9,
+    "p99_us": 789.5
+   },
+   {
+    "code": "bb144 xyz",
+    "value": 0.5,
+    "cap": 31,
+    "build": "5-early",
+    "machine": "A-oc",
+    "p50_us": 502.9,
+    "p99_us": 552.5
+   },
+   {
+    "metric": "notes",
+    "note": "p50/p99 us. a03125c3 preset (0.3125, 3) with an earlier build (before 6c): stock 131.5 / 179.8, OC 124.2 / 172.6. OC rows reproduce the previous OC series within 0.1 us. 385 rows ok, 0 Xid."
+   }
+  ]
+ },
+ "dead_ends": [
+  {
+   "knob": "degree-sorted mapping alone (column REORDER without the interleaved slots, as the column-pass study built it)",
+   "note": "+30.2% on the column pass (scoped: the in-block sort WITH 32-wide interleaved slots is knob ilv_layout, -22.5% e2e) | on review it was a GLOBAL sort without unrolling (the column-pass study's hardware variant, column bench); the per-block sort measured faster (its base variant)",
+   "machine": "D"
+  },
+  {
+   "knob": "fixed-prefix selection, 1024-sample threshold (OSD-ordering study)",
+   "note": "trade p50 for p99 (the rank-2 first batch was a misread of per-shot difference percentiles: it is the rank-2 sample knob, p99 -19..-28 us)",
+   "machine": "B"
+  },
+  {
+   "knob": "2-cycle early exit as an exact change (2-cycle early-exit study)",
+   "note": "not bit-exact (posteriors drift)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "persistent kernels",
+   "note": "0.4-2 us only (an early GPU BP build)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "16-block cluster barrier",
+   "note": "7-12x the grid.sync cost",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "cudaLaunchKernelEx instead of cudaLaunchCooperativeKernel (entry/launch study)",
+   "note": "0.02-0.04 us",
+   "machine": "B"
+  },
+  {
+   "knob": "event-query spin instead of the blocking stream sync (entry/launch study)",
+   "note": "0.17-1.04 us (sub-us)",
+   "machine": "B"
+  },
+  {
+   "knob": "CUDA graph per shot (a graph-launch variant of the entry/launch study)",
+   "note": "~1.4 us in-process, whole call inside the floor; allocates (stream + graph) inside the decode call",
+   "machine": "B"
+  },
+  {
+   "knob": "hand-written grid barrier (barrier study)",
+   "note": "1.49x tag-checked cg / 2.06-2.09x bare (machine J); conformant 1062.8 ns = 1.88x cg (machine D); relaxed 434 ns is non-conformant",
+   "machine": [
+    "J",
+    "D"
+   ]
+  },
+  {
+   "knob": "cluster(8)+leaders two-level barrier (barrier study)",
+   "note": "2.21-2.26x cg",
+   "machine": "J"
+  },
+  {
+   "knob": "one kernel launch per pass instead of grid barriers (barrier study)",
+   "note": "3.1-3.5 us per launch = 4.3-4.8x the barrier",
+   "machine": "J"
+  },
+  {
+   "knob": "partial / dependency-tracked grid barrier at the shipped mapping (barrier study)",
+   "note": "median reach 48/50/70 of 84 blocks",
+   "machine": "J"
+  },
+  {
+   "knob": "grid shaping / fewer blocks (barrier study)",
+   "note": "barrier flat 0.513-0.574 us over 16-168 blocks; xyz 843.7 us at 84 vs 1824.8 at 21 blocks",
+   "machine": [
+    "J",
+    "D"
+   ]
+  },
+  {
+   "knob": "fold the exit read into the barrier (barrier study)",
+   "note": "+160.7 ns/iteration",
+   "machine": "D"
+  },
+  {
+   "knob": "min-only reduction for the second minimum (check-pass study)",
+   "note": "inexact: the second minimum differs in 1518/1872 rows (iteration 1)",
+   "machine": "D"
+  },
+  {
+   "knob": "__ldcg hints in the check pass (check-pass study)",
+   "note": "+0.007 us per iteration",
+   "machine": "D"
+  },
+  {
+   "knob": "one xor reduction for both parities, isolated (check-pass study)",
+   "note": "+0.010 / +0.005 us per iteration (re-measurement, from its bench log)",
+   "machine": "D"
+  },
+  {
+   "knob": "more warps (252x256 instead of 84x512) (column-pass study)",
+   "note": "20.76 vs 18.37 us per iteration (+13%)",
+   "machine": "D"
+  },
+  {
+   "knob": "u16 row index alone (as a u16 array in GLOBAL memory) (column-pass study)",
+   "note": "+2.32% column pass",
+   "machine": "D"
+  },
+  {
+   "knob": "convergence by flips (convergence study)",
+   "note": "+98.8 us per shot (+13.2%) first measurement, +109 (+15%) re-measurement; upper bound on the counter design",
+   "machine": "D"
+  },
+  {
+   "knob": "further filter-pass micro-optimisation of the monotone-compare ordering filter (Zen 2)",
+   "note": "4% headroom (10.85 vs 11.35 us)",
+   "machine": "B"
+  },
+  {
+   "knob": "word mask (t==0 non-zero-word mask) (elimination study)",
+   "note": "+0.40..+0.57 us (slower); TZCNT itself -0.11..-0.28 us, negligible (the first attempt's timing compared identical code)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "zero-copy hand-off (kernel writes the 8n posterior into mapped host memory) [PLATFORM-SCOPED: 5070 Ti + Zen 2 only]",
+   "note": "237.3 / 159.5 us (two implementations) for 608 KB vs 26-37 us pinned D2H (4.3-7.6x); re-measurement 203.5 / 200.4; double2/st.cs stores 162-163 us (5070 Ti, PCIe 4) | machine H 5080 + Zen 5: mapped write of the 594 KB posterior 28.2 us vs 30.8 fill + D2H: NOT a dead end there (reopens the mapped-posterior variant)",
+   "machine": [
+    "G",
+    "H"
+   ]
+  },
+  {
+   "knob": "per-shot generation flag in mapped memory polled by a kernel instead of the stream sync (hand-off study)",
+   "note": "round trip 5.5-5.8 us (1 block) / 9.7-9.95 us incl. a 6.6 us empty launch vs 0.28-0.35 us cudaStreamSynchronize; 32 pollers 94-109 us",
+   "machine": "G"
+  },
+  {
+   "knob": "pageable host staging for the posterior (hand-off study)",
+   "note": "608 KB D2H 68-82 us vs 26-30 us pinned (2.6-2.8x)",
+   "machine": "G"
+  },
+  {
+   "knob": "cudaEventQuery spin instead of cudaStreamSynchronize (hand-off study)",
+   "note": "0.62 vs 0.64 us idle; +0.9 us behind work (cf. the entry/launch study's 0.17-1.04 us)",
+   "machine": "G"
+  },
+  {
+   "knob": "one contiguous D2H [status|dec|post] instead of three copies in one batch (hand-off study)",
+   "note": "-1.69..-1.74 us (one implementation, both measurements) / +4.7 (another implementation, first measurement) / +0.4 (re-measurement): <= 2 us either sign",
+   "machine": "G"
+  },
+  {
+   "knob": "derive the hard decision on the host from the posterior (ship status+post only) (hand-off study)",
+   "note": "host pass 65.8-65.9 us -> net +62..+67 us",
+   "machine": "G"
+  },
+  {
+   "knob": "chunked posterior D2H (8 chunks) to start OSD-0 early (hand-off study)",
+   "note": "first chunk 2.0-2.2 us earlier; all chunks 39.2 vs 26.4 us",
+   "machine": "G"
+  },
+  {
+   "knob": "single-level 12-bit histogram of osd_key, as the device-prefix proposal was written (hand-off study)",
+   "note": "K' = 17,415-19,392 at K=1024 (278-310 KB): top 12 key bits are sign+exponent (58,617 of 76,032 in one bin)",
+   "machine": "G"
+  },
+  {
+   "knob": "device prefix selection as a standalone pass (hand-off study)",
+   "note": "5-kernel two-level 58.1-60.5 us; one-block 16-bit 54.2-55.6, 14-bit 38.2-38.7, per-block 164-165 us vs <= 20-31 us of D2H saved (5070 Ti)",
+   "machine": "G"
+  },
+  {
+   "knob": "per-word non-zero mask for the t == 0 test (elimination study)",
+   "note": "+0.40..+0.57 us engine mean (slower; zero-test words 4.35M -> 0.145M)",
+   "machine": "B"
+  },
+  {
+   "knob": "no-XOR strip as an upper bound of the elimination's XOR cost (instrument; elimination study)",
+   "note": "invalid bracket: walk runs to 504 vs 49 columns/shot (+88.9 us, 159 wrong x)",
+   "machine": "B"
+  },
+  {
+   "knob": "cg barrier_arrive/barrier_wait split to hide the next pass's loads (70 SM) (barrier study)",
+   "note": "+26.6 ns at zero work; +165-180 ns per dependent load in the window (no overlap)",
+   "machine": "G"
+  },
+  {
+   "knob": "hand grid barrier with a non-volatile spin (barrier study)",
+   "note": "330-336 ns but 405k-408k stale readings per 200 barriers at 70 blocks (ptxas hoisted the load)",
+   "machine": "G"
+  },
+  {
+   "knob": "more blocks per SM (70-SM 5070 Ti) (barrier study)",
+   "note": "210x256 29.4-29.7 vs 70x512 27.5-27.6 us per iteration (cf. the column-pass study on 84 SM)",
+   "machine": "G"
+  },
+  {
+   "knob": "re-balance the check pass's row assignment (barrier study)",
+   "note": "gated by the 2-row warp: 4.58 vs 4.60 us at 1.11 vs 1.67 rows/warp; 1872 rows over 1120 (1344 at 84x512) warps always leave 2-row warps",
+   "machine": "G"
+  },
+  {
+   "knob": "stage the check pass's redge slice in shared memory (vs the barrier's CCTL.IVALL) (barrier study)",
+   "note": "+0.149 / -0.051 us per iteration (+-0.5%, bit-identical)",
+   "machine": "G"
+  },
+  {
+   "knob": "skip the post-barrier mis read when the block's own count is non-zero (barrier study)",
+   "note": "-0.060 / -0.064 us per iteration (-0.2%)",
+   "machine": "G"
+  },
+  {
+   "knob": "convergence by flips (second machine)",
+   "note": "+75.5 (first measurement) / +77.9 (re-measurement) us p50 (+9.1%), +2.40..+2.53 us per iteration (machine B 5080); machine D: +98.8 / +109",
+   "machine": [
+    "B",
+    "D"
+   ]
+  },
+  {
+   "knob": "publish the converged verdict with a third grid barrier per iteration (convergence study)",
+   "note": "priced: +48.7 us per shot vs 0.15 us saved (5090 quotes; >300x margin)",
+   "machine": "B"
+  },
+  {
+   "knob": "remove the trailing mismatch pass (in-place problems) (convergence study)",
+   "note": "-0.08 (bb144 z) / -0.72 (bb288 z) us per shot, inside the probe floor",
+   "machine": "B"
+  },
+  {
+   "knob": "software prefetch of the CPU check pass's gathers (2/4/8 ahead, T=8) (CPU-library study)",
+   "note": "+11.7..+15.0% check pass on bb144 xyz (Zen 5)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "drop the vloc scratch round trip in the CPU check pass (CPU-library study)",
+   "note": "+9.6..+11.6% check pass on xyz; +0..+1.2% on bb288",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "all-to-all flag barrier instead of the fetch_add barrier (CPU-library study)",
+   "note": "equality compare deadlocks; wrap-safe version 1.013-1.032 critical path (no gain)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "vectorised convergence scan (CPU-library study)",
+   "note": "stage 2.7-2.8x cheaper but 0.3-1.2% of an iteration",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "__restrict__ on the Dev arrays (column-pass study)",
+   "note": "0.00% / +0.73% whole (inside A/A)",
+   "machine": "D"
+  },
+  {
+   "knob": "kDualReg = false (column-pass study)",
+   "note": "-0.22 / -0.67% whole (inside floor); column pass +0.4..+1.8%",
+   "machine": "D"
+  },
+  {
+   "knob": "#pragma unroll 3 on the part-1 loop (column-pass study)",
+   "note": "+2.9..+3.1% whole",
+   "machine": "D"
+  },
+  {
+   "knob": "other shapes than 84x512 (column-pass study)",
+   "note": "384 thr 1.12x, 256 thr 1.29x, 42 blocks 1.55x",
+   "machine": "D"
+  },
+  {
+   "knob": "paired two-point slope estimator median(T31_i - T1_i)/30 (estimator study)",
+   "note": "<= 0.0037 us from the frozen estimator; A/A no tighter (0.0147 vs 0.0143)",
+   "machine": "B"
+  },
+  {
+   "knob": "edge-balanced LPT (heaviest-first, non-contiguous) column-to-block partition (layout study)",
+   "note": "two-point slope ratio 1.178-1.247 (first measurement), 1.178-1.240 (re-measurement); rows per block 175-225 -> 1770-1810 of 1872 (locality lost). Does not cover contiguous equal-work cuts",
+   "machine": "G"
+  },
+  {
+   "knob": "interleaved slots on high-waste in-place problems (no gate) (layout study)",
+   "note": "hgp98 z +11.1% (first measurement) / +11.2..+12.0% (re-measurement); bb144 z +3..+8% (template-ILV variant on machine G (EPYC 7K62 host): first measurement 1.026-1.054, re-measurement 1.031-1.083; chunk-aligned variant on machine G (EPYC 7532 host): 1.077-1.080, re-measurement 1.070)",
+   "machine": "G"
+  },
+  {
+   "knob": "per-warp-group slot stride (compact b2c) as the fix for the hgp98 z regression (layout study)",
+   "note": "still +11.1..+12.7% per iteration (9,600 slots, +15.25% padding; not 8,390)",
+   "machine": "G"
+  },
+  {
+   "knob": "round-aligned row layout (pad each 144-row round to a word boundary) for OSD-0 spans (layout study)",
+   "note": "words 30 -> 39, colbits 18.2 -> 23.7 MB, hi-lo=4 columns 20,448 -> 33,480 (sizing only)",
+   "machine": "G"
+  },
+  {
+   "knob": "degree-sort slot->column indirection on uniform-degree problems (layout study)",
+   "note": "bb288 z +1.99% (first measurement) / +1.71% (re-measurement) e2e median (extra dependent colperm load)",
+   "machine": "G"
+  },
+  {
+   "knob": "bit-packed O (k x n/64 words) + packed correction, AND+POPCNT observables (observables study)",
+   "note": "63.9 vs 21.6 us per shot (2.96x slower, Zen 2)",
+   "machine": "G"
+  },
+  {
+   "knob": "block width 16 or 64 instead of 32 in the observables block scan (observables study)",
+   "note": "+0.67 / +1.40 us (OSD class), +1.04 / +2.08 us (converged class)",
+   "machine": "G"
+  },
+  {
+   "knob": "create-time list of columns with a non-zero observable mask (observables study)",
+   "note": "59,184 of 76,032 columns (77.84%) have a non-zero mask on bb144 xyz: the list cannot shrink the scan",
+   "machine": "G"
+  },
+  {
+   "knob": "clear only the previous support instead of memset(n) of the correction (observables study)",
+   "note": "+1.30 / +3.49 us (first measurement), +2.01 / +1.78 (re-measurement); also not allowed: out_correction is caller-owned with undefined contents",
+   "machine": "G"
+  },
+  {
+   "knob": "column-domain H*x != s re-check on the vendored path (observables study)",
+   "note": "235 -> 3.5 us, but unreachable on machine A's problems (DEM-sampled s is in im(H); 0/3600 decodes deferred); a cs7 decode takes 36-39 s (the '742 ms' was a paired difference)",
+   "machine": "G"
+  },
+  {
+   "knob": "CUDA graph with the cooperative node, kernel parameters updated per shot (cudaGraphExecKernelNodeSetParams) (entry/launch study)",
+   "note": "per-shot sequence +0.45..+0.49 us vs the plain launch (first measurement + re-measurement, 5070 Ti); the static graph saves 0.77-0.93 us but cannot carry the per-shot syndrome; the launch-row '+0.140 us' does not reproduce (-0.170, re-measurement)",
+   "machine": "G"
+  },
+  {
+   "knob": "one contiguous D2H for [dec|status] instead of two copies in the same batch (entry/launch study)",
+   "note": "0.10-0.20 us (5070 Ti; the round trip is the sync, not the copy)",
+   "machine": "G"
+  },
+  {
+   "knob": "byte-at-a-time host bit-pack of the syndrome into the kernel parameters (entry/launch study)",
+   "note": "2.995 us vs 0.611-0.631 us for 8 detectors per step (base's three host passes 1.21-1.22 us)",
+   "machine": "G"
+  },
+  {
+   "knob": "cudaEventSynchronize or a cudaEventQuery spin instead of cudaStreamSynchronize (two more machines)",
+   "note": "<= 0.36 (first measurement) / 0.29-0.30 (re-measurement) us on 5070 Ti + EPYC 7532; +0.01..+0.05 us on a 5080 (the hand-off study's base variant)",
+   "machine": [
+    "G",
+    "B"
+   ]
+  },
+  {
+   "knob": "row-ordered (CSR) message copy written by the column pass so the check pass reads sequentially (check-pass study)",
+   "note": "check pass -4.38 us per iteration (convergence test kept) vs column pass +5.21..+5.27: net +0.894 us per iteration (re-measurement; the first measurement's -0.278 'wash' used a variant that also dropped the convergence gathers), 70x512",
+   "machine": "G"
+  },
+  {
+   "knob": "four rows per warp, 8 threads per row (3 shuffle rounds instead of 5) (check-pass study)",
+   "note": "+1.83 (re-measurement) / +1.97 (first measurement) us per iteration (+18..+20%), identical hashes",
+   "machine": "G"
+  },
+  {
+   "knob": "hand-issue all of a thread's check-pass gathers before the reduction (check-pass study)",
+   "note": "no lever: shipped SASS already has 8 LDG (redge) then 8 dependent LDG.E.64 per unrolled round; later gathers issued 39-46 instructions ahead (three independent SASS readings agree)",
+   "machine": "G"
+  },
+  {
+   "knob": "pack only the check pass's row store into one 16 B record (column-pass read unchanged) (check-pass study)",
+   "note": "-0.02 (first measurement) / -0.105 (re-measurement) us per iteration, inside A/A",
+   "machine": "G"
+  },
+  {
+   "knob": "convergence by flips (third machine and third implementation: per-flip atomicXor with return, per-thread previous-decision mask, block delta atomicAdd)",
+   "note": "+141.9 (first measurement) / +139.1 (re-measurement) us p50, +131.9 / +137.7 p99, +4.0..+4.9 us per iteration (1.15-1.19); converged class +45..+48 us; cand-first 1.139-1.152 vs ref-first 1.116-1.127 (70-SM 5070 Ti)",
+   "machine": "G"
+  },
+  {
+   "knob": "convergence by flips with per-iteration mismatch-counter slots and base_mis added at iteration 1 (first attempt)",
+   "note": "inexact: false convergence on 7/12 xyz tuning shots at (0.625,30) and 5/12 at (0.5,31) (exit 8-28 instead of 30)",
+   "machine": "G"
+  },
+  {
+   "knob": "the device-prefix proposal as written (histogram + compaction + 16 KB D2H) on an RTX 5080 (hand-off study)",
+   "note": "49.1-50.2 vs 25.5-25.8 us for the full 608 KB D2H (+23.3..+24.7); histogram pass alone 4.29-4.30 us (both measurements)",
+   "machine": "B"
+  },
+  {
+   "knob": "per-shot generation flag in mapped memory instead of the stream sync, RTX 5080 (hand-off study)",
+   "note": "+2.37 (first measurement) / +3.16 (re-measurement) us (the flag kernel's launch)",
+   "machine": "B"
+  },
+  {
+   "knob": "read the posterior through pinned mapped (zero-copy) host memory instead of the ordinary pinned staging (hand-off study)",
+   "note": "host scan of 608 KB +0.02 (first measurement) / +0.17 (re-measurement) us",
+   "machine": "B"
+  },
+  {
+   "knob": "two-point slope with K=1 process per create order (estimator study)",
+   "note": "insufficient_replication; median -1.51%, process-ratio spread 2.54% p-p vs 0.65% at K=3",
+   "machine": "G"
+  },
+  {
+   "knob": "reading the 2% min_effect as the per-class / whole-call p99 floor (estimator study)",
+   "note": "whole-call p99 A/A floor 0.026-0.084; per-class osd_path p99 A/A spread 2.4-5.7% p-p (shared 5070 Ti); two-point slope position bias up to 3.5% on bb288 (problem-linked): use the same-series A/A floor",
+   "machine": "G"
+  },
+  {
+   "knob": "n-scaled stride sample (n/64, rank 6) (OSD-ordering study)",
+   "note": "walk +6.3..+6.6 us bb288, +3.6 bb144 z, +16.9..+17.5 xyz a05ms31, xyz ms30 -1.4..-2.3 (noise); targeted counters 0 compactions / 0 sorts",
+   "machine": "G"
+  },
+  {
+   "knob": "looser first threshold via rank target (3564/4096 -> r 5/6; kSample 1024 + r 5) (OSD-ordering study)",
+   "note": "init +8.7..+11.3 us (interleaved, A/A <=0.7); kSample 1024 r5 66.5 vs 45.1 us init",
+   "machine": "G"
+  },
+  {
+   "knob": "re-size the long-walk machinery (compactions, full-sort fallback) for xyz (OSD-ordering study)",
+   "note": "never reached on xyz a05ms31: 0 compactions, 0 full sorts over 375 + 56 + 189 shots; cand max 1146-1418 of 2048",
+   "machine": "G"
+  },
+  {
+   "knob": "one full stable LSD radix sort instead of the batch machinery (OSD-ordering study)",
+   "note": "59-107x the walk (3.8-3.9 ms vs 36-66 us on xyz)",
+   "machine": "G"
+  },
+  {
+   "knob": "sort the whole candidate batch at the first next() instead of chunk doubling (OSD-ordering study)",
+   "note": "+3.0..+3.9 us per shot",
+   "machine": "G"
+  },
+  {
+   "knob": "one nth_element at kPrefix + sort instead of ascending chunks (OSD-ordering study)",
+   "note": "+2.6 us p50 on the final code (re-measurement)",
+   "machine": "G"
+  },
+  {
+   "knob": "rank 3 first batch (OSD-ordering study)",
+   "note": "+5.0..+5.1 us per shot mean, xyz a05ms31 streamed",
+   "machine": "G"
+  },
+  {
+   "knob": "drop the redundant NaN mask after the monotone-compare filter (OSD-ordering study)",
+   "note": "wash: filter pass -7.58 vs -7.84 us",
+   "machine": "G"
+  },
+  {
+   "knob": "further per-element work removal in the monotone-compare filter pass (Zen 2, DRAM-streamed)",
+   "note": "pass is 1.19-1.21x a bare AVX2 load-min pass (<=17% removable); conditional on Zen 2 streamed",
+   "machine": "G"
+  },
+  {
+   "knob": "dense micro-bundle without the span layout (parent memset trim, kept-bit count, top-word XOR bound, tvec trim, syndrome packing) (elimination study)",
+   "note": "elimination p50 +0.01/+0.27 vs A/A floor 0.15-0.32 (re-measurement -0.58 vs floor -0.59)",
+   "machine": "G"
+  },
+  {
+   "knob": "trim the parent-bitset clear alone (elimination study)",
+   "note": "-0.10 / +0.15 / +0.05 us p50",
+   "machine": "G"
+  },
+  {
+   "knob": "skip the 76 KB x_out memset by clearing only the last support (elimination study)",
+   "note": "-1.57..-1.76 us p50 but not shippable: the ABI gives no guarantee on out_correction's content",
+   "machine": "G"
+  },
+  {
+   "knob": "TZCNT instead of de Bruijn (sizing; elimination study)",
+   "note": "74 scans/shot x (5.81-3.11) ns = 0.20 us (corrected on re-measurement)",
+   "machine": "G"
+  },
+  {
+   "knob": "the elimination proposal's estimate for xyz (3-10 us p50, 10-35 us p99)",
+   "note": "measured <=2.3 us p50 by three implementations; p99 -7..-8 engine only for the CSC-rows version (Zen 2)",
+   "machine": [
+    "G",
+    "B"
+   ]
+  },
+  {
+   "knob": "instrument: rdtsc phase counters as a time split of run() (elimination study)",
+   "note": "instrumentation roughly doubles run() (85.7 vs 44.5 us); the '3x undercount' was warm-pass/reps arithmetic",
+   "machine": "G"
+  },
+  {
+   "knob": "instrument: warm min-of-repeats replay (elimination study)",
+   "note": "hides 1.75-2.07x of the walk's per-column cost (same walks)",
+   "machine": "G"
+  },
+  {
+   "knob": "formulation-only ILV gate (the chunk-aligned variant: interleave iff sum_mode, colmap load kept on the in-place col_pass) on the 84-SM RTX 5080",
+   "note": "bb144 z two-point slope ratio 1.058-1.075 vs base, slower in both orders (A/A <= 0.12%); e2e osd0.ms30 p50 +3.24 us (+1.8%), p99 +6.56 us, 6/6 run ratios 1.013-1.023; hgp98 z two-point slope ratio 1.010-1.014; no bb288 z gain (0.997-1.003) where the template variant's waste gate gets 0.950. Use the waste gate",
+   "machine": [
+    "H",
+    "G"
+   ]
+  },
+  {
+   "knob": "the chunk-aligned variant's compact warp groups as a speed fix for the template variant's block rounding (2 idle blocks predicted) at 84 SMs, bb144 xyz",
+   "note": "two-point slope ratio, chunk-aligned vs template variant, 0.9991-1.0003 (GPU 1) and 0.9996-1.0003 (GPU 0), A/A 0.9995-1.0018: no measurable gain (code hygiene only). Scope: xyz only",
+   "machine": [
+    "H",
+    "G"
+   ]
+  },
+  {
+   "knob": "XOR-carried sign parity (one shuffle chain for count parity + decision parity) in the in-place check pass (the XOR-parity check-pass probe) and the in-place whole body (the XOR-parity whole-body probe) (check-pass study)",
+   "note": "XOR-parity check-pass probe: bb288 z -0.42% / bb144 z +2.28% (first measurement), +2.8% / +7.3% (re-measurement); XOR-parity whole-body probe: bb288 +5.89% / bb144 -0.07% (first measurement), +40.1% / -0.9% (re-measurement); check-pass probe, 32 shots x 3 repetitions on a shared 84-SM 5080 (noise of the same order: no gain in two measurement series). In the row-summary pass the same combination ships inside the packed row-record step",
+   "machine": "J"
+  },
+  {
+   "knob": "fused gather+write in the in-place check pass (reuse the redge ids of the gather for the scatter; the fused gather-write probe) (check-pass study)",
+   "note": "bb288 z -0.19% / bb144 z +1.23% (first measurement), +3.7% / +5.0% (re-measurement), 32 shots x 3 repetitions",
+   "machine": "J"
+  },
+  {
+   "knob": "runtime random per-block permutation of the column->thread map, data left in CSC order (control for the degree sort) (column-pass study)",
+   "note": "-45.45 (first measurement) / -53.36 (re-measurement) us per shot whole body, -34.38 / -37.16 column pass alone (slower; probe 84x512, 64 shots, bit-identical); the per-block degree-sorted gather is +20..+28 faster, so the gather costs ~35-55 us per shot",
+   "machine": "J"
+  },
+  {
+   "knob": "instrument: stripped-variant whole-body microbench (check-pass probe, the difference between two of its stripped variants) to resolve a <= 3% kernel change",
+   "note": "same code and hashes, 4 runs: -1.18 (first measurement), -0.09, +2.12, +1.02 (re-measurement) us per iteration: sign flips; use library two-point slope",
+   "machine": "J"
+  },
+  {
+   "knob": "instrument: whole-call timing on the shared machine J for a 1-3% kernel change",
+   "note": "A/A floors p50 0.048-0.21, p99 0.17-4.2 (neighbours_busy); one change's run ratios 0.936-1.036 across 3 measurement series",
+   "machine": "J"
+  },
+  {
+   "knob": "instrument: unpaired single-run probe deltas (column-pass probe)",
+   "note": "variants read 20-94 us slower unpaired vs 20-124 us faster paired; per-run p10-p90 spread +-10-20%",
+   "machine": "J"
+  },
+  {
+   "knob": "b2c in shared memory as an earlier attempt built it (padded window)",
+   "note": "+6.2 % two-point slope ratio (an earlier attempt), +0.40 us per iteration, +7.3 us e2e (the shared-summary attempt's b2c_shared)",
+   "revive_if": "the b2c-window step's reserve-only-controlled full window at 84 SMs (now KEPT as knob b2c_window): problem/SM-count dependent",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "summary or the two minima as one 128-bit record",
+   "note": "+2.8 % (an earlier attempt), +7.4 % (the shared-summary attempt's edge_loads)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "u8 slot index in GLOBAL memory",
+   "note": "+13 % (an earlier attempt). Use the shared-summary attempt's shared-memory RSLOT",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "gathers-first restructure of the check pass",
+   "note": "+0.76 us per iteration, +8.0 e2e (the shared-summary attempt); an earlier attempt found the SASS already batches them",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "dropping the last b2c stores / staging the prior (the shared-summary attempt)",
+   "note": "+0.7 % / +0.4 %",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "per-column zero-syndrome reuse / any sparsified column pass",
+   "note": "+6.2-6.7 % (a sparsified-column attempt, both builds); iteration 2 reaches 79 % of rows",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "threshold from iteration max_iter-1's posteriors",
+   "note": "in [K, cap] on 0-11 % of shots (an OSD-threshold attempt)",
+   "revive_if": "a better predictor (priors + last-iteration keys, learned map): see the threshold-predictor item of the later-work list",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "larger first host chunk (cand_chunk512), seed chunks, AVX-512 partition (a host-walk attempt)",
+   "note": "+9.8 us / -0.1 / -0.1..+0.7",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "Four-Russians / bit-sliced elimination",
+   "note": "pivot vectors average 3.7 bits; word work <= 10-20 % (an elimination attempt)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "vectorised scan skip; free_skip standalone; prefetch on the lazy-chunk walk (an elimination attempt)",
+   "note": "worse / -0.7 % of host path / +0.3..+1.15 %",
+   "revive_if": "retest prefetch only inside the sorted-walk step on 6a's sorted sequence",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "rank(H) early exit in the walk",
+   "note": "the walk always stops on syndrome-matched; max 302 pivots vs 1860",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "measurement practice: timing steps below ~3 % on machine J or across measurement series / GPUs of machine B",
+   "note": "same code 13 us apart; GPU 1 ~4 % slower. Use quiet development machines (identity not recorded) and paired comparison measurement series",
+   "machine": [
+    "J",
+    "B"
+   ]
+  },
+  {
+   "knob": "deciding BP-loop steps on two-point slope alone",
+   "note": "~5 us of post-BP damage invisible to the two-point slope (the shared-summary attempt; decide on the whole-call rows)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "offline micro-benchmarks that repeat one input",
+   "note": "nth_element 1.2 vs 5.6 us in situ (a host-walk attempt); replay distinct shots once each",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "aiming a change at a single-series p99 term",
+   "note": "the stage-breakdown 119.55 / 9.3 outlier misdirected two attempts (elimination and OSD-threshold); take the stage breakdown twice",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "more warps per SM (768 / 1024 threads)",
+   "note": "STACK 176 / 240 B (gate kills it); register-lean pass +15 %/it at 512 threads; 1024 lean 13.66 vs 512 lean 13.53 us per iteration; primary 81.2 vs 73.6 (a BP-kernel attempt, machine D)",
+   "revive_if": "a GPU with more registers per thread / a different register-pressure profile",
+   "check_per_problem": true,
+   "machine": "D"
+  },
+  {
+   "knob": "two columns per thread",
+   "note": "two-point slope ratio 1.263, +10.2 us e2e: time follows instruction count; all nine gathers already in flight (a BP-kernel attempt)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "even warp step counts (warp_balance)",
+   "note": "two-point slope ratio 1.038, +0.6 us: all warps finish together and contend (a BP-kernel attempt)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "rank sort without the index tie-break",
+   "note": "stale sample slots, p99 +7.7 us (a BP-kernel attempt); always rank by (key, index)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "per-shot scalar staging of combine metadata",
+   "note": "5.8k cycles per shot cancels the gain at cap 3 (a BP-kernel attempt's metadata form); vectorise or overlap (done in the per-thread combine step of 6c)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "hoisting static per-column operands (cdeg, cperm -> prior)",
+   "note": "+263 cycles, already overlapped (a BP-kernel attempt, the per-column-operand hoist variant)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "prefix-pass traffic cuts: okey removed, pipelined sweeps, private histograms",
+   "note": "+0.04 us / +0.0 / +0.1 (+1.1 p99) (a prefix-pass attempt); the pass is latency-bound, bytes are free",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "carve-out / code-size hypothesis; moving the pass into its own kernel",
+   "note": "~51 KB dead-code probe -0.02..-0.04 us (a prefix-pass attempt, re-measurement); own kernel adds a launch",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "mismatch-only last combine on its own",
+   "note": "-0.20 us, below the 0.3 us rule (a last-pass attempt); it pays only on the per-thread combine step of 6c (as the mismatch-only last-pass step, -3.1)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "warming the host walk during the device wait",
+   "note": "64-column warm walk = -3.6 % of the elimination; a table sweep costs 191 us; previous shot covers 0.13 % of columns (a host-warm attempt)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "host-walk micro-steps below the floor (an elimination attempt's paired replay)",
+   "note": "walk-ready 4-byte records +0.24 %, parent-bitset trim +0.09 %, 2 MiB pages -0.93 %, prefetch distance != 2 worse",
+   "revive_if": "re-time branchless_reduction (-7.5 % of elimination on that attempt's base; +9.9..+10.5 % on 6b's walk) and arenas (-2.6 %) only on machine A or a quiet development machine (identity not recorded)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "cheaper / L1-keeping grid barrier (a grid-sync attempt and a BP-kernel attempt on machine B)",
+   "note": "L1 retention < 0.25 % of the column pass; every fence / acquire emits CCTL.IVALL on sm_120; relaxed counter barrier deadlocked; acq / rel cost the combine +1.25k cycles",
+   "machine": "B"
+  },
+  {
+   "knob": "prefetching the combine's address chain before the grid barrier (a BP-kernel attempt)",
+   "note": "barrier ordering waits for the loads: +0.15-0.19 us per iteration; at the top of the iteration it moves into the column pass (REG 128): neutral",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "cp.async staging of combine metadata under iteration 1 (a BP-kernel attempt's staging_async)",
+   "note": "p50 +0.1, p99 +0.8; pre-loop stage 3,475 -> 3,106 cycles (0.13 us)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "skipping the u64 shared atomicMins on a plain-read proof (a BP-kernel attempt's acc_fastpath)",
+   "note": "+1,067 cycles/it; the atomics are cheap",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "writing deferred-exit scratch from registers (a BP-kernel attempt's scratch_parity); reading mis[it-2] early (mis_prefetch)",
+   "note": "neutral; +0.1 / +0.6",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "two threads per row in the combine with a 4-wide owner loop (a BP-kernel attempt's pair-rows form)",
+   "note": "16 B spill, combine +1.1-1.4k cycles (another BP-kernel attempt's thread-pair combine without the 4-wide loop fits, then dropped as a 6c step)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "four compile-time FIRST x LAST instantiations of the fused column pass (a last-pass attempt)",
+   "note": "328-336 B stack, +0.445 us; use runtime-uniform flags",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "whole prefix pass outlined (a prefix-pass attempt's noinline_pass)",
+   "note": "two-point slope recovers 1.2 % but the call costs +1.1 us; only cap gating could pay (caps >= ~10)",
+   "revive_if": "a cap-gated outlined prefix pass with pointer arguments (6c direction)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "a persistent kernel (a persistent-kernel attempt of a later build)",
+   "note": "solo a wash (87.99 vs 87.47 us); the bench's two handles per process force a yield, +6.1 us; not exact on bp handles",
+   "revive_if": "a doorbell / persistent launch for the launch-tail: see the static-graph item of the later-work list and the ranked idea list (rank 5)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "sparse pivot lists in the host walk (two elimination attempts)",
+   "note": "median 0.82-0.92 but >= 128 columns 1.00-1.08, >= 256 columns 1.11-1.21; whole call p99 +1.0 / +1.8 (re-measurement +2.4); gated hybrid pays ~4,600 cycles per switch and no gate predicts depth (syndrome weight Pearson 0.58)",
+   "revive_if": "a problem with only shallow walks (low-weight syndromes): check per problem",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "AVX-512 gathers in the walk (an elimination attempt)",
+   "note": "1.075-1.09 slower; Zen 5 vpgatherdd is microcoded",
+   "revive_if": "a CPU with fast gathers (check per CPU)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "column-block elimination at any block size (an elimination attempt, exact 2000/2000)",
+   "note": "block / serial 1.04-1.29; interleaved 1.20-1.54; in-block XOR share only 4.3-15.8 %",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "host data-layout work on the walk (two elimination attempts)",
+   "note": "table lines are 8.6-10.9 % of a cold walk (not the 18 % claimed); below every floor. Note: data misses are ~45 % of the cold walk (a machine-A host-walk measurement) - the host-prefetch attempt's host-walk step of 6f (valignq + zero-skip) is the live form",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "removing host record copies alone (a device-sort attempt and a mapped-hand-over attempt)",
+   "note": "microbench 49.6 ns per 6.9 KB (device-sort attempt); a 6c host-record step unresolved twice alone, kept only paired with the other at -0.5; +0.24 us misses on device-written lines (mapped-hand-over attempt)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "warming the walk's prologue in the device wait on 6b's walk (a 6c step); syn_pack / syn_bits_vec alone",
+   "note": "0.0 / +0.1; -0.3 / -0.2 and unresolved at 6 + 6 runs",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "hierarchical cluster barrier (a cluster attempt, first step)",
+   "note": "2 x cluster.sync + leader barrier over L2: 550-1,076 ns vs grid.sync 540-545; ties at best. With the hand-rolled barrier's 1.65x (an early GPU BP build) and the grid-sync attempt's L1 result the barrier implementation is closed",
+   "revive_if": "a GPU with larger clusters / faster DSMEM",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "DSMEM owner combine (a cluster attempt)",
+   "note": "one 16 B DSMEM read = 2.0-2.4x an L2 read; slower at every cluster size; the push step of 6e supersedes it",
+   "revive_if": "GPUs with faster DSMEM",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "clusters of 7 / 8 at 84 SMs",
+   "note": "do not place (7 GPCs x 12 SMs: 49 / 56 blocks); placeable k <= 8 reach <= 45.4 % in-cluster reads",
+   "revive_if": "different GPC layout",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "launch-tail levers measured dead (the launch-tail attempt on a machine whose identity is not recorded, 6c)",
+   "note": "smaller param block 696 -> 272 B: 5.5 -> 4.5 % slow, p99 unchanged (Dev-pointer form +2.85 us body); cudaLaunchKernelEx same positions; poll loop without pause / on its own line: noise; link speed 32 GT/s throughout",
+   "revive_if": "only the wrap's placement (steering), the graph or the IOMMU mode can move it",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "driver-API cooperative launch (a mapped-hand-over attempt)",
+   "note": "1.343 -> 1.242 us (-0.10); empty 84x512 kernel launch -> host-visible flag 6.07 us p50",
+   "revive_if": "a resident kernel",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "status-word packing (a mapped-hand-over attempt)",
+   "note": "0.01 us (re-measurement -0.009)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "repick collected straight into mapped memory (a mapped-hand-over attempt; a repick attempt's bulk form)",
+   "note": "+2.2 us per call; the repick attempt's mapped_repick rung-two +1.0..+1.8 p50, round trip 12.0 vs 10.87. Device -> host publication loses to DMA + sync for 32 KB. Closed",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "mapped hand-over publish as a __noinline__ function (a repick attempt; a 6c step)",
+   "note": "two-point slope ratio -0.4 % and primary +0.3..+0.4 (6b); two-point slope ratio 0.9995, -0.1 / -0.6 unresolved (6c); two bases, no gain",
+   "revive_if": "inside the loop-hoist codegen direction",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "earlier rung-two transfer on the device's overflow count (a repick attempt, step d)",
+   "note": "no trigger exists: rung one overflows on host walk exhaustion; no dev shot reaches the 640 cap",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "rung two sorted on the device (a repick attempt, step c) as a p99.9 lever",
+   "note": "bounded at ~2 us p50 on the forced rung-two class",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "mapped converged decisions judged on the pooled p50 of a bimodal preset (a mapped-hand-over attempt killed one such build)",
+   "note": "artefact: pooled p50 falls on the cliff between classes; per class it is -4.4 us. Never judge a z preset on pooled p50 (the mapped-decision step is a delta: see knob mapped_decisions)",
+   "revive_if": "a per-shape gate + a failure test that fires on its paths",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "rung two sorted on the device with the cnt^2 rank sort (a device-sort attempt)",
+   "note": "p50 61.1 / 61.1; p99.9 inside the A/A spread (131.0 vs 124.3, A/A 114-118)",
+   "revive_if": "the repick attempt's step c must solve the sort's cost first",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "staging the rank sort only in blocks that hold records (a device-sort attempt)",
+   "note": "+0.1",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "larger rung one on the cnt^2 P6 (a rung attempt: 384 / 640 -> 512 / 896)",
+   "note": "p50 +0.8 both orders; p99.9 -8.9, max -11.7",
+   "revive_if": "re-price on a cnt-linear P6 (the pushed histogram): see knob osd_cap_rungs",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "early speculative repick from inside rung one's walk (a rung attempt)",
+   "note": "p50 +0.44, p99 +1.84; false triggers pay 4-11 us of issue calls",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "posterior speculation under rung two's walk (a rung attempt, step d)",
+   "note": "+6.3..+23.7 us at every window; the per-column trigger check alone ~6 us",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "row-locality column partition on bb144 xyz (a row-partition screen)",
+   "note": "the shipped contiguous layout is the best of seven (median 9 / max 12 slots); any partition reaches >= 8 / 12 with more slots",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "cross-block balance as a per-iteration lever (the block-balance attempt)",
+   "note": "max block cannot come down (two warp groups per warp is the ceiling, a third costs 8.93 vs 6.75 us/block); balancing raises the column-pass mean 7.36 -> 7.40; two-point slope +0.65..+0.9 %; whatever it gains is iteration 1's (the block-balance step of 6d nevertheless nets -0.4 at cap 3: see knob balance_gate)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "merge_rows on top of merge_meta2 (a 6c combine step)",
+   "note": "+0.1 / -0.1, neutral at every cap; the block-balance attempt's first next idea refuted; the 6d row-combine form +0.9 slower at every xyz cap",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "osd_rank_sort by pointer as a two-point-slope / cap 3 lever (a 6c step); outlining the prefix-pass attempt's rank loop (a 6c step)",
+   "note": "0.0 / 0.0 (29.6 MB of prologue local stores per launch cost nothing); two-point slope -0.14 %, nothing at cap 3 / 31",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "reverting the last-pass attempt's FOLD (a 6c variant)",
+   "note": "+0.8 / +1.0 at cap 3, +1.2 / +1.8 at cap 31: the fold pays everywhere",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "shape-gated column partition for the z presets (a row-partition attempt)",
+   "note": "bb144 z a05c15 +5.6 %, a05ms31 +5.1 %, bb288 z +1.2 %: those shapes run the in-place schedule, where the owner-slot cost does not exist",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "exact soft DADD on the integer pipe (an FP64-add attempt)",
+   "note": "+7,944 cycles per pass at the best split vs a ceiling of -2,344 even if every add were free; the FP64 add direction closed; the alpha-reciprocal step's alpha_rec32 removed the DMUL",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "b2c in the fused ILV kernel's shared memory as an earlier attempt built it (a build-5 variant: 66.8 KiB window)",
+   "note": "two-point slope +6.2 %; the padded window does not fit beside 6c's 35.2 KB",
+   "revive_if": "the b2c-window step's reserve-only control + compact window (kept in 6f, 84 SMs only)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "per-edge u8 row-slot index",
+   "note": "an earlier attempt: two-point slope +13 % (+6.5 % from the restructure alone)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "the loop-hoist attempt's four codegen fixes after loop_hoist (machine H two-point slope)",
+   "note": "prefix_noinline 0.9761 with STACK growth (breaks the rule), peel_first 0.9985, mis_prefetch 1.0003, combine_barriers (-3 block barriers) 0.9988: the iteration is not instruction-, fetch-, block-barrier- or convergence-load-bound",
+   "machine": "H"
+  },
+  {
+   "knob": "the two partial-minimum arrays as one 16 B pair (a 6d variant)",
+   "note": "+0.2 / +0.4, slower at every cap: with the metadata in shared memory the combine's owner loads are not the critical path",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "pre-reducing the part-2 shared atomicMins (the loop-hoist attempt's first next idea)",
+   "note": "the FP64-add attempt's strip removed shared row accumulation entirely for -2 cycles per pass",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "async (cp.async) prologue staging (a BP-kernel attempt's staging_async)",
+   "note": "pre-loop stage 3,475 -> 3,106 cycles (0.13 us); row +0.1 / +0.8",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "the block-balance attempt's margin gate for bb288 z (a 6d variant, kBalMarginPct 7)",
+   "note": "bb288 z +0.5 % stays with uniform chunks: it is the block-balance step's colbase[] load + Dev +8 B, not the partition",
+   "revive_if": "the uniform-table formula (6d direction)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "P6 as a grid-parallel rank sort (a prefix-pipeline attempt)",
+   "note": "+0.0 / -0.2; the 'sort alone 1,137-1,466 cycles cheaper' is unbacked per its re-measurement",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "P3 / the collect strided by block (a prefix-pipeline attempt)",
+   "note": "-0.1 / +0.1; barrier 2's spread unchanged at 1,312 ns",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "key fold into the last column pass (a prefix-pipeline attempt's key_fold)",
+   "note": "+0.1 / +0.3, two-point slope ratio 1.021 (codegen). Twice dead with the parity-buffer step's step c",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "kOsdS 512 -> 256",
+   "note": "+0.8 / +6.5; repicks 8 -> 22 of 2000",
+   "revive_if": "see knob osd_cap_rungs",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "threshold scan P4 by one warp or staged in shared memory",
+   "note": "+1.1 / +1.5 (P4 4,746 vs 2,141 cycles); +485 cycles",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "fixed-rank threshold (a prefix-pipeline attempt)",
+   "note": "refuted by per-rank counts: r = 4 gives 12.5 % over the cap, 5.5 % under the walk's p99 depth",
+   "revive_if": "a better predictor (the threshold-predictor item of the later-work list)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "each block sorting the stride sample itself to drop barrier 1",
+   "note": "pass 27,700 -> 35,737 cycles",
+   "revive_if": "the pushed-histogram step dropped the barrier differently (KEPT)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "reduced-echelon (Gauss-Jordan) host basis (a Gauss-Jordan attempt)",
+   "note": "1.51-1.72x at < 64 columns, 2.42-2.61x at >= 256; new-pivot query O(rank^2/2); chain is only 1.49 XOR steps per column",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "register-resident reduction vector with mask-op scans (an elimination attempt); another elimination attempt's branchless reduction on 6b's walk",
+   "note": "+8.4..+11.0 %; +9.9..+10.5 % (was -7.5 % on that attempt's base); a base scan trip ~7 cycles warm, mask iteration ~60",
+   "revive_if": "the in-situ mode (shuffled shots) of a machine-A host-walk measurement shows a predictor share",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "basis-row prefetch from the pivot-row bits (a Gauss-Jordan attempt); back-substitution accumulator in zmm (an elimination attempt)",
+   "note": "+10.4..+13.2 % (full form +30.8 %); not exact (56 / 2000), +34-38 %",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "compact arenas / layout for deep walks (an elimination attempt)",
+   "note": "WITHDRAWN after a machine-A host-walk measurement: the attempt's touch never warmed the missed lines; data misses ~45 % of the cold walk. Live direction (the host-prefetch attempt) = the host-walk step of 6f",
+   "revive_if": "live: layout / prefetch with a cross-shot predictor",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "cost models from a cold replay (an elimination attempt)",
+   "note": "175-223 cycles/column was the cold state, warm reduction 57; always fit cold / touch / reps and quote warm and touch numbers",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "hand-edited ledger keep cells (as in a last-pass attempt); timing on the non-V-cache CCD while the design record says CPU 1",
+   "note": "rows not trusted; every host-timing statement must print the pinned CPU",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "shrinking the launch params to move the wrap (the launch-tail attempt on a machine whose identity is not recorded; a launch attempt)",
+   "note": "696 -> 272 B: 5.51 -> 4.52 %, p99 unchanged; Dev-by-pointer +2.85 body / +3.0 call p50; flat 128 B bands, P = 32,462 / (1,499.5 + param)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "cudaLaunchKernelEx; poll-loop variants; CUDA_DEVICE_MAX_CONNECTIONS; a leading event record (the launch-tail attempt)",
+   "note": "no change",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "event records / memsets as wrap absorbers, at any phase (the launch-tail attempt; a machine-A paired series)",
+   "note": "4.2-4.7 % share vs 4.6 % control; only a launch-sized command advances the ring",
+   "revive_if": "see steering below",
+   "machine": [
+    "not recorded",
+    "A-oc"
+   ]
+  },
+  {
+   "knob": "a no-op of any size after every launch",
+   "note": "main launch's crossing chance stays (its bytes)/(ring); the launch-tail attempt's 5.5 kB no-op 3.5-5.0 % vs 2.3-5.6 %",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "per-shot-SetParams graph on the cooperative launch (a launch attempt and the launch-tail attempt)",
+   "note": "+0.18 us per shot net (launch attempt); call p50 unchanged (launch-tail attempt). Only the static form (the static-graph attempt) was open",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "plain instead of cooperative launch",
+   "note": "0.02 us",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "calibrated dummy-launch steering as a call-level lever (the launch-tail attempt's steps b.6 / b.7 on a machine whose identity is not recorded, driver 595; a machine-A series on driver 615 with the real decoder)",
+   "note": "on the unrecorded machine: removes the wrap at the A level (period 25-41, A p99 ~9.0) but +0.15..+0.5 us call p50, mixed p99; on machine A: share 6.1 -> ~5.0 %, call p99 -0.03 paired, p50 unchanged (rule needs < 2 %); the create-time census is unstable (periods -1/4, 22/6, 13/6; bytes 1152-2633), the real-launch bootstrap always finds period 14.0 but inherits the fixed-byte error",
+   "revive_if": "exact command-byte accounting of the real launch (a two-size bootstrap of the real kernel); a machine-A empty-kernel result (1.67 % with one predicted-phase dummy, 0.90 % with two) proves the mechanism",
+   "machine": [
+    "not recorded",
+    "A-oc"
+   ]
+  },
+  {
+   "knob": "static graph whose syndrome arrives by a mapped PCIe read in front of the staging (the static-graph attempt)",
+   "note": "launch -0.38, body +0.77, net 0 (block 0's 0.77 us PCIe read of the 512 B shot block)",
+   "revive_if": "the static-graph attempt's publisher-block form (publisher block, 16-thread syndrome read) or knob gdrdrv_host_writes",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "any exact device-side progressive hand-over of the first record group (a progressive-hand-over attempt, machine B)",
+   "note": "block-0 rank sort 7.4-28.7 us after P5; grid-wide forms 4.2-5.2 us; window 3.49 -> 1.6-1.8; handshake 1.66 + staging 1.82",
+   "machine": "B"
+  },
+  {
+   "knob": "64-record whole-key-run first group (a progressive-hand-over attempt)",
+   "note": "no such boundary exists: the first sample bucket holds ~148 columns",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "trimmed hand-over (first 256 sorted records, reload past them; a progressive-hand-over attempt)",
+   "note": "-0.1 / +0.5; bb288 z +2.7 / +2.1; the 0.71 us fence dominates the copy it saves",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "rank sort writing records straight into the mapped block with per-writer system fences (a progressive-hand-over attempt's direct_handover)",
+   "note": "+11.3 / +12.7: scattered 16 B mapped writes from 84 SMs lose to block 0's coalesced copy (third such measurement: the mapped-hand-over attempt +2.2, the repick attempt's mapped repick)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "cross-shot pipelined batch decode for the latency metric (a progressive-hand-over attempt)",
+   "note": "neutral for one call per shot; 256-shot batch period 52.5 -> ~43.5 us is a throughput number only",
+   "revive_if": "if throughput is ever quoted (the later-work list)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "host-ordered first chunk unless its screen clears (the host-ordered-first-chunk attempt)",
+   "note": "needs the second-group minus first-group time >= 2.0 us with a selection <= 0.6 us; net was 2.76 us on 6e but killed by a mis-set bar (re-seated in a second form on 6f)",
+   "revive_if": "the second form dies on 6f: device-side first-k selection",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "warp-aggregated histogram bins (the pushed-histogram step's warp_bins; mask form)",
+   "note": "+0.3 / +0.8; mask 0.0 / -0.3",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "dropping the okey store (the pushed-histogram step's key_recompute)",
+   "note": "-0.2 / -0.2 unresolved (the store is L2-resident)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "one bin byte per column in the collect (the pushed-histogram step)",
+   "note": "+0.1 / +0.4: the collect is latency-bound",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "folding the bin sweep into the last column pass (the pushed-histogram step's fold_bins)",
+   "note": "-0.1 / -0.4 unresolved; moving P1 or P5 into LAST pays nothing: third time for this family (the prefix-pipeline attempt's key_fold, the parity-buffer step's key fusion)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "staging only the block's rows after the push (the push attempt's step d; a 6e window trim alone)",
+   "note": "+0.1 / 0.0; 0.0 alone (it is the b2c window's room, kept as the pair)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "a prologue grid barrier for the accumulator init (the push attempt's probe)",
+   "note": "+1.06 us per shot; use the rotation (the push step of 6e)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "isolating the iteration-1 publish: no b2c stores, host-side init, prefetching accumulator words (the push attempt)",
+   "note": "3,072 vs 3,136 ns; 3,168; no change",
+   "revive_if": "a barrier-stagger attempt's step 0 (stagger half the blocks by ~1 us) confirms >= 1 us at the block level",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "occupancy: 2 blocks / SM or 168 blocks (the push attempt)",
+   "note": "64 registers + 168 B of spills, iterations +31..+65 %",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "partial b2c window selected per edge (the b2c-window step)",
+   "note": "two-point slope ratio 0.9615 vs 0.9230 for the one-pointer full window; the doubled instruction stream costs ~3.4-3.9 points (across measurement series: 3.85 per its re-measurement)",
+   "revive_if": "re-measure in ONE measurement series before citing",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "writing the OSD keys in the last column pass (the parity-buffer step, step c)",
+   "note": "two-point slope ratio 1.0004, +0.1 / +0.2 (the prefix-pipeline attempt's key_fold +0.1 / +0.3, two-point slope ratio 1.021): twice dead",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "reduce_slim (the host-prefetch attempt)",
+   "note": "warm +10.9, cold +12.8 cycles/column",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "reduce_hotpath (the host-prefetch attempt's second form as a replay claim)",
+   "note": "warm replay -6..-14 but the call +0.1 / -0.1 (that form, as part of the host-walk step of 6f, is the vector zero-skip, kept)",
+   "revive_if": "a shuffled-shot replay mode / cross-shot predictor state",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "judging host-walk steps on warm-reps replays",
+   "note": "they over-train the predictor (the host-prefetch attempt's second form gained -14 there, nothing in the call); use a shuffled-shot mode or whole-call rows",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "reading tails / p99 on a machine whose identity is not recorded while its CFS quota (15.36 CPUs) is on",
+   "note": "a 6e window trim: p99 100-110 us, max 2 ms",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "deciding push-era kernel steps on 13.0 rows",
+   "note": "the push step spilled 40 B on 13.0, 8 B on 13.3; every row prints nvcc",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "failure tests that pass when nothing fired (a failure-test attempt)",
+   "note": "the failure-buffer test reported AGREE with 3 of 4 classes never firing; under 13.3 <<<>>> launches bypass the shim as __cudaLaunchKernel; use that attempt's forwarder and fixed test",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "library sha256 as a provenance check across checkouts",
+   "note": "nvcc embeds a tmpxft name and the anonymous-namespace path hash; compare normalised SASS / host .text",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "leaving a dropped direction's shipped-path edits in the final build (the static-graph attempt)",
+   "note": "SHSUM staging move and an Engine::run split changed every fused instantiation's SASS for a dropped step",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] profile more problems against the discarded directions",
+   "note": "out of scope for the frozen release; some dead ends may be problem-dependent knobs",
+   "revive_if": "run the dead ends (exact and lossy) on other codes / noise models / caps and add winners here",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] 2-core look-ahead host walk",
+   "note": "needs a library-owned thread (product contract); est. deep-walk p99 -1.4..-2.5 us",
+   "revive_if": "a caller-provided second core / thread pool in the API",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] predicted OSD threshold tau from iteration max_iter-1 (the threshold-predictor idea)",
+   "note": "screen: the set changed on 96 % of shots, 1.65 % past the cap; barrier + scan it would remove ~1.3 us",
+   "revive_if": "a better predictor (priors + last-iteration keys, or a learned map)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] host-ordered first chunk (the host-ordered-first-chunk attempt)",
+   "note": "killed by a mis-set component bar (net 2.76 us on 6e); re-seated in a second form on 6f",
+   "revive_if": "the second form dies on 6f (the pushed histogram moved the stamps): device-side first-k selection",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] static CUDA graph launch + mapped shot block (the static-graph attempt)",
+   "note": "block 0's PCIe read of the shot block (0.77 us) ate the launch saving; whole call flat",
+   "revive_if": "the static-graph attempt's publisher-block form (dedicated publisher block) or knob gdrdrv_host_writes",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] launch-tail wrap steering (empty-kernel dummies at the byte-predicted wrap)",
+   "note": "no lever on drivers 595 / 615 with the real decoder (share 6.2 -> 5.0 %)",
+   "revive_if": "exact command-byte accounting of the real launch (two-size bootstrap)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] cross-shot pipelined batch decode (a progressive-hand-over attempt)",
+   "note": "throughput only; one-call latency unchanged",
+   "revive_if": "if throughput is quoted: 256-shot period 52.5 -> ~43.5 us (est.)",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] thread-block clusters + DSMEM combine (a cluster attempt)",
+   "note": "5080: in-cluster share 45 %, DSMEM 2.0-2.4x L2, hierarchical barrier >= grid.sync",
+   "revive_if": "GPUs with larger clusters / faster DSMEM",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] two-level push for high-owner rows",
+   "note": "bb288 z a05ms31 +0.3 % with the push (atomic contention at L2)",
+   "revive_if": "a per-shape push / pull choice or intra-block pre-combining",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] z-preset shared window (CSC / non-ILV kernel)",
+   "note": "the headline problem is bb144 xyz; z presets are secondaries (flat)",
+   "revive_if": "if the z presets matter (other uses, other codes)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] mapped decisions on the converged path (knob mapped_decisions)",
+   "note": "-3 us on the z presets' converged class; bb288 z OSD +2.2 / long-cap +0.3 % costs",
+   "revive_if": "a per-shape gate and a failure test that fires on its paths",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] loop hoist (knob loop_hoist)",
+   "note": "-0.5 us; STACK growth on non-RSLOT kernels",
+   "revive_if": "a REG / STACK table on 13.3 with no growth",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] host walk: data prefetch / predictor-friendly scan",
+   "note": "the host-walk step of 6f (its two vector forms) kept; remaining ~3.1 mispredicts / column and deep walks not attacked",
+   "revive_if": "cross-shot predictor state or a different elimination order",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] pushed-histogram leftovers (512 bins, vectorised bin scan, one-chunk P6)",
+   "note": "<= 0.35 us each",
+   "revive_if": "bundle as one step local to a build (see knob osd_histogram_bins)",
+   "check_per_problem": true,
+   "machine": "not recorded"
+  },
+  {
+   "knob": "[later work] keep-warm inside the library with no caller call",
+   "note": "the library starts no thread",
+   "revive_if": "a caller-owned idle hook already ships (the keep-warm hook of 6f); a persistent-kernel form is a research question",
+   "machine": "not recorded"
+  },
+  {
+   "knob": "fire-and-forget grid barrier (release-ordered arrival + acquire poll on a u32 counter, bounded waits) on 6f",
+   "note": "cap 3 p50 +0.0 / p99 +0.4, a05ms31 +1.4 (+0.6 %), two-point slope ratio 1.001; the barrier form itself ~+45 ns per barrier vs grid.sync (the fire-and-forget attempt, machine B, 13.3). On 6e it was -0.7..-0.8 (a barrier-stagger attempt): that gain came from overlap 6f already removed (the parity-buffer and pushed-histogram steps), so it depends on the base",
+   "machine": "B"
+  },
+  {
+   "knob": "last-toucher row push (per-row completion counter; the completing thread pushes the row inside the ILV pass) on 6f",
+   "note": "exact form bit-identical, base resources, but two-point slope ratio 1.3316 (9.499 vs 7.140 us per iteration) = +5.7 us device per decode (a row-push attempt, machine J, 13.3): completion counter +0.47 us per iteration, extra shared atomic +0.28, push inside the pass +2.03 (on the slowest warp's critical path; grid-barrier wait 1.28 -> 3.46 us). The inexact strip's -1.9 us device is not reachable; only ~0.26 us per iteration of it is the loop itself",
+   "machine": "J"
+  }
+ ],
+ "knobs": {
+  "alpha": [
+   {
+    "knob": "ms_scaling_factor (alpha)",
+    "exact": false,
+    "metric": "kind",
+    "value": "lossy"
+   },
+   {
+    "metric": "component",
+    "note": "none (time-neutral)"
+   },
+   {
+    "metric": "status",
+    "note": "adopted (0.5). PER-CIRCUIT (alpha x cap surface screen, full surface): bb144 xyz best at alpha 0.3125-0.375 at every p (p2e-3: (0.3125, 7) 0.649, (0.375, 5) 0.728; p3e-3: 0.67-0.73 for caps >= 7, cap 5 0.79-0.82; even (0.3125, 3) ~ the (0.5, 31) reference: 0.887 / 1.074 / 0.591 at p 2e-3 / 3e-3 / 1e-3), flat for caps >= 5-7; bb144 z p2e-3 best at alpha 0.5 and wants caps >= 15 (cap 11 1.10, cap 15 1.03; every other alpha 1.2-3.3x worse). The 10M-shot confirmation confirmed (0.375, 7) at p1e-3 (0.742 [0.59, 0.938]). Presentation choice: open with the best tuned bb144 xyz preset; faster presets ((0.3125, 3/5), (0.375, 5)) then under the 3M-shot confirmation"
+   },
+   {
+    "metric": "status",
+    "note": "3M-shot confirmation (3M p1e-3 + 500k p2e-3): every cap >= 3 acceptable at alpha 0.25-0.5 (CP99 < 1e-4, no cliff); cap 1 fails everywhere; cap 2 only at 0.3125. Fastest acceptable on the bench: (0.3125, 3): LER 1.17e-5 (CP99 1.71e-5) at p1e-3, 0.85x ref at p2e-3; with an earlier build (before 6c) 124 / 173 us OC. Recommended headline preset (decision left to the project owner)"
+   },
+   {
+    "value": 0.625,
+    "cap": 30,
+    "knob": "stock",
+    "ler": 0.00022
+   },
+   {
+    "value": 0.5,
+    "cap": 31,
+    "ratio": 0.058,
+    "metric": "LER ratio vs stock",
+    "ci": [
+     0.05,
+     0.067
+    ],
+    "study": "12.5M-shot pooled reference",
+    "note": "the pooled reference against the 800k-shot alpha study's stock"
+   },
+   {
+    "value": 0.3125,
+    "knob": "any cap",
+    "ratio": [
+     0.017,
+     0.061
+    ],
+    "metric": "LER ratio vs stock",
+    "study": "800k-shot alpha study",
+    "note": "3 failures at 800k: promising, unmeasured at full size"
+   },
+   {
+    "value": 0.3125,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 22,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.864,
+    "ci": [
+     0.503,
+     1.5
+    ],
+    "failures": 19,
+    "study": "2M-shot alpha x cap screen"
+   },
+   {
+    "value": 0.3125,
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 22,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.955,
+    "ci": [
+     0.559,
+     1.64
+    ],
+    "failures": 21,
+    "study": "2M-shot alpha x cap screen"
+   },
+   {
+    "value": 0.3125,
+    "cap": 31,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 22,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 1.091,
+    "ci": [
+     0.644,
+     1.83
+    ],
+    "failures": 24,
+    "study": "2M-shot alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 22,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.545,
+    "ci": [
+     0.314,
+     1.02
+    ],
+    "failures": 12,
+    "study": "2M-shot alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 22,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.773,
+    "ci": [
+     0.454,
+     1.35
+    ],
+    "failures": 17,
+    "study": "2M-shot alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 31,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 22,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.955,
+    "ci": [
+     0.576,
+     1.59
+    ],
+    "failures": 21,
+    "study": "2M-shot alpha x cap screen"
+   },
+   {
+    "value": 0.4375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 22,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.545,
+    "ci": [
+     0.321,
+     0.996
+    ],
+    "failures": 12,
+    "study": "2M-shot alpha x cap screen"
+   },
+   {
+    "value": 0.4375,
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 22,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.727,
+    "ci": [
+     0.45,
+     1.21
+    ],
+    "failures": 16,
+    "study": "2M-shot alpha x cap screen"
+   },
+   {
+    "value": 0.4375,
+    "cap": 31,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 22,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 1.0,
+    "ci": [
+     0.642,
+     1.56
+    ],
+    "failures": 22,
+    "study": "2M-shot alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 286,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.647,
+    "ci": [
+     0.559,
+     0.752
+    ],
+    "p_value": 7.57e-09,
+    "failures": 185,
+    "study": "500k-shot alpha x cap screen"
+   },
+   {
+    "value": 0.4375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 286,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.759,
+    "ci": [
+     0.666,
+     0.867
+    ],
+    "p_value": 4.89e-05,
+    "failures": 217,
+    "study": "500k-shot alpha x cap screen"
+   },
+   {
+    "value": 0.4375,
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 286,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.78,
+    "ci": [
+     0.69,
+     0.883
+    ],
+    "p_value": 9.59e-05,
+    "failures": 223,
+    "study": "500k-shot alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 10000000,
+    "ref_failures": 124,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.742,
+    "ci": [
+     0.59,
+     0.938
+    ],
+    "p_value": 0.0146,
+    "failures": 92,
+    "study": "10M-shot confirmation",
+    "note": "pre-registered"
+   },
+   {
+    "metric": "paired failure ratio vs a05c11 (0.5, 11)",
+    "ratio": 0.793,
+    "ci": [
+     0.634,
+     0.997
+    ],
+    "p_value": 0.0549,
+    "value": 0.375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 10000000,
+    "study": "10M-shot confirmation"
+   },
+   {
+    "value": 0.4375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 10000000,
+    "ref_failures": 124,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.806,
+    "ci": [
+     0.671,
+     0.973
+    ],
+    "p_value": 0.0293,
+    "failures": 100,
+    "study": "10M-shot confirmation",
+    "note": "pre-registered"
+   },
+   {
+    "metric": "paired failure ratio vs a05c11 (0.5, 11)",
+    "ratio": 0.862,
+    "ci": [
+     0.721,
+     1.03
+    ],
+    "p_value": 0.129,
+    "value": 0.4375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 10000000,
+    "study": "10M-shot confirmation"
+   },
+   {
+    "value": 0.375,
+    "cap": 5,
+    "code": "bb144 xyz",
+    "p": 0.003,
+    "shots": 300000,
+    "ref_failures": 2620,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.795,
+    "ci": [
+     0.763,
+     0.828
+    ],
+    "p_value": 1.52e-28,
+    "failures": 2082,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.003,
+    "shots": 300000,
+    "ref_failures": 2620,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.724,
+    "ci": [
+     0.694,
+     0.756
+    ],
+    "p_value": 5.08e-51,
+    "failures": 1897,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 9,
+    "code": "bb144 xyz",
+    "p": 0.003,
+    "shots": 300000,
+    "ref_failures": 2620,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.71,
+    "ci": [
+     0.679,
+     0.741
+    ],
+    "p_value": 2.95e-55,
+    "failures": 1859,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.3125,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.003,
+    "shots": 300000,
+    "ref_failures": 2620,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.707,
+    "ci": [
+     0.674,
+     0.742
+    ],
+    "p_value": 8.32e-47,
+    "failures": 1853,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.4375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.003,
+    "shots": 300000,
+    "ref_failures": 2620,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.85,
+    "ci": [
+     0.821,
+     0.881
+    ],
+    "p_value": 5.23e-19,
+    "failures": 2228,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 5,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 357,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.63,
+    "ci": [
+     0.554,
+     0.719
+    ],
+    "p_value": 2.16e-12,
+    "failures": 225,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 357,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.622,
+    "ci": [
+     0.548,
+     0.709
+    ],
+    "p_value": 2.7e-13,
+    "failures": 222,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 9,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 357,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.611,
+    "ci": [
+     0.536,
+     0.698
+    ],
+    "p_value": 9.89e-14,
+    "failures": 218,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.3125,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 357,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.661,
+    "ci": [
+     0.579,
+     0.757
+    ],
+    "p_value": 1.06e-09,
+    "failures": 236,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.4375,
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 357,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.759,
+    "ci": [
+     0.682,
+     0.846
+    ],
+    "p_value": 5.47e-07,
+    "failures": 271,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 5,
+    "code": "bb144 z",
+    "p": 0.002,
+    "shots": 1000000,
+    "ref_failures": 121,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 2.438,
+    "ci": [
+     2.059,
+     2.859
+    ],
+    "p_value": 3.36e-30,
+    "failures": 295,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 7,
+    "code": "bb144 z",
+    "p": 0.002,
+    "shots": 1000000,
+    "ref_failures": 121,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 1.992,
+    "ci": [
+     1.689,
+     2.33
+    ],
+    "p_value": 2.16e-18,
+    "failures": 241,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.375,
+    "cap": 9,
+    "code": "bb144 z",
+    "p": 0.002,
+    "shots": 1000000,
+    "ref_failures": 121,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 2.0,
+    "ci": [
+     1.698,
+     2.336
+    ],
+    "p_value": 5.26e-19,
+    "failures": 242,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.3125,
+    "cap": 7,
+    "code": "bb144 z",
+    "p": 0.002,
+    "shots": 1000000,
+    "ref_failures": 121,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 3.512,
+    "ci": [
+     2.946,
+     4.139
+    ],
+    "p_value": 3.52e-60,
+    "failures": 425,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.4375,
+    "cap": 7,
+    "code": "bb144 z",
+    "p": 0.002,
+    "shots": 1000000,
+    "ref_failures": 121,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 1.504,
+    "ci": [
+     1.292,
+     1.742
+    ],
+    "p_value": 7.34e-08,
+    "failures": 182,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "metric": "surface",
+    "study": "alpha x cap surface screen",
+    "note": "surface: alpha 0.3125-0.75 x caps 3-31 (odd), several caps; bb144 z p = 2e-3 1M shots; bb144 xyz p = 2e-3 500k / p = 3e-3 300k / p = 1e-3 2M"
+   },
+   {
+    "metric": "notes",
+    "note": "Default at the time: 0.5 (agreed). Odd caps only: at alpha 0.5 BP oscillates with period 2."
+   },
+   {
+    "metric": "notes",
+    "note": "2M-shot alpha x cap screen (2M, screen): every alpha 0.3125-0.4375 x cap 7/11/31 within noise of (0.5, 31); hint: alpha 0.375-0.4375 at cap 7 ~0.55 [0.31, 1.0]. Then re-screened at p 2e-3 (500k-shot alpha x cap screen)."
+   }
+  ],
+  "cap": [
+   {
+    "knob": "max_iter (cap)",
+    "exact": false,
+    "metric": "kind",
+    "value": "lossy"
+   },
+   {
+    "metric": "component",
+    "note": "n_iter (about 95% of xyz shots run to the cap)"
+   },
+   {
+    "metric": "status",
+    "note": "cap 11 adopted for the headline configuration; sweep 3-11 done (screen)"
+   },
+   {
+    "metric": "per_step_us",
+    "note": "~2 x t_iter per odd step (~38-46 us on the 5080)"
+   },
+   {
+    "cap": 31,
+    "ratio": 1.0,
+    "note": "reference"
+   },
+   {
+    "cap": 21,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 5000000,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 1.088,
+    "ci": [
+     0.949,
+     1.25
+    ],
+    "study": "5M-shot cap sweep"
+   },
+   {
+    "cap": 15,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 5000000,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 0.971,
+    "ci": [
+     0.819,
+     1.15
+    ],
+    "study": "5M-shot cap sweep"
+   },
+   {
+    "cap": 13,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 5000000,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 0.882,
+    "ci": [
+     0.732,
+     1.07
+    ],
+    "study": "5M-shot cap sweep"
+   },
+   {
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 5000000,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 0.882,
+    "ci": [
+     0.729,
+     1.07
+    ],
+    "study": "5M-shot cap sweep"
+   },
+   {
+    "cap": 9,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 5000000,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 0.882,
+    "ci": [
+     0.701,
+     1.11
+    ],
+    "study": "5M-shot cap sweep"
+   },
+   {
+    "cap": 30,
+    "ratio": 6.6,
+    "study": "800k-shot alpha study",
+    "note": "EVEN cap: (0.5, 30) 8.5e-5 at 800k vs 1.28e-5 at 31; never use even caps at alpha 0.5"
+   },
+   {
+    "cap": 3,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 3000000,
+    "ref_failures": 35,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 1.314,
+    "ci": [
+     0.897,
+     1.9
+    ],
+    "failures": 46,
+    "study": "3M-shot cap screen",
+    "note": "screen"
+   },
+   {
+    "cap": 5,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 3000000,
+    "ref_failures": 35,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 0.943,
+    "ci": [
+     0.654,
+     1.36
+    ],
+    "failures": 33,
+    "study": "3M-shot cap screen",
+    "note": "screen"
+   },
+   {
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 3000000,
+    "ref_failures": 35,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 1.0,
+    "ci": [
+     0.712,
+     1.4
+    ],
+    "failures": 35,
+    "study": "3M-shot cap screen",
+    "note": "screen"
+   },
+   {
+    "cap": 9,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 3000000,
+    "ref_failures": 35,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 1.029,
+    "ci": [
+     0.751,
+     1.41
+    ],
+    "failures": 36,
+    "study": "3M-shot cap screen",
+    "note": "screen"
+   },
+   {
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 3000000,
+    "ref_failures": 35,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 0.886,
+    "ci": [
+     0.674,
+     1.17
+    ],
+    "failures": 31,
+    "study": "3M-shot cap screen",
+    "note": "screen"
+   },
+   {
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 334,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 1.153,
+    "ci": [
+     1.05,
+     1.26
+    ],
+    "p_value": 0.00207,
+    "study": "500k-shot cap screen"
+   },
+   {
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 334,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 1.114,
+    "ci": [
+     1.03,
+     1.2
+    ],
+    "p_value": 0.00567,
+    "study": "500k-shot cap screen"
+   },
+   {
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 286,
+    "metric": "paired failure ratio vs cap 31",
+    "ratio": 1.049,
+    "ci": [
+     0.961,
+     1.14
+    ],
+    "p_value": 0.322,
+    "study": "500k-shot cap screen",
+    "note": "replicates the direction of the 500k-shot cap screen (1.114 [1.03, 1.2])"
+   },
+   {
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 10000000,
+    "ref_failures": 124,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.935,
+    "ci": [
+     0.813,
+     1.08
+    ],
+    "p_value": 0.416,
+    "failures": 116,
+    "study": "10M-shot confirmation",
+    "note": "pre-registered"
+   },
+   {
+    "value": 0.5,
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.003,
+    "shots": 300000,
+    "ref_failures": 2620,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 1.027,
+    "ci": [
+     1.001,
+     1.054
+    ],
+    "p_value": 0.0427,
+    "failures": 2691,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.5,
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ref_failures": 357,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 0.986,
+    "ci": [
+     0.911,
+     1.067
+    ],
+    "p_value": 0.78,
+    "failures": 352,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "value": 0.5,
+    "cap": 11,
+    "code": "bb144 z",
+    "p": 0.002,
+    "shots": 1000000,
+    "ref_failures": 121,
+    "metric": "paired failure ratio vs (0.5, 31)",
+    "ratio": 1.091,
+    "ci": [
+     0.97,
+     1.226
+    ],
+    "p_value": 0.185,
+    "failures": 132,
+    "study": "three-point alpha x cap screen"
+   },
+   {
+    "metric": "notes",
+    "note": "p1e-3: flat from cap 5 to 31 within ~±35% (cap 3 1.31 [0.90, 1.90], the first sign of a cost). p2e-3 (500k-shot cap screen): caps 7 and 11 significantly worse, +15% and +11% (McNemar p 0.002 / 0.006): the cap's cost grows with p, so quote it per noise point. Latency vs cap: the machine-A Pareto rows of the registry."
+   }
+  ],
+  "msg_format": [
+   {
+    "knob": "BP message format",
+    "exact": false,
+    "metric": "kind",
+    "value": "lossy"
+   },
+   {
+    "metric": "component",
+    "note": "t_iter (and the library)"
+   },
+   {
+    "metric": "status",
+    "note": "tested (message-format study); an f32 variant of the fourth GPU BP study was then running"
+   },
+   {
+    "value": "f64",
+    "ratio": 1.0,
+    "note": "reference"
+   },
+   {
+    "value": "f32",
+    "ratio": 1.0,
+    "study": "message-format study",
+    "note": "1.00 at every point at the tuned config; GPU per-iteration 9.08 -> 4.39 us on bb288 (RTX 5090); xyz e2e p99 610.3 vs 601.6 in the message-format study's library (not faster there)"
+   },
+   {
+    "value": "i16",
+    "code": "bb144 xyz",
+    "shots": 10000000,
+    "ratio": 1.0,
+    "ci": [
+     0.928,
+     1.08
+    ],
+    "study": "10M-shot message-format study",
+    "note": "tuned configuration, fresh shots"
+   },
+   {
+    "value": "i8",
+    "code": "bb144 xyz",
+    "shots": 10000000,
+    "ratio": 0.984,
+    "ci": [
+     0.858,
+     1.13
+    ],
+    "study": "10M-shot message-format study",
+    "note": "tuned configuration, fresh shots; xyz e2e p99 502.2 us (RTX 5090, the message-format study's GPU i8 library) vs 601.6 exact"
+   },
+   {
+    "value": "i8",
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 24,
+    "metric": "paired failure ratio vs exact (0.5, 31)",
+    "ratio": 0.625,
+    "ci": [
+     0.396,
+     1.03
+    ],
+    "failures": 15,
+    "study": "2M-shot i8 x cap screen"
+   },
+   {
+    "value": "i8",
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "ref_failures": 24,
+    "metric": "paired failure ratio vs exact (0.5, 31)",
+    "ratio": 0.667,
+    "ci": [
+     0.449,
+     1.03
+    ],
+    "failures": 16,
+    "study": "2M-shot i8 x cap screen"
+   },
+   {
+    "value": "i8",
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "metric": "paired failure ratio vs exact (0.5, 31)",
+    "ratio": 1.045,
+    "ci": [
+     0.958,
+     1.14
+    ],
+    "study": "500k-shot alpha x cap screen"
+   },
+   {
+    "value": "f32",
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.002,
+    "shots": 500000,
+    "ratio": 1.049,
+    "ci": [
+     0.961,
+     1.14
+    ],
+    "study": "500k-shot alpha x cap screen",
+    "note": "outcome bitmaps IDENTICAL to exact f64 cap 11 on all 500k shots (failures, convergence, iteration histograms)"
+   },
+   {
+    "value": "f32",
+    "cap": 11,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "metric": "paired failure ratio vs exact (0.5, 31)",
+    "ratio": 0.759,
+    "ci": [
+     0.58,
+     1.01
+    ],
+    "study": "2M-shot f32 x cap screen"
+   },
+   {
+    "value": "f32",
+    "cap": 7,
+    "code": "bb144 xyz",
+    "p": 0.001,
+    "shots": 2000000,
+    "metric": "paired failure ratio vs exact (0.5, 31)",
+    "ratio": 0.862,
+    "ci": [
+     0.628,
+     1.2
+    ],
+    "study": "2M-shot f32 x cap screen"
+   },
+   {
+    "metric": "notes",
+    "note": "Combinations with cap < 31 unmeasured."
+   },
+   {
+    "metric": "notes",
+    "note": "2M-shot i8 x cap screen: i8 at caps 7/11 no worse than exact cap 31 (0.63-0.67, upper 1.03): two lossy knobs stack without visible LER cost at p 1e-3; a GPU-vs-CPU check: GPU i8 lib == CPU i8 lib. f32 x cap 11/7 and the p 2e-3 point: then running (500k-shot alpha x cap screen, 2M-shot f32 x cap screen)."
+   },
+   {
+    "metric": "notes",
+    "note": "500k-shot alpha x cap screen and 2M-shot f32 x cap screen: f32 is LER-free at cap 11 (identical outcomes to f64 on 500k shots at p 2e-3); i8 at cap 11 ~ exact cap 11."
+   }
+  ],
+  "early_exit_2cycle": [
+   {
+    "knob": "2-cycle early exit",
+    "exact": false,
+    "metric": "kind",
+    "value": "lossy"
+   },
+   {
+    "metric": "component",
+    "note": "n_iter"
+   },
+   {
+    "metric": "status",
+    "note": "dead as exact (2-cycle early-exit study: not bit-exact); unmeasured as a lossy knob"
+   },
+   {
+    "metric": "notes",
+    "note": "OSD identical on 99.6% of 29/31 shots; alpha 0.5 bb144 is 94.6% aperiodic, so little to gain."
+   }
+  ],
+  "gpu_oc": [
+   {
+    "knob": "GPU overclock profile",
+    "exact": true,
+    "metric": "kind",
+    "value": "platform"
+   },
+   {
+    "metric": "component",
+    "note": "all GPU terms"
+   },
+   {
+    "metric": "status",
+    "note": "VALIDATED: cross-machine compare vs 5700X stock reference, 3000 chunks = 12M shots, 0 mismatches (silent error rate 95% upper 2.5e-7/shot); same-machine 1.6M shots 0 mismatches; 0 Xid over 13.3M OC shots. OC timing quotable."
+   },
+   {
+    "metric": "setting",
+    "note": "+400 core, cap 3200 (runs 3180 vs 2880 stock), mem NVML +3000 (16.3 GHz), PL 110%"
+   },
+   {
+    "metric": "effect",
+    "machine": "A",
+    "build": "legacy base",
+    "note": "measured on machine A (legacy-base series); machine A: t_iter 22.0 -> 21.0 us; xyz e2e p50 (0.5,11) 330.0 -> 319.6, (0.5,31) 771.6 -> 739.5; core 2880 -> 3180 MHz (+10.4%): the iteration is latency-bound, ~45% clock-sensitive; ratio = per-iteration ratio",
+    "rel": -0.035,
+    "ratio": [
+     0.954,
+     0.954
+    ]
+   },
+   {
+    "metric": "notes",
+    "note": "Report stock and OC rows separately (the validated OC is a legitimate deployment lever). One profile switch per boot (Xid 62)."
+   },
+   {
+    "metric": "notes",
+    "note": "6e on machine A (9850X3D Zen 5 + RTX 5080 84 SM, validated OC, bench mode, CPU 4), driver 615.71.09, nvcc 13.3.73, machine-A cadence series: during a back-to-back decode loop the GPU runs P1 at 3172-3187 MHz, mem 16301, link Gen5 x16 (32 GT/s) throughout, clock-event reason 0x400 only; P8 / Gen1 idle between runs. Clocks are not locked (offsets + power limit only); applications clocks deprecated on this driver. ASPM l1 off, policy default. The OC does not stop the clock sagging at long call spacing: see knobs call_cadence / keep_warm_call."
+   }
+  ],
+  "order_filter": [
+   {
+    "knob": "host OSD-0 ordering filter",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "osd_path (host OSD-0 ordering: collect() filter)"
+   },
+   {
+    "metric": "status",
+    "note": "tested; exact incl. the first AVX-512 collect() run (machine H: BP identity list avx512 15/15, tuned avx512 passed, order semantics 12/12 with AVX-512 flags; CMake work-around reverted in the reviewed tree); Zen 5 re-time CONFIRMED but smaller than Zen 2"
+   },
+   {
+    "metric": "effect",
+    "machine": [
+     "B",
+     "G"
+    ],
+    "build": "older build",
+    "note": "first measurement + reproduced (independent re-runs; raw logs read); machine B (TR 3970X + 5080), machine G (two EPYC 7532 + 5070 Ti hosts), machine G (EPYC 7K62 + 5070 Ti host); all Zen 2, default AVX2 build",
+    "p50_us": -17.0,
+    "p99_us": -35.0,
+    "rel": -0.017
+   },
+   {
+    "metric": "host re-time",
+    "machine": "I",
+    "p50_us": -16.4,
+    "p99_us": -34.4,
+    "exact": true,
+    "note": "machine I: 7950X3D V-cache CCD + RTX PRO 4000"
+   },
+   {
+    "metric": "host re-time",
+    "machine": "H",
+    "p50_us": -11.4,
+    "p99_us": -18.7,
+    "exact": true,
+    "note": "machine H: 9950X + RTX 5080 (PCIe 5 x8 = Gen4 x16 bandwidth)"
+   },
+   {
+    "metric": "notes",
+    "note": "Revert the CMakeLists AVX-512 run-probe (builds -mavx2 into build-avx512 when the host lacks AVX-512) to the base file before integration. Checks run on a machine whose identity is not recorded: the exactness check (first AVX-512 collect() run), order semantics with AVX-512 flags, whole-call timing a05ms31 x3, the CPU evidence script at -O3 for AVX2 and AVX-512."
+   },
+   {
+    "metric": "notes",
+    "note": "Frozen base's vector filter is not DAZ-safe (negative subnormals mis-keyed under MXCSR.DAZ; 36/480 synthetic vectors), the monotone-compare filter is (monotone compare). Use the hardware or the algorithmic variant's file rather than the base variant's (no CMake run-probe to revert). e2e bb144 xyz a05ms31 osd_path (re-measurement numbers where available): machine B pooled 8 order-runs -15.7 p50 / -25.3 p99 (base variant); machine G (EPYC 7532 host) pooled -18.3 / -44.8 (hardware variant, re-measurement; first measurement -24.7/-30.4 p50 per order); machine G (other EPYC 7532 host) -16.3/-21.6 p50, -35.7/-41.8 p99 (algorithmic variant incl. AVX2 two-group, re-measurement); machine G (EPYC 7K62 host) -19.5/-1.0 p50, -24.5/-21.3 p99 (literature variant, pre-rank-2 build, first measurement). CPU: ordering term -17.2..-19.1 us (machine G, EPYC 7532 host, re-measurement, interleaved, A/A <=0.7), the filter alone -17.5 streamed (machine G, other EPYC 7532 host), -6.9 hot (machine G, EPYC 7K62 host); 3970X -30 engine (base variant)"
+   },
+   {
+    "metric": "notes",
+    "note": "machine I (V-cache Zen 4): CMake work-around reverted to base. e2e pooled over 3 measurement series: AVX2 build p50 -16.4 / p99 -34.4; AVX-512 build p50 -10.0 / p99 -21.3 (ref also AVX-512, base engine 16-19 % faster). First AVX-512 collect() run: exactness check PASS (45/45 + tuned 16), order semantics 12/12 cases 0 failing on AVX2 and AVX-512 compiles (119 zmm in the test). Host engine paired p50 (-O3): ms30 dump (200 shots) AVX2 -26.7 / AVX-512 -18.8; a05ms31 dump (600 shots) hot AVX2 -14.0 / AVX-512 -9.7, cold -16.9 / -10.4 => the earlier 3970X engine gap was the ms30 dump. A/A engine |delta| <= 1.2 us. No L3-capacity dependence (pressure sweep up to 384 MB co-runner)."
+   },
+   {
+    "metric": "notes",
+    "note": "machine H (Zen 5): p50_us/p99_us are the AVX-512 build (-11.3..-11.6 / -18.0..-19.5). AVX2 build: p50 -7.3..-7.6, p99 -13.6..-18.6 (at this machine's A/A excursion of 0.8%). 36/36 p50 run ratios <1 per ISA; osd_path p50 -5.2..-9.7 (AVX2) / -7.9..-15.8 (AVX-512). Host engine bench at -O3, averaged over variants: -20 us p50 / -18 us mean for both ISAs (Zen 2 -30). The AVX-512-wide filter form: e2e shows ~-4 us extra, the host bench does not. The variant's sources still carry the CMake AVX-512 run-probe work-around: revert before integration."
+   },
+   {
+    "metric": "source",
+    "machine": [
+     "B",
+     "G"
+    ]
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the device OSD-0 design of the fourth GPU BP study"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the same device OSD-0 design (device OSD-0 replaces the host order)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "a device-prefix variant of that study / the fused prefix-producer knob (device prefix replaces the pass)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "knob posterior_one_batch_handoff (changes the pass from warm to DRAM-streamed)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the AVX2 two-group filter knob (same loop)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the rank-2 sample knob (same function, composes)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the elimination-study knobs"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the elimination-study knobs (same osd0_engine.hpp, disjoint class; composed header verified exact)"
+   }
+  ],
+  "posterior_one_batch_handoff": [
+   {
+    "knob": "posterior hand-off in one batch, read in place",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "osd_path (posterior hand-off: one round trip, no 8n host memcpy)"
+   },
+   {
+    "metric": "status",
+    "note": "tested; exact incl. the first AVX-512 leg (machine H exactness check PASS: BP identity list avx2+avx512 15/15 each, OSD identity list 15/15, tuned 16 passed); Zen 5 re-time CONFIRMED (keep for xyz)"
+   },
+   {
+    "metric": "effect",
+    "machine": "G",
+    "build": "older build",
+    "note": "for bposd handles the 8n posterior D2H joins the dec/status batch (one sync) and OSD-0 / soft output read the pinned staging buffer in place. xyz osd0.a05ms31 pooled p50 deltas -19.4 (hardware variant, first measurement) / -19.5 (hardware variant, re-measurement) / -20.2 (literature variant, first measurement) / -18.5 (literature variant, first measurement, 600 shots) / -15.8 (literature variant, re-measurement) us; p99 -28.3 / -19.1 / -11.9 / -18.1 / -22.5; all run p50 ratios <1 (0.966-0.988); A/A p50 within +-0.4% in both re-measurement series, order-dependent +-1.1% in the hardware variant's first series, up to +1.4% in one literature-variant order; converged class (5.3% of xyz) +23..+35 us (they now pay the DMA); per-shot interleaved OSD term -16.8 (first measurement) / -18.9 (re-measurement) us; first measurement + reproduced (independent re-runs; raw logs read); machine G (an EPYC 7532 host and the EPYC 7K62 host): shared RTX 5070 Ti (70 SMs, PCIe 4) + EPYC 7532 / 7K62 (Zen 2), default AVX2 build",
+    "p50_us": -18.7,
+    "p99_us": -20.0,
+    "rel": -0.019
+   },
+   {
+    "metric": "host re-time",
+    "machine": "I",
+    "p50_us": -17.7,
+    "p99_us": -18.8,
+    "exact": true,
+    "note": "machine I: 7950X3D V-cache CCD + RTX PRO 4000"
+   },
+   {
+    "metric": "host re-time",
+    "machine": "H",
+    "p50_us": -16.5,
+    "p99_us": -17.8,
+    "exact": true,
+    "note": "machine H: 9950X + RTX 5080 (PCIe 5 x8 = Gen4 x16 bandwidth)"
+   },
+   {
+    "metric": "notes",
+    "note": "Ship for xyz (osd_path sets p50/p99); the lazy form wins on convergence-heavy problems. h_post is cudaHostAllocDefault (cacheable). Re-run commands for a machine whose identity is not recorded are in the development record."
+   },
+   {
+    "metric": "notes",
+    "note": "Decision: build the hand-off rewrite ON the shot-entry / hand-off knob (same Engine::run staging) + the eager posterior for bposd as one D2H + a fix from the base variant; expect -30..-38 us p50 on Zen 2, Zen 5 then to be measured (machine H)."
+   },
+   {
+    "metric": "notes",
+    "note": "machine I (V-cache Zen 4): this knob's eager form, xyz osd0.a05ms31 e2e, pooled over 3 measurement series, AVX2 build (osd_path p50 -17.7, converged class +11.4 on 5.5 % of shots). AVX-512 build: p50 -16.9, p99 -18.1. The lazy form: -10.2/-11.5 (AVX2), -10.9/-13.2 (AVX-512). All 12 measurement series 6/6 run p50 ratios < 1; A/A p50 +-0.8 % order-dependent (pooled cancels). bb144 z (52 % converged): eager +2.0 p50 (lazy -0.1), bb288 z: eager -7.4, lazy -3.8. Per-shot interleaved: eager -12.8 (3x200 shots), lazy -10.9. GPU/link-dependent: converged tax (+11 vs +33 on PCIe 4), D2H 14.5 us (vs 26.4), batching saving (0.3 us probe); host memcpy 594 KB 10.95 us (vs 13.8). Bit-identical: exactness check PASS incl. avx512 legs (90 lines)."
+   },
+   {
+    "metric": "notes",
+    "note": "machine H (Zen 5): xyz osd0.a05ms31, 600 shots x 3 runs x 2 orders, 3 measurement series AVX2 + 3 AVX-512: pooled p50 -14.4..-17.8 (AVX2 = AVX-512), p99 -14.5..-19.9; 36/36 p50 run ratios <1; osd_path p50 -12.0..-19.6; converged class +19.6..+26.3 (5.5% of shots). Rule met in 5/6 measurement series (AVX2, first series: one A/A run 1.0060; machine-wide create-order bias). Per-shot OSD term 58.1 -> 45.7 us (-12.4). bb144 z (55% converged): p50 +3.9..+4.1 us (+5.4%), p99 -5.6..-5.8: on convergence-heavy shapes prefer the lazy form or gate the eager DMA. Zen 5 primitives: 594 KB D2H 25.0 us, host memcpy 594 KB 8.9 us. The 'zero-copy posterior' dead end does NOT hold on 5080+Zen 5 (mapped write 28.2 us vs fill+D2H 30.8 us); scope it to 5070 Ti/Zen 2/PCIe 4."
+   },
+   {
+    "metric": "source",
+    "machine": "G"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the lazy in-place posterior knob (alternative)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the shot-entry knob (same Engine::run staging/D2H code: compose into one hand-off rewrite)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "a mapped-posterior design of the fourth GPU BP study (pinned mapped posterior)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the device OSD-0 designs of the fourth GPU BP study (no full posterior copy)"
+   }
+  ],
+  "ilv_layout": [
+   {
+    "knob": "interleaved edge-slot layout (ILV) with a waste gate",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "t_iter (column pass: degree-sorted chunks + 32-wide interleaved edge slots, create-time)"
+   },
+   {
+    "metric": "status",
+    "note": "reproduced on machine H (84-SM RTX 5080): bit-identical, both variants (the template variant from machine G's EPYC 7K62 host, the chunk-aligned variant from an EPYC 7532 host of machine G), on the default 11-problem BP identity list (206 lines incl. hgp98 xyz, sc9, si1000, loss, win3c1) and the default OSD identity list (141 lines), AVX2 + AVX-512 legs, tuned pytest 16 passed; the layout decision rule PASSES for the template variant (two-point slope ratio <= 0.85, all e2e run ratios <= 0.90, bb144 z / hgp98 z no_difference, bb288 z 0.95); the chunk-aligned variant FAILS the gate clause (bb144 z two-point slope ratio 1.058-1.075 slower); chunk-aligned vs template = tie (0.9991-1.0003, both GPUs) -> integrate the template variant's ILV + waste gate; chunk-aligned groups optional (hygiene only)"
+   },
+   {
+    "metric": "effect",
+    "machine": "H",
+    "build": "older build",
+    "note": "reproduced on machine H; machine H 9950X + RTX 5080 (84 SM, PCIe 5)",
+    "p50_us": -158.7,
+    "p99_us": -157.5,
+    "rel": -0.204
+   },
+   {
+    "metric": "notes",
+    "note": "The template variant's block rounding to 32 leaves 2 of 84 blocks idle at 84 SMs (928-column chunks): use the chunk-aligned variant's groups. The chunk-aligned variant's in-place path keeps a colmap load (+1-1.6% on bb144 z in its re-measurement); the template variant keeps the base kernel when the gate is off. The deg > kRegDeg path under the layout is untested in both (the template variant declines it). Gate threshold 12% sits between measured 10.7% (win) and 13.8% (loss). The layout item is complete. xyz osd0.a05ms31 pooled p50 (machine G, 70 SMs): chunk-aligned 786.96 vs 1013.84 (first measurement) / 785.03 vs 1011.26 (re-measurement); template 779.68 vs 1008.65 (first measurement) / 775.66 vs 1000.86 (re-measurement); run p50 ratios 0.770-0.788, all 'faster' both orders; p99 -219.9 / -229.8 / -223.7 / -222.3 (template run p99 ratios 0.779-0.813, A/A 0.987-1.013); (0.625,30): -228.8 (chunk-aligned, re-measurement). Two-point slope per iteration vs base 0.7133-0.7274 (template, both measurements; 19.24 vs 26.5-26.9 us); chunk-aligned vs the other variant run on the same EPYC 7532 host 0.759-0.762, that other variant vs base 0.945-0.973. Warp steps 664,512 (51.4% wasted) -> 447,456 (1.9%); column pass 81.3% of an iteration (stage timing). bb288 z (template, gate ON, in-place): two-point slope ratio 0.911-0.940, e2e p50 -24.4 us (-5.7%); bb144 z, hgp98 z no_difference (gate OFF). Create cost +3.2..+3.5 ms per handle. Expected on the 84-SM 5080 (expectation): ~-27% of a 22.4-23.2 us iteration = about -170..-200 us per shot"
+   },
+   {
+    "metric": "notes",
+    "note": "At 84 SMs (machine H) the template variant's block rounding (predicted 2 of 84 blocks idle on xyz) costs nothing measurable: chunk-aligned vs template two-point slope ratio 0.9991-1.0003 in two measurement series on two GPUs. The chunk-aligned variant's formulation-only gate regresses bb144 z at 84 SMs (two-point slope +5.8..+7.5%, e2e +1.8%); cause not isolated (colmap load on the in-place path, or a formulation flip turning the interleave on). Use the template variant's waste gate (<= 12%), which keeps bb144 z / hgp98 z on the base kernel and turns bb288 z on (two-point slope ratio 0.950). The deg > kRegDeg path under the layout is still untested (the template variant declines it). Create cost not re-measured on machine H. Measured on a shared machine; other workloads ran concurrently throughout. xyz osd0.a05ms31, template variant vs the legacy base: first series p50 617.45 vs 774.92 (-157.47, -20.3%), p99 693.63 vs 850.52 (-156.90); second series p50 618.68 vs 778.58 (-159.89, -20.5%), p99 691.41 vs 849.47 (-158.06); 12/12 run p50 ratios 0.790-0.799 (A/A 0.993-1.008), run p99 ratios 0.798-0.828, 'faster' at p50 and p99 in both orders; osd0.ms30 -154.10 (-20.0%), p99 -149.55; chunk-aligned variant a05ms31 -154.88 (-20.0%). Two-point slope per iteration, template vs base 0.7548-0.7693 (16.37 vs 21.29-21.69 us, A/A 0.994-1.006), 2 measurement series; chunk-aligned vs template 0.9991-1.0003 (GPU 1) / 0.9996-1.0003 (GPU 0). Gate at 84 SMs, template variant: bb288 z two-point slope ratio 0.950-0.951 (ON), e2e osd0.ms30 -5.99 us (-1.8%, no_difference at the 2% floor; 70 SMs had -24.4); bb144 z (OFF) two-point slope ratio 0.999-1.013, e2e +0.50 us; hgp98 z (OFF) 1.000-1.005. Chunk-aligned variant: bb144 z two-point slope ratio 1.058-1.075 (slower both orders), e2e +3.24 us p50 / +6.56 p99; hgp98 z 1.010-1.014; bb288 z 0.997-1.003. Absolute gain is smaller than at 70 SMs (-227 us) because the 5080 base iteration is shorter (21.3-21.7 vs 26.5-26.9 us); relative per-iteration cut -24% vs -27.5%"
+   },
+   {
+    "metric": "notes",
+    "note": "A combined build (the fused single-barrier schedule + this layout) FAILED the exactness acceptance on its acceptance shots (on a machine whose identity is not recorded): 1/2000 acceptance xyz shots differ at osd0 (status equal), skew_mix/skew_haz generated problems (degree >= 900) diverge massively; tuning-shot identity lists and the re-measurement passed. The layout itself is exact: a layout-only build passed all 72 acceptance exactness checks; the failures of both combined builds came from the fused schedule (see the fused single-barrier knob: three defects, fixed)"
+   },
+   {
+    "metric": "notes",
+    "note": "The same combination in the other order FAILS the same acceptance checks on machine B (skew_mix/skew_haz, 1/2000 xyz at the OSD-0 stage); acceptance-shot two-point slope ratio 0.526, e2e a05ms31 0.659 / a05c11 0.734. The build with neither lever (an earlier build, before 6c) passes."
+   },
+   {
+    "metric": "source",
+    "machine": [
+     "G",
+     "H"
+    ],
+    "note": "preferred structure: template ILV kernels + waste gate; preferred grouping: chunk-aligned, 32 x max-degree per group"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "a column-pass design of the fourth GPU BP study"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the check-slice-loads knob (composes; redge values change)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the 16-byte row-record knobs (the packed row record likely subsumed: re-test on top)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the last-iteration no-part-2 knob (port if(part2) into the ILV part-2 loops)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the earlier interleaved-layout knob (superseded)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the fused single-barrier knob (overlap: port the layout into the fused pass, A/B both ways)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the packed-decisions / sticky-mismatch-flag knobs (textual: ILV kernel's dec write)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the degree-sort column-permutation knob (subset)"
+   }
+  ],
+  "observables_block_scan": [
+   {
+    "knob": "host observables: support list and block scan",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "t_fixed / osd_path (host observables: support list on own-OSD shots, low-bit block scan otherwise; + word-front back-substitution)"
+   },
+   {
+    "metric": "status",
+    "note": "reproduced on machine H (Zen 5): exactness check PASS incl. the first AVX-512 legs (BP identity list 15 avx2 + 15 avx512 lines, OSD identity list 15 lines ALL BIT-IDENTICAL, tuned 16 passed); effect real but smaller than on Zen 2; the observables decision rule is NOT met as written: clauses 1-2 pass in all 6 measurement series (AVX2 + AVX-512), A/A +-0.5% fails in 4/6 series from a systematic create-order A/A offset (+-0.3-0.6%, present in every series on machine H); every main run is below every A/A run of its own order in all 6 series. Keep for the host integration step at the reduced size"
+   },
+   {
+    "metric": "effect",
+    "machine": "H",
+    "build": "older build",
+    "note": "reproduced on machine H; machine H 9950X + RTX 5080 (84 SM, PCIe 5)",
+    "p50_us": -6.4,
+    "p99_us": -6.7,
+    "rel": -0.008
+   },
+   {
+    "metric": "notes",
+    "note": "rank(H) of bb144 xyz is 1860 (m-12), not 1872 (a rank script of the variant from machine G's EPYC 7K62 host has a numpy fancy-index XOR bug) nor 1866: re-size any synthetic back-substitution bench. That variant's bench script hangs on its nsup=14 tail-bench call; its re-check bench needs -include immintrin.h. Covers the observables items (host half). xyz osd0.a05ms31 p50 (machine G): EPYC 7532 host -21.1 (first measurement) / -20.1 (re-measurement); other EPYC 7532 host -20.0 / -21.3; EPYC 7K62 host pooled -22.0, paired median -20.7 (CI 18.2-23.4, first measurement) / -21.6 (CI 20.1-23.4, re-measurement); p99 -20.1 / -26.7 / -23.6 / -22.9; create-order split on the EPYC 7K62 host: cand-first -33.5 / -28.0 vs ref-first -10.9 / -14.6 us. bp.ms30 -16.1..-21.3. Scales with n: bb144 z -3.1..-3.3, bb288 z -8.2..-9.5. Term: base scan 21.6-24.4 us (EPYC 7532 / EPYC 7K62 host microbench; the other EPYC 7532 host's 52 us is a cold multi-shot stream) -> support XOR 0.04-0.07 us, block scan 2.3-4.6 us. Back-substitution word-front 3.64 -> 1.95 us at nsup=0 only (not isolated at the real shape). Expected on Zen 5 (expectation): -8..-13 us"
+   },
+   {
+    "metric": "notes",
+    "note": "On the AVX-512 machine A the shipped scan is already 4.6 us, so the knob is worth ~5-7 us, not 21. Not run on machine H: the base variant of machine G's EPYC 7532 host as a control (intrinsic-free block scan under AVX-512). rank(H) of bb144 xyz is 1860 (used in the tail bench). Do not use that variant's bench script (hangs at nsup=14). Measured on a shared machine; other workloads ran concurrently. xyz osd0.a05ms31, the variant from machine G's EPYC 7K62 host vs the legacy base. AVX-512 builds (machine A's ISA): pooled p50 -5.72 / -6.75 / -6.66 us (766.64 vs 772.37, 757.61 vs 764.36, 758.63 vs 765.29), p99 -4.82 / -6.89 / -8.51; 18/18 run p50 ratios 0.983-0.997; paired median +5.18 (CI 5.06-5.33) / +6.24 (6.10-6.38) / +5.96 (5.83-6.07); create order cand-first +3.9..+5.2 vs ref-first +6.3..+7.8 (direction reversed vs Zen 2, split ~1.5x not 3x); bp.ms30 -4.20. AVX2 builds: pooled p50 -8.73 / -7.48 / -8.58 (p99 -12.33 / -10.56 / -8.96), 18/18 ratios 0.983-0.996, paired +8.45..+8.71, cand-first +6.0..+6.9 vs ref-first +10.4..+10.8; bp.ms30 -7.15. Term on Zen 5 (observables bench, CPU 1, 3 repetitions): base scan 8.97-8.98 us (AVX2) / 4.62-4.66 us (AVX-512) -> block scan 1.14-1.17 -> support XOR 0.040. Tail bench (rank 1860, nsup 0): backsub 2.124 -> word-front 1.393 us. Zen 2 had -21 us: the base term there was 21.6-24.4 us"
+   },
+   {
+    "metric": "source",
+    "machine": [
+     "G",
+     "H"
+    ]
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the device OSD-0 design of the fourth GPU BP study (device OSD-0 needs its own support output)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "knob posterior_one_batch_handoff / the shot-entry knob (decode_one tail, adjacent)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "knob order_filter / the elimination word-span knob (same osd0_engine.hpp, disjoint regions; the elimination study's bounded parent-word memset is compatible with the word-front walk)"
+   },
+   {
+    "metric": "conflicts with",
+    "note": "the CPU-library observables-mask knob (CPU-library analogue)"
+   }
+  ],
+  "mapped_decisions": [
+   {
+    "knob": "mapped decisions on the converged path",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "launch / hand-over (converged path)"
+   },
+   {
+    "metric": "what",
+    "note": "mapped decisions: converged shots publish decisions into mapped memory (outcome codes, restore paths + grid barrier)"
+   },
+   {
+    "metric": "status",
+    "note": "delta, not adopted (decided at 6d; needs a failure test that fires on its paths)"
+   },
+   {
+    "metric": "check_per_problem",
+    "check_per_problem": true
+   },
+   {
+    "metric": "effect",
+    "machine": "D",
+    "build": "6d",
+    "note": "bb144 xyz a03125c3 preset (0.3125, 3); delta vs the previous step in the build, pooled over both create orders, A/A in the row; vs the clock-calibration step on 6d (a03125c3 preset neutral); machine D: Core i9-14900K AVX2 + RTX 5080 84 SM; CUDA 13.0 (the machine's default, per a toolkit survey)",
+    "p50_us": 0.2,
+    "p99_us": 0.0
+   },
+   {
+    "metric": "notes",
+    "note": "Recovers the converged class on the z presets: bb144 z converged -3.8 us at every iteration count (pooled p50 -5.7 / -6.2), but bb288 z a05ms31 OSD +2.2 (+0.8 %) and long-cap xyz +0.3 %. CHECK PER PROBLEM (per-class gate)."
+   }
+  ],
+  "loop_hoist": [
+   {
+    "knob": "loop-invariant hoists in the fused passes",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "t_iter (codegen)"
+   },
+   {
+    "metric": "what",
+    "note": "loop_hoist: loop-invariant hoists in the fused passes"
+   },
+   {
+    "metric": "status",
+    "note": "delta, not adopted (a 6e candidate; STACK growth on non-RSLOT kernels; on the later-work list)"
+   },
+   {
+    "metric": "effect",
+    "machine": "D",
+    "build": "6d",
+    "note": "bb144 xyz a03125c3 preset (0.3125, 3); delta vs the previous step in the build, pooled over both create orders, A/A in the row; on a 6d base without the block-balance step (with the alpha-reciprocal, clock-calibration and output-padding steps); machine D: Core i9-14900K AVX2 + RTX 5080 84 SM; CUDA 13.0 (the machine's default, per a toolkit survey); ratio = two-point slope ratio",
+    "p50_us": -0.4,
+    "p99_us": -1.1,
+    "ratio": 0.964
+   },
+   {
+    "metric": "notes",
+    "note": "Two-point slope ratio 0.964 (vs the block-balance step's 0.985), a05ms31 -6.6 / -5.8, bb288 z flat. Not stacked onto the block-balance step (the code changes collide). Its four follow-up codegen fixes measured neutral (prefix_noinline 0.9761 with STACK growth)."
+   }
+  ],
+  "keep_warm_host_sweep": [
+   {
+    "knob": "keep-warm library hook with a host-table sweep flag (unshipped variant)",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "platform / API"
+   },
+   {
+    "metric": "what",
+    "note": "fastbp_keep_warm(handle, flags) in fastbp_ext.h: FASTBP_KEEP_WARM_GPU (1u) launches an empty 1-block kernel on the handle's stream (no sync); FASTBP_KEEP_WARM_HOST (2u) reads the handle's own host tables at 64 B stride; no thread, no getenv / I/O, optional export"
+   },
+   {
+    "metric": "status",
+    "note": "pending: coded on a development branch, built, NOT tested or measured; to be timed on machine A"
+   },
+   {
+    "metric": "effect",
+    "build": "6f",
+    "note": "prototype numbers: see knob keep_warm_call (bench-side, machine-A keep-warm series); machine not given; CUDA 13.3"
+   },
+   {
+    "metric": "notes",
+    "note": "Tests due: bit-identity with keep_warm interleaved, failure-injection class, an existing check unaffected, nm -D export scan, its own validation run. Contract: caller calls it every <= 0.5 ms while idle, stops >= 20 us before the decode. (Older plan lines use the same step name for the push step's dead partial-minimum / count / sign allocation cleanup: a create-time memory cleanup only, ~600 KB per handle, not started.)"
+   }
+  ],
+  "locked_gfx_clocks": [
+   {
+    "knob": "locked graphics clocks",
+    "exact": true,
+    "metric": "kind",
+    "value": "platform"
+   },
+   {
+    "metric": "component",
+    "note": "all GPU terms / launch path"
+   },
+   {
+    "metric": "what",
+    "note": "nvidia-smi -lgc at the OC boost (graphics clock pinned instead of floating inside P1); P1 vs P0 (mem 16301 vs 16501 MHz) is the related open knob"
+   },
+   {
+    "metric": "status",
+    "note": "UNTESTED: a planned test (a profile change: one switch per boot). Expected to recover most of the 4.8 us device-body loss at long call spacing without the keepalive's launches"
+   },
+   {
+    "metric": "effect",
+    "machine": "A-oc",
+    "note": "expected only; no number; machine A (9850X3D Zen 5 + RTX 5080 84 SM, validated OC, bench mode, CPU 4), driver 615.71.09, nvcc 13.3.73"
+   },
+   {
+    "metric": "notes",
+    "note": "Why it may matter: at a 10 ms call cycle the graphics clock inside P1 drops 3187 -> 2677 MHz and the device body grows 32.74 -> 37.50 us (+4.8). At gaps <= 1 ms the clock holds and the lock buys nothing. Cost unknown: idle power at the lock, one reboot-scoped profile change. Compare against knob keep_warm_call (same effect, +8.6 W while idle-calling)."
+   }
+  ],
+  "keep_warm_call": [
+   {
+    "knob": "keep-warm call",
+    "exact": true,
+    "metric": "kind",
+    "value": "platform"
+   },
+   {
+    "metric": "component",
+    "note": "all GPU terms / launch path"
+   },
+   {
+    "metric": "what",
+    "note": "an empty 1-block kernel launched every <= 0.5 ms on the handle's own stream while waiting (stopped >= 20 us before the decode) holds the boost clock; optional host-table touch (~6 MB) for the cold-cache part. Library API = the keep-warm hook fastbp_keep_warm(handle, flags)"
+   },
+   {
+    "metric": "status",
+    "note": "bench-side prototype MEASURED; library hook coded, untested (see knob keep_warm_host_sweep)"
+   },
+   {
+    "metric": "effect",
+    "machine": "A-oc",
+    "build": "6e",
+    "note": "10 ms call cycle: control 46.84 / 63.14 / 95.34 -> keepalive every 500 us 41.84 / 56.82 / 86.33 (recovers 5.0 of the 6.3 us at p50, 79 %; back-to-back reference 40.56 / 52.34 / 70.89); 2 x 1500 shots per condition; machine A (9850X3D Zen 5 + RTX 5080 84 SM, validated OC, bench mode, CPU 4), driver 615.71.09, nvcc 13.3.73; 6e a03125c3 preset, stage-probe build",
+    "p50_us": -5.0,
+    "p99_us": -6.3
+   },
+   {
+    "metric": "notes",
+    "note": "Conditions (p50 / p99 / p99.9 / GPU W): control 46.84 / 63.14 / 95.34 / 41.9 W (2677 MHz); keepalive 100 us 41.85 / 56.64 / 83.14 / 51.3 W; 500 us 41.84 / 56.82 / 86.33 / 50.5 W (+8.6 W); 2 ms 46.64 / 62.75 / 95.08 (clock only ~2915 MHz: not enough); coarse host warm-up alone (~20 MB sweep) 47.57 / 61.71 / 95.59 (p99 -2.0, p50 +0.3..+0.6: evicts the working lines); keepalive 100 us + warm-up 42.08 / 53.81 / 80.51 (best tail: p99 -9.3, p99.9 -14.8); 500 us + warm-up 42.17 / 54.75 / 79.92. Device body back to 32.80; slow-launch share unchanged (6.9-7.3 %). Residual vs back-to-back ~+1.3 us p50 = host part (5.45 vs 4.36); an exact in-library touch of only the engine's ~6 MB should win part of it. Cost: +8.6 W, one ~1.3 us launch call per period on the host thread (inside the idle gap), keepalive commands share the launch ring. Only useful when the shot cadence is >~ 2 ms; no effect (or a slight cost) at <= 100 us spacing."
+   }
+  ],
+  "call_cadence": [
+   {
+    "knob": "call cadence",
+    "exact": true,
+    "metric": "kind",
+    "value": "platform"
+   },
+   {
+    "metric": "component",
+    "note": "all GPU terms / launch path"
+   },
+   {
+    "metric": "what",
+    "note": "the spacing of decode calls changes the measured latency (a deployment fact, not a library setting). Host gap before each call by busy-wait"
+   },
+   {
+    "metric": "status",
+    "note": "MEASURED"
+   },
+   {
+    "metric": "effect",
+    "machine": "A-oc",
+    "build": "6e",
+    "note": "gap 0 (bench) 40.56 / 52.34 / 70.89; 5 us 40.54 / 51.02 / 70.29; 20 us 40.57 / 50.88 / 70.11; 100 us 40.65 / 51.14 / 70.81; 1 ms 41.14 / 52.41 / 69.84; 10 ms 46.83 / 62.62 / 94.45; 10 ms nanosleep 46.96 / 65.11 / 94.48 (delta shown = 10 ms vs gap 0: p50 +6.3, p99 +10.3); machine A (9850X3D Zen 5 + RTX 5080 84 SM, validated OC, bench mode, CPU 4), driver 615.71.09, nvcc 13.3.73; 6e a03125c3 preset",
+    "p50_us": 6.3,
+    "p99_us": 10.0
+   },
+   {
+    "metric": "notes",
+    "note": "Flat to 100 us (and p99 1.3-1.5 us better than back-to-back, 5 us gap: the launch-stream wrap costs less when the next command is not immediate; 0 C-state entries, link 32 GT/s throughout, so it is GPU-side command processing). +0.6 us p50 at 1 ms. At 10 ms: ~4.8 us is GPU clock sag inside P1 (2677 MHz), ~1.2-1.6 us cold host caches / TLB, nanosleep adds +0.4 p50 / +4 p99 on the host part. The GPU leaves P1 after 1.3-2.3 s and reaches P8 after 3.8-4.8 s (link 2.5 GT/s after 3.6-4.8 s), so no decode stream at these cadences ever sees P8 / Gen1. State the bench's cadence next to every quoted number; a forced link gen is not a lever on machine A."
+   }
+  ],
+  "iommu_passthrough": [
+   {
+    "knob": "IOMMU passthrough",
+    "exact": true,
+    "metric": "kind",
+    "value": "platform"
+   },
+   {
+    "metric": "component",
+    "note": "all GPU terms / launch path"
+   },
+   {
+    "metric": "what",
+    "note": "amd_iommu=pt (or iommu=off) for the GPU's group instead of DMA-FQ (translated); kernel command line"
+   },
+   {
+    "metric": "status",
+    "note": "UNTESTED: waits for a planned reboot; every development machine and machine A run DMA-FQ, so no A/B exists. Machine A's own IOMMU mode is not stated in the reports read for the registry"
+   },
+   {
+    "metric": "effect",
+    "note": "ESTIMATE only: at most the launch-wrap event's share = call p99 about -2.2 us, mean about -0.4; not measured",
+    "p99_us": -2.2
+   },
+   {
+    "metric": "notes",
+    "note": "The only untested candidate for the ~4.8-5.1 us launch-ring wrap stall (6-7 % of shots, period ~14 launches in the real decoder). Dead levers around it: param shrink, cudaLaunchKernelEx, event / memset absorbers, dummy-launch steering with the real stream (the later-work list). If it helps it is a p99 / mean knob, not p50."
+   }
+  ],
+  "gdrdrv_host_writes": [
+   {
+    "knob": "GDRCopy-style host writes of the shot block",
+    "exact": true,
+    "metric": "kind",
+    "value": "platform"
+   },
+   {
+    "metric": "component",
+    "note": "all GPU terms / launch path"
+   },
+   {
+    "metric": "what",
+    "note": "GDRCopy-style host writes of the shot block (the gdrdrv kernel module on machine A): host writes the 512 B block into device memory through a BAR1 mapping (write-combined posted stores + sfence), then the static graph launch (the static-graph attempt's publisher-block form); create-time fallback to the shipped launch if the module is absent"
+   },
+   {
+    "metric": "status",
+    "note": "UNTESTED on machine A: estimate from the static-graph attempt's RTX PRO 4500 / CUDA 13.3 numbers; mechanism exists behind DBENCH_GRAPH_PROBE (exact, 800 replay shots)"
+   },
+   {
+    "metric": "effect",
+    "machine": "not recorded",
+    "note": "ESTIMATE: p50 about -0.3..-0.4 (launch call 1.61 -> 1.23, + ~0.1 host write), p99 about -2 (wrap period 12 -> 64 launches, slow share 0.80 -> 0.10-0.20 %), mean about -0.6..-0.75; bb288 z / any m > 2048 also loses the per-shot syndrome H2D copy (-1..-2 us); estimate; the static-graph attempt on an RTX PRO 4500, CUDA 13.3",
+    "p50_us": -0.35,
+    "p99_us": -2.0
+   },
+   {
+    "metric": "notes",
+    "note": "The static-graph attempt lost only to block 0's 0.77 us PCIe read of the mapped shot block. Needs the build/run environment to carry the module or accept the fallback; keep that attempt's published-generation check and the shipped-path re-run on a mismatch; fix its defects (unconditional shipped-path edits, unbounded test spin) first."
+   }
+  ],
+  "cuda_toolkit": [
+   {
+    "knob": "CUDA toolkit",
+    "exact": true,
+    "metric": "kind",
+    "value": "platform"
+   },
+   {
+    "metric": "component",
+    "note": "all GPU terms / launch path"
+   },
+   {
+    "metric": "what",
+    "note": "build toolkit for the shipped library: CUDA 13.3 (nvcc 13.3.73, machine A's driver 615.71) vs 13.0 / 13.2 / 12.8"
+   },
+   {
+    "metric": "status",
+    "note": "DECIDED: 13.3 on machine A; every decisive row must print nvcc and the library's build-info cuda string"
+   },
+   {
+    "metric": "effect",
+    "machine": "D",
+    "build": "6e",
+    "note": "same source of the push step: 13.3 cap 3 p50 -1.8 / two-point slope ratio 0.9116 vs 13.0 cap 3 -0.1 / two-point slope ratio 0.958 (machine D, AVX2; delta shown = what 13.3 adds on top of 13.0); machine D: Core i9-14900K AVX2 + RTX 5080, driver 580.95; nvcc 13.0 vs 13.3.73",
+    "p50_us": -1.7,
+    "p99_us": -1.0
+   },
+   {
+    "metric": "notes",
+    "note": "On 13.0 the push spills in the RN / RZ record kernels (REG 128, STACK 40 B; 68 STL / LDL sites); on 13.3 the same source has an 8 B frame and RD / RU drop to 127 registers. The push attempt's own machine-D build was 13.2 (two-point slope ratio 0.8884). A development machine's 12.8 + driver 575 cannot run CUDA 13 code: exactness checks there are 12.8 builds, timing never. The pushed-histogram step grows STACK on 13.3 in two fallback instantiations no recorded problem shape takes (non-RSLOT ILV fused 16 -> 24 B, non-ILV CSC fused 16 -> 40 B; documented exception). Register pressure of the record kernels sits at the 128 cap: any new per-iteration state needs a register budget. Build wrappers may not pass an nvcc override: set the system default nvcc to 13.3 for the final build. Library sources must contain no getenv / fopen / process calls (comments included)."
+   }
+  ],
+  "osd_cap_rungs": [
+   {
+    "knob": "OSD candidate cap and rung sizes",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "perf only (bit-identical output); depends on the problem"
+   },
+   {
+    "metric": "what",
+    "note": "OSD candidate cap K (osd_cap) and the rung-one size: kOsdK = 384 (rung-one K), kOsdCapA = 640 (osd_cap, the over-cap bound the host rejects), kOsdK2 = 1024 (rung two), kOsdS = 512 stride-sample size, sort gate kOsdSortMinN (sort only above a count; caps > 15 sort, the long-cap sort step of 6c)"
+   },
+   {
+    "metric": "status",
+    "note": "shipped 384 / 640 / 1024 / 512; K / cap sweep still open (local to a build)"
+   },
+   {
+    "metric": "setting",
+    "note": "kOsdK 384, kOsdCapA 640, kOsdK2 1024, kOsdS 512"
+   },
+   {
+    "metric": "check_per_problem",
+    "check_per_problem": true
+   },
+   {
+    "metric": "effect",
+    "machine": [
+     "H",
+     "not recorded"
+    ],
+    "build": "6c",
+    "note": "larger rung one: p50 +0.8, p99.9 -8.9, max -11.7; kOsdS 256: +0.8 / +6.5; machine H and other RTX 5080 development machines (identity not recorded), cnt^2 rank sort (6c era)"
+   },
+   {
+    "metric": "notes",
+    "note": "CHECK PER PROBLEM. bb144 xyz: rung-one host walk exhausts on 3 of 2000 shots (the pushed-histogram step) vs 7-8 (sample-rank). A larger rung one (a rung attempt: 512 / 896 on the cnt^2 rank sort) was +0.8 us p50 in both orders although p99.9 -8.9 / max -11.7: re-price only on a cnt-linear sort (the pushed histogram shrank the sets ~17 % in cnt^2); rung-two repick rate is 0 at every preset in the parity-buffer step's measurement, so a larger rung one is dead there. kOsdS 512 -> 256: +0.8 p50 / +6.5 p99, repicks 8 -> 22 of 2000. Forced-fallback test builds use rungs 24 / 200, 64 / 400 (first forced-fallback build) and 24 / 96, 64 / 200 (second). Over-cap sets must be rejected by the host (rung two / full fallback): a directed test is pending for the pushed-histogram step. Other problems (bb288 z, bb144 z, other codes / noise) have different walk depths: re-fit K / cap per shape before quoting."
+   }
+  ],
+  "osd_r_truncated_rank": [
+   {
+    "knob": "truncated rank bound osd_r",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "perf only (bit-identical output); depends on the problem"
+   },
+   {
+    "metric": "what",
+    "note": "truncated rank bound osd_r (per problem) used by the device rank filter: 64 / 128 / 392 / 512 for xyz / bb288 z / bb144 z / bb72 z"
+   },
+   {
+    "metric": "status",
+    "note": "shipped values from 6a (its truncated-rank step)"
+   },
+   {
+    "metric": "setting",
+    "note": "osd_r = 64 (bb144 xyz), 128 (bb288 z), 392 (bb144 z), 512 (bb72 z)"
+   },
+   {
+    "metric": "check_per_problem",
+    "check_per_problem": true
+   },
+   {
+    "metric": "notes",
+    "note": "CHECK PER PROBLEM. Set from the problem's rank bound at create; a new code needs its own value (too small = full-order fallbacks, too large = wasted bucket work). pass marginal device cost 22.0 -> 10.4 us at 6a."
+   }
+  ],
+  "osd_histogram_bins": [
+   {
+    "knob": "OSD threshold histogram bins and window",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "perf only (bit-identical output); depends on the problem"
+   },
+   {
+    "metric": "what",
+    "note": "pushed-histogram bin count B and value window: B = 256 bins over [-2.5 P, +2.5 P] (P = largest finite |prior LLR|, 6.91 for bb144 xyz)"
+   },
+   {
+    "metric": "status",
+    "note": "shipped B = 256; B = 512 and 128 measured only on dumped posteriors (screen), not as a library"
+   },
+   {
+    "metric": "setting",
+    "note": "B = 256 (candidates 128 / 512)"
+   },
+   {
+    "metric": "check_per_problem",
+    "check_per_problem": true
+   },
+   {
+    "metric": "effect",
+    "machine": "H",
+    "build": "6f",
+    "note": "sets p99 457 -> 431 at B 256 -> 512 (screen, bb144 xyz a03125c3, 2000 tuning shots); machine H Zen 5 + 5080, replay of the shipped walk on dumped posteriors"
+   },
+   {
+    "metric": "notes",
+    "note": "CHECK PER PROBLEM. Rung-one set p99 at a03125c3: B = 128 528, B = 256 457, B = 512 431 (against a costlier scan: the pushed-histogram step stopped with 'no idea worth a measurement'). Window width sweep +-1.5 P..+-6 P flat (3 repicks). A key-space window collapsed sets (p50 <= 139, 11-30 repicks). Check B and the window per problem and per prior spread; a tiny / subnormal prior range can overflow osd_iscale (a guard or a test is pending). Related leftovers (vectorised bin scan, one-chunk P6) are <= 0.35 us each."
+   }
+  ],
+  "b2c_window": [
+   {
+    "knob": "shared-memory b2c window",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "perf only (bit-identical output); depends on the problem"
+   },
+   {
+    "metric": "what",
+    "note": "shared-memory window for the b2c messages: dynamic shared request = window (rounds x slice of the widest block) + tables / rslot / meta; needs the SM's opt-in shared memory (101,376 B on the 5080)"
+   },
+   {
+    "metric": "status",
+    "note": "kept in 6f; fits only at 84 SMs (and only with the two window trims of 6e)"
+   },
+   {
+    "metric": "setting",
+    "note": "9 rounds, 73,728 B window, request 95,216 B at 84 blocks (widest block 1,024 columns after the block-balance step)"
+   },
+   {
+    "metric": "check_per_problem",
+    "check_per_problem": true
+   },
+   {
+    "metric": "effect",
+    "machine": "D",
+    "build": "6f",
+    "note": "window ON: cap 3 -1.7 / -1.2, a05ms31 OSD -30.8 / -35.3, two-point slope ratio 0.866; machine D: Core i9-14900K AVX2 + 5080 84 SM, CUDA 13.3"
+   },
+   {
+    "metric": "notes",
+    "note": "CHECK PER PROBLEM. A 70-SM part falls back to the global-b2c path and loses the window's gain (-1.7 cap 3, two-point slope ratio 0.866 -> ~0.92 or worse; ~78 KB needed per the 6f probe, 107,200 B per the window step's own check); 170 SMs fits easily (57,584 B). Fit with neither / one trim: falls back (30,464 / 28,976 / 37,952 B requests). Without a window kernel the shape choice is: window -> same RSLOT kernel on global b2c -> non-RSLOT. z presets (CSC / in-place) have no window at all. A 64 KiB-L2 build takes the window. A partial per-edge window was dead (two-point slope ratio 0.9615 vs 0.9230, across measurement series). Print the layout record (t_layout) on each machine before timing."
+   }
+  ],
+  "balance_gate": [
+   {
+    "knob": "block balance gate",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "perf only (bit-identical output); depends on the problem"
+   },
+   {
+    "metric": "what",
+    "note": "block_balance2 gate: balance columns across blocks by edge count (colbase[] table) only when the footprint rule allows (ns_max <= 255, growth over uniform <= 25 %) and the margin (kBalMarginPct) is met"
+   },
+   {
+    "metric": "status",
+    "note": "kept; gate fixed in a 6f step (true footprints)"
+   },
+   {
+    "metric": "setting",
+    "note": "kBalMarginPct 0 (the margin-gate form with 7 dropped), footprint rule ns <= 255 / <= +25 %"
+   },
+   {
+    "metric": "check_per_problem",
+    "check_per_problem": true
+   },
+   {
+    "metric": "effect",
+    "machine": "D",
+    "build": "6d",
+    "note": "cap 3 -0.4 / -1.3, a05ms31 -5.9 / -9.1; bb288 z +0.5 %; machine D: AVX2 + 5080 84 SM, CUDA 13.0"
+   },
+   {
+    "metric": "notes",
+    "note": "CHECK PER PROBLEM. Host screen at 84 blocks: predicted slowest-block gain bb144 xyz 8.92 %, bb288 z 5.45 % (before the 6f gate fix; after it bb288 z is NOT balanced at 84 SMs), bb144 z 0 %, bb72 z 0 %, hgp98 xyz -3.29 % (balancing would lose). At 70 blocks the gate refuses bb144 xyz (-77 %). Costs on every ILV problem whatever the layout: colbase[] load per pass + Dev +8 B (bb288 z +0.27..+0.6 %). The uniform-table formula (no table load when the layout is uniform) would remove that cost (6d direction, deferred)."
+   }
+  ],
+  "kernel_shape_choice": [
+   {
+    "knob": "BP kernel shape chosen at create",
+    "exact": true,
+    "metric": "kind",
+    "value": "exact"
+   },
+   {
+    "metric": "component",
+    "note": "perf only (bit-identical output); depends on the problem"
+   },
+   {
+    "metric": "what",
+    "note": "per-shape BP kernel selection at create: RSLOT (+ REC record kernel) vs ILV (SHSUM, 32-wide interleaved edge slots) vs CSC (non-ILV, degree > 9 columns) vs in-place / two-barrier bodies; chosen by degree, ILV step waste (<= 12 %), sum_needed (rows too wide / messages out of L2), ns_max <= 255 and the shared-memory opt-in"
+   },
+   {
+    "metric": "status",
+    "note": "automatic (gates in setup); the choice is the knob"
+   },
+   {
+    "metric": "setting",
+    "note": "bb144 xyz / hgp98 xyz: RSLOT + REC; bb144 z: CSC in-place (117 blocks, no fused schedule); bb288 z: in-place ILV (252 blocks)"
+   },
+   {
+    "metric": "check_per_problem",
+    "check_per_problem": true
+   },
+   {
+    "metric": "notes",
+    "note": "CHECK PER PROBLEM. Most 6b-6f gains are xyz/RSLOT-only (z presets are flat to -4 us per class: the pushed-histogram and parity-buffer steps only). Steps that touch other instantiations: the push step of 6e costs bb288 z +0.3 %; the pushed-histogram step grows STACK 16 -> 24 B (non-RSLOT ILV fused) and 16 -> 40 B (CSC fused) on 13.3, selected when sum_needed holds and the RSLOT request fails the opt-in; no recorded problem shape takes them. A new problem that does is to be timed with those in view. Even/odd caps, interleave waste and the z presets' bimodal (converged / OSD) latency make pooled p50 meaningless: judge per class."
+   }
+  ]
+ }
+}

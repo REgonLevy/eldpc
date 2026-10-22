@@ -1,0 +1,156 @@
+{
+ "schema": "eldpc.results.stock_baseline.v1",
+ "what": "The stock baseline: ldpc 2.4.1 BP+OSD-0 at its common settings (ms30: min-sum alpha 0.625, 30 iterations, OSD-0), single-shot latency through its Python decode() on one core of machine A's host, and the LER records that the stock comparisons of tuning/KNOWLEDGE.md section 5 and README.md use. eldpc's ms30 preset is bit-identical to this decoder, so its LER is stock's.",
+ "machine": {
+  "key": "A (host only)",
+  "cpu": "AMD Ryzen 7 9850X3D 8-Core Processor (Zen 5, AVX-512)",
+  "host_setup": "each timed process alone on one isolated CPU, bench mode as in the final bench"
+ },
+ "latency": [
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "config": "ms30 (0.625, 30)",
+   "decoder": "ldpc 2.4.1 BpOsdDecoder (min-sum, parallel, OSD-0), Python decode(), one core",
+   "timed_shots": 7103,
+   "all_zero_syndromes_untimed": 0,
+   "stats_us": {
+    "p50": 72765.335,
+    "p99": 142972.691,
+    "p999": 230248.852,
+    "mean": 75840.968,
+    "max": 754519.108
+   },
+   "converged_fraction": 0.026608,
+   "shot_cap_s": 540.0
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "config": "a03125c3 (0.3125, 3)",
+   "decoder": "ldpc 2.4.1 BpOsdDecoder (min-sum, parallel, OSD-0), Python decode(), one core",
+   "timed_shots": 20000,
+   "all_zero_syndromes_untimed": 0,
+   "stats_us": {
+    "p50": 22844.57,
+    "p99": 40468.813,
+    "p999": 98690.783,
+    "mean": 23853.826,
+    "max": 268254.396
+   },
+   "converged_fraction": 0.00025,
+   "shot_cap_s": null
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "config": "a05ms31 (0.5, 31)",
+   "decoder": "ldpc 2.4.1 BpOsdDecoder (min-sum, parallel, OSD-0), Python decode(), one core",
+   "timed_shots": 5000,
+   "all_zero_syndromes_untimed": 0,
+   "stats_us": {
+    "p50": 70453.409,
+    "p99": 93280.888,
+    "p999": 130826.136,
+    "mean": 69245.761,
+    "max": 152671.889
+   },
+   "converged_fraction": 0.0578,
+   "shot_cap_s": null
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "config": "ms30 (0.625, 30)",
+   "decoder": "ldpc 2.4.1 BpOsdDecoder (min-sum, parallel, OSD-0), Python decode(), one core",
+   "timed_shots": 19998,
+   "all_zero_syndromes_untimed": 2,
+   "stats_us": {
+    "p50": 7109.478,
+    "p99": 7672.658,
+    "p999": 8627.363,
+    "mean": 6763.979,
+    "max": 11509.437
+   },
+   "converged_fraction": 0.06205,
+   "shot_cap_s": 540.0
+  }
+ ],
+ "latency_notes": "each row one process over a fresh latency shot set; the ms30 rows were capped at 540 s, hence 7,103 shots on bb144 xyz; on bb144 z 2 of 20,000 shots have an all-zero syndrome and are not timed. On every timed shot the stock observables equal eldpc's at the same config.",
+ "ler": [
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "config": "ms30 (0.625, 30)",
+   "shots": 4000000,
+   "failures": 895,
+   "ler": 0.000224,
+   "ci99_clopper_pearson": [
+    0.0002,
+    0.00024
+   ],
+   "note": "eldpc ms30 decode of 4 fresh sets of 1M shots; bit-identical to stock on the latency shots"
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "config": "ms30 (0.625, 30)",
+   "shots": 4000000,
+   "failures": 236,
+   "ler": 5.9e-05,
+   "ci99_clopper_pearson": [
+    5e-05,
+    7e-05
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "config": "a04375c3 (0.4375, 3)",
+   "shots": 4000000,
+   "failures": 23,
+   "ler": 5.75e-06,
+   "ci99_clopper_pearson": [
+    3.1e-06,
+    9.6e-06
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "config": "a03125c3 (0.3125, 3)",
+   "shots": 17300000,
+   "failures": 160,
+   "ler": 9.25e-06,
+   "ci99_clopper_pearson": [
+    7.47e-06,
+    1.13e-05
+   ],
+   "runs": [
+    {
+     "shots": 2000000,
+     "failures": 13,
+     "stage": "alpha x cap surface screen"
+    },
+    {
+     "shots": 3000000,
+     "failures": 35,
+     "stage": "3M-shot confirmation"
+    },
+    {
+     "shots": 4300000,
+     "failures": 41,
+     "stage": "confirmation"
+    },
+    {
+     "shots": 4000000,
+     "failures": 26,
+     "stage": "baseline session"
+    },
+    {
+     "shots": 4000000,
+     "failures": 45,
+     "stage": "baseline session top-up"
+    }
+   ],
+   "consistency": "the five fresh-shot runs on the identical circuit are consistent with one rate (p 0.07)"
+  }
+ ],
+ "computed": {
+  "note": "ratios used by the docs, computed from this record and the final bench (tools/results/final-bench/final-bench.json, A-stock a03125c3 p50 34.02 us) and the earlier C-ABI stock row of tuning/data/knob_facts.json: bench (cpu), 65.0 ms",
+  "stock_python_p50_over_a03125c3_a_stock_p50": 2138.9,
+  "stock_c_abi_p50_over_a03125c3_a_stock_p50": 1910.6
+ }
+}

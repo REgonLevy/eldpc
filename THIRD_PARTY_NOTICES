@@ -1,0 +1,110 @@
+eldpc third-party notices
+=========================
+
+eldpc is licensed under the Apache License, Version 2.0 (LICENSE). This source tree also contains,
+or the binaries built from it also contain, the third-party components below. Each is governed by
+its own licence, reproduced or referenced here; their vendored LICENSE and NOTICE files and the
+licence comments in their sources are kept unchanged.
+
+The runtime and optional Python dependencies that pip installs (numpy, scipy, stim; with the
+extras, qLDPC, ldpc and pytest) are not part of this source tree and come under their own
+licences.
+
+
+1. ldpc 2.4.1 (C++ decoder headers)
+-----------------------------------
+
+Upstream:  https://github.com/quantumgizmos/ldpc, commit d3429964cd4ffe1abfc041c6ec8b8425cb174f40
+           (v2.4.1 era, 2025-12-08)
+Licence:   MIT License, Copyright (c) 2024 Joschka Roffe (full text below)
+
+Where it is used:
+  - verify/reference/ldpc/src_cpp/*.hpp: the reference decoder of the verification suite, built
+    by verify/reference/CMakeLists.txt behind the C ABI shim verify/reference/ldpc_ref_abi.cpp.
+  - src/third_party/ldpc/src_cpp/*.hpp: the same files, byte for byte; the GPU and CPU decoder
+    cores compile against them (ldpc's OSD decoder handles osd_cs and osd_e, and the OSD-0 shots
+    whose syndrome is outside the image of H), so code from them is part of every decoder core
+    built from this tree.
+
+Modified: yes. The changes of verify/reference/ldpc-2.4.1-decoder-bench.patch are applied to the
+headers in both directories: an explicit total order for the OSD column sort (soft value
+ascending, ties by ascending column index, NaN after every number) and for the LSD candidate
+orders, and a fixed shuffle seed, so the post-processing is reproducible. BP itself is unchanged.
+Upstream's include/rapidcsv (used only by upstream's C++ unit tests) is not included.
+
+Upstream's src_cpp/sort.hpp marks two index-sort helpers as modified from a Stack Overflow answer
+(https://stackoverflow.com/a/36714204); they are part of upstream ldpc and are distributed here as
+upstream distributes them.
+
+The licence files of this component are verify/reference/LICENSE and src/third_party/ldpc/LICENSE
+(identical), with verify/reference/NOTICE and src/third_party/ldpc/NOTICE.
+
+MIT License
+
+Copyright (c) 2024 Joschka Roffe
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+2. tsl::robin_map (hash map headers, included by ldpc)
+------------------------------------------------------
+
+Files:     src/third_party/ldpc/include/robin_map/*.h and verify/reference/ldpc/include/robin_map/*.h
+           (identical copies, unmodified; each carries its licence comment)
+Licence:   MIT License, Copyright (c) 2017 Thibaut Goetghebuer-Planchon (full text below, as in the
+           headers' licence comment)
+
+MIT License
+
+Copyright (c) 2017 Thibaut Goetghebuer-Planchon <tessil@gmx.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+3. NVIDIA CUDA runtime (in binaries built from this source)
+-----------------------------------------------------------
+
+This source tree contains no NVIDIA code. A build with CUDA (the default; not the CPU-only build
+of ELDPC_WITHOUT_CUDA) links the CUDA runtime library of the CUDA Toolkit it is built with
+statically (CUDA_RUNTIME_LIBRARY Static, CUDA::cudart_static) into each of the four GPU decoder
+cores: libeldpc_core_avx2.so, libeldpc_core_avx512.so, libeldpc_core_avx2_ada64.so and
+libeldpc_core_avx512_ada64.so (docs/BUILD.md, "Static CUDA runtime"). The C API front libeldpc.so
+and the CPU cores libeldpc_cpu_avx2.so and libeldpc_cpu_avx512.so contain no CUDA runtime. The
+NVIDIA driver libraries (libcuda.so.1, libnvidia-ml.so.1) are loaded from the system at run time
+and are not distributed.
+
+The CUDA runtime is governed by the NVIDIA CUDA Toolkit End User License Agreement
+(https://docs.nvidia.com/cuda/eula/index.html), not by the Apache License of eldpc. Anyone who
+redistributes binaries built from this source (for example a wheel) must comply with that EULA.

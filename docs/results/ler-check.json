@@ -1,0 +1,179 @@
+{
+ "command": "python bench/bench.py ler --problem surface --config a03125c3 --config ms30 --ler-shots 500000 --out ../eldpc-results/ler",
+ "commit": "f44723c",
+ "elapsed_s": 92.928,
+ "environment": {
+  "clocks": {
+   "after": {
+    "graphics_mhz": 2700.0,
+    "memory_mhz": 9501.0
+   },
+   "before": {
+    "graphics_mhz": 210.0,
+    "memory_mhz": 405.0
+   },
+   "source": "recorded by the benchmark before and after the measurements"
+  },
+  "cpu": {
+   "logical_cores": 128,
+   "model": "AMD EPYC 7542 32-Core Processor",
+   "physical_cores": 64,
+   "pinned_cpu": 1
+  },
+  "cpu_frequency": {
+   "boost": "1",
+   "cur_freq_khz": 3400177,
+   "governor": "schedutil"
+  },
+  "cuda_driver_version": "13.0",
+  "cuda_runtime": "NVIDIA 13.3.73, linked statically (eldpc.build_info())",
+  "driver": "580.126.09",
+  "eldpc": {
+   "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx2; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2; build_type=Release; isa=avx2; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+   "isa": "avx2",
+   "version": "0.1.0"
+  },
+  "gpu": {
+   "compute_capability": "8.9",
+   "l2_bytes": 100663296,
+   "name": "NVIDIA RTX 6000 Ada Generation",
+   "sm_count": 142
+  },
+  "python_packages": {
+   "numpy": "2.5.4",
+   "qldpc": "0.4.2.dev20261004",
+   "scipy": "1.18.1",
+   "stim": "1.16.0"
+  },
+  "toolkit": "CUDA 13.3 (V13.3.73)"
+ },
+ "failures": [],
+ "kind": "ler",
+ "ler": {
+  "batch_shots": 2048,
+  "comparison": {
+   "a": "A",
+   "b": "B",
+   "ci95_disjoint": false,
+   "delta_ler": -4e-06
+  },
+  "kind": "ler",
+  "problem": {
+   "build_seconds": 6.149,
+   "dem_sha256": "72fa906fe76949f650d51bb75d200b581aad0f14b829d4e1f2df3c7bea4ba5af",
+   "k": 1,
+   "m": 720,
+   "n": 15884,
+   "name": "sc9_unif_p1e-3_z",
+   "nnz_h": 49114,
+   "nnz_o": 663,
+   "problem_file": {
+    "sha256": "872e3bee5c35761407dd5879c31b172c37c582c76e0b192bd3258f7c4d987fb5"
+   },
+   "recipe": {
+    "basis": "z",
+    "dem_decompose_errors": true,
+    "description": "rotated surface code d=9, 9 rounds, Z basis",
+    "family": "surface",
+    "kind": "built-in circuit",
+    "noise": "uniform depolarizing",
+    "p": 0.001,
+    "rounds": 9
+   },
+   "shots": {
+    "latency": {
+     "seed": 1400563345,
+     "sha256": "85a371133ad4f07901f546bd2a107bea4c92305900f0ae3c226db16c93e2a79b",
+     "shots": 8192
+    },
+    "ler": {
+     "seed": 1712431968,
+     "sha256": "241303623aa99412d3a0806c618dba51cfa79ac8695e1608cae7ad3404c91cb2",
+     "shots": 500000
+    }
+   },
+   "source": "built-in",
+   "timings_seconds": {
+    "latency_shots": 0.038,
+    "ler_shots": 4.235,
+    "open": 1.495
+   }
+  },
+  "shots": 500000,
+  "variants": {
+   "A": {
+    "checksum": "845e3043e1656af4539c1d2de607214ea5c381a7014362d15d501b02a19e022b",
+    "ci95": [
+     1.1e-06,
+     1.459e-05
+    ],
+    "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+    "decode_wall_s": 21.928868735,
+    "errors": 2,
+    "label": "a03125c3",
+    "ler": 4e-06,
+    "shots": 500000,
+    "shots_per_s_including_io": 22801.0
+   },
+   "B": {
+    "checksum": "c20fa1527d913f5634e3c49e1730abab581d90d2cd8a191f9dbbe3249906d50f",
+    "ci95": [
+     3.11e-06,
+     2.057e-05
+    ],
+    "config_string": "bp_method=ms;decoder=bposd;max_iter=30;ms_scaling_factor=0.625;osd_method=osd0;osd_order=0;schedule=parallel",
+    "decode_wall_s": 63.427517895,
+    "errors": 4,
+    "label": "ms30",
+    "ler": 8e-06,
+    "shots": 500000,
+    "shots_per_s_including_io": 7883.0
+   }
+  },
+  "wall_s": 86.552,
+  "what_is_measured": "logical error rate over shots sampled from the problem's model: a shot is wrong when any predicted observable flip differs from the true one"
+ },
+ "package_tree_clean": true,
+ "package_version": "0.1.0",
+ "problem": {
+  "dem_sha256": "72fa906fe76949f650d51bb75d200b581aad0f14b829d4e1f2df3c7bea4ba5af",
+  "k": 1,
+  "m": 720,
+  "n": 15884,
+  "name": "sc9_unif_p1e-3_z",
+  "nnz_h": 49114,
+  "nnz_o": 663,
+  "recipe": {
+   "basis": "z",
+   "dem_decompose_errors": true,
+   "description": "rotated surface code d=9, 9 rounds, Z basis",
+   "family": "surface",
+   "kind": "built-in circuit",
+   "noise": "uniform depolarizing",
+   "p": 0.001,
+   "rounds": 9
+  },
+  "shots": {
+   "latency": {
+    "seed": 1400563345,
+    "sha256": "85a371133ad4f07901f546bd2a107bea4c92305900f0ae3c226db16c93e2a79b",
+    "shots": 8192
+   },
+   "ler": {
+    "seed": 1712431968,
+    "sha256": "241303623aa99412d3a0806c618dba51cfa79ac8695e1608cae7ad3404c91cb2",
+    "shots": 500000
+   }
+  },
+  "source": "built-in"
+ },
+ "quick": false,
+ "schema": "eldpc.results.v2",
+ "started_utc": "2026-10-22T04:28:34Z",
+ "warnings": [
+  "CPU pinned automatically to CPU 1 (the first CPU of the GPU's NUMA node other than CPU 0 and its SMT sibling); pass --cpu N to fix the choice",
+  "CPU governor is 'schedutil' on the pinned CPU: its frequency may change during the run; use the 'performance' governor for publishable numbers",
+  "GPU clock changed during the run: graphics_mhz 210 -> 2700 MHz (the GPU was not at a steady clock)",
+  "GPU clock changed during the run: memory_mhz 405 -> 9501 MHz (the GPU was not at a steady clock)"
+ ]
+}

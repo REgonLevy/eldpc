@@ -1,0 +1,84 @@
+{
+  "command": "package_sizes.py --wheel before=eldpc-0.1.0-py3-none-linux_x86_64.whl --wheel after=eldpc-0.1.0-py3-none-linux_x86_64.whl --out tools/results/cpu/wheel-sizes.json",
+  "commit": "5bc628478b4378ab5eeaaf2faea4ab48f4578d83",
+  "commit_note": "development-tree record: `commit` names a revision of the development tree, which is not in this repository's history, so the record cannot be re-run at that revision from this repository; tools/package_sizes.py here measures the same quantities",
+  "deltas": {
+    "after_minus_before": {
+      "bytes": 226511,
+      "mb": 0.227,
+      "native_libraries_uncompressed_bytes": 33547032,
+      "native_libraries_uncompressed_mb": 33.547
+    }
+  },
+  "platform": "Linux-6.8.0-142-generic-x86_64-with-glibc2.39",
+  "probe": "eldpc wheel and native-library sizes",
+  "python": "3.12.3",
+  "wheels": {
+    "after": {
+      "bytes": 9082188,
+      "file": "eldpc-0.1.0-py3-none-linux_x86_64.whl",
+      "libraries": {
+        "eldpc/_libs/libeldpc.so": {
+          "compressed_bytes": 15718,
+          "uncompressed_bytes": 47512
+        },
+        "eldpc/_libs/libeldpc_core_avx2.so": {
+          "compressed_bytes": 2200126,
+          "uncompressed_bytes": 8249456
+        },
+        "eldpc/_libs/libeldpc_core_avx2_ada64.so": {
+          "compressed_bytes": 2200234,
+          "uncompressed_bytes": 8249456
+        },
+        "eldpc/_libs/libeldpc_core_avx512.so": {
+          "compressed_bytes": 2202461,
+          "uncompressed_bytes": 8253552
+        },
+        "eldpc/_libs/libeldpc_core_avx512_ada64.so": {
+          "compressed_bytes": 2202487,
+          "uncompressed_bytes": 8253552
+        },
+        "eldpc/_libs/libeldpc_cpu_avx2.so": {
+          "compressed_bytes": 106350,
+          "uncompressed_bytes": 240608
+        },
+        "eldpc/_libs/libeldpc_cpu_avx512.so": {
+          "compressed_bytes": 112816,
+          "uncompressed_bytes": 252896
+        }
+      },
+      "mb": 9.082,
+      "name": "after",
+      "sha256": "922648dccef30442d1d582d298cefed76bfcb1aab6ce42a337f53347aa2d9782"
+    },
+    "before": {
+      "bytes": 8855677,
+      "file": "eldpc-0.1.0-py3-none-linux_x86_64.whl",
+      "libraries": {
+        "eldpc/_libs/libeldpc.so": {
+          "compressed_bytes": 12776,
+          "uncompressed_bytes": 35208
+        },
+        "eldpc/_libs/libeldpc_core_avx2.so": {
+          "compressed_bytes": 2200118,
+          "uncompressed_bytes": 8249456
+        },
+        "eldpc/_libs/libeldpc_core_avx2_ada64.so": {
+          "compressed_bytes": 2200233,
+          "uncompressed_bytes": 8249456
+        },
+        "eldpc/_libs/libeldpc_core_avx512.so": {
+          "compressed_bytes": 2202470,
+          "uncompressed_bytes": 8253552
+        },
+        "eldpc/_libs/libeldpc_core_avx512_ada64.so": {
+          "compressed_bytes": 2202496,
+          "uncompressed_bytes": 8253552
+        }
+      },
+      "mb": 8.856,
+      "name": "before",
+      "sha256": "384a3d61242212fa415b373e1e77dc97177b7902034b843c6e053884f017c3f8"
+    }
+  }
+}

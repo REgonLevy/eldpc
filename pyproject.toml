@@ -1,0 +1,42 @@
+[build-system]
+# scikit-build-core 0.11 is the first release that reads the SPDX licence expression and the
+# license-files of [project] (PEP 639); 0.10 rejects a string project.license.
+requires = ["scikit-build-core>=0.11", "cmake>=3.21", "ninja"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "eldpc"
+version = "0.1.0"
+description = "Exact GPU BP+OSD decoding for quantum LDPC codes"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES", "AUTHORS"]
+authors = [{name = "Egon Levy"}]
+requires-python = ">=3.9"
+dependencies = ["numpy", "scipy", "stim"]
+
+# Optional extras for the source-tree tools (tests/, verify/, bench/, tuning/) and the qLDPC
+# integration; install from the package root, e.g. pip install ".[test,qldpc]".
+# qldpc: qLDPC at the git revision eldpc.qldpc and the verification corpora are tested with (the
+# released qLDPC 0.4.0 and 0.4.1 lack the decoder-specification API eldpc.qldpc needs; installing
+# from git needs git on PATH), and ldpc 2.4.1, the version the reference and the tests compare with.
+[project.optional-dependencies]
+qldpc = [
+    "qldpc @ git+https://github.com/qLDPCOrg/qLDPC@4c4f80109215fa4a28b4d94e2c285e4683487bc1",
+    "ldpc==2.4.1",
+]
+test = ["pytest>=8"]
+
+[tool.scikit-build]
+minimum-version = "0.10"
+wheel.packages = ["python/eldpc"]
+# The wheel contains no CPython extension: the native libraries are loaded with ctypes, so the
+# wheel is tagged py3-none-<platform> and installs on any supported Python >= 3.9.
+wheel.py-api = "py3"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  # A test that needs no CUDA device: with none visible it runs on the CPU core (device="cpu").
+  "cpu_core: the test needs no CUDA device; with none visible it runs on the CPU core (device=\"cpu\")",
+]

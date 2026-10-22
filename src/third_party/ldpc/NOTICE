@@ -1,0 +1,12 @@
+This directory contains the C++ headers of ldpc 2.4.1 (https://github.com/quantumgizmos/ldpc),
+the decoder library whose OSD-0 implementation the eldpc decoder uses.
+
+  src_cpp/*.hpp            the header-only decoders (BP, OSD, and their dependencies)
+  include/robin_map/*.h    tsl::robin_map by Thibaut Goetghebuer-Planchon, included by ldpc
+
+Both are distributed under the MIT License; the full text is in LICENSE. The copyright notices of
+the authors are kept in the source files.
+
+The files are the ldpc 2.4.1 headers as vendored by the fastbpgpu6g decoder: the deterministic
+column-ordering changes of that tree (explicit tie-breaks in the OSD / LSD column orders and
+indices, so equal soft values sort by column index) are present. BP itself is unmodified.

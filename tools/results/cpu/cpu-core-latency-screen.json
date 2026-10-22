@@ -1,0 +1,124 @@
+{
+  "schema": "eldpc.results.cpu_core_latency_screen.v1",
+  "what": "A screen, not a timing-grade benchmark: single-shot C latency of the CPU core (device=cpu) on machine A of tuning/KNOWLEDGE.md section 0.2, bb144 xyz at the preset a03125c3, one handle, back to back, at threads=8 and threads=4. Summary statistics as recorded by bench/bench.py (us, pooled over the 50,000 calls of a run).",
+  "machine": {
+    "key": "A",
+    "cpu": "AMD Ryzen 7 9850X3D 8-Core Processor (Zen 5, 8 cores, 16 hardware threads, AVX-512); CPU 0's SMT sibling is CPU 8, so CPUs 0-7 are one hardware thread on each of the 8 cores",
+    "gpu": "NVIDIA GeForce RTX 5080, idle during every run: no GPU process before, between or after, graphics clock 180 MHz before and after",
+    "nvidia_driver": "615.71.09",
+    "host_setup": "a normal boot, not the bench mode of section 0.2: no isolated CPUs, the machine's other processes kept running; governor performance, EPP performance, boost on; amd-pstate-epp",
+    "grade": "screen"
+  },
+  "package": {
+    "commit": "f556bee9de3a54b491a9fda506ab948fb0618971",
+    "core": "the CPU core, AVX-512 build (host_isa=avx512), chosen with --device cpu",
+    "build_info": "eldpc 0.1.0; front=GNU 15.2.0; host_isa=avx512; core=compiler=GNU 15.2.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2 -mavx512f -mavx512vl -mavx512dq -mavx512bw; build_type=Release"
+  },
+  "problem": {
+    "name": "bb144_unif_p1e-3_r12_xyz",
+    "description": "[[144,12,12]] bivariate bicycle code, 12 rounds, uniform depolarizing p = 1e-3, X and Z decoded jointly (bench.py's built-in bb144)",
+    "m": 1872,
+    "n": 75600,
+    "k": 24,
+    "dem_sha256": "083163f2ecf9eb495b1dfbef2fab06b21c141b2161880f97b77ac216d68f52b0"
+  },
+  "preset": "a03125c3",
+  "config": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel;threads=<threads>",
+  "command": "taskset -c <cpu set> python bench.py c-latency --problem bb144 --device cpu --config \"<config>\" --cpu none --allow-unpinned --modes back_to_back --shots 25000 --processes 1 --out <out>",
+  "driver_note": "Run with a single-handle variant of bench/c/bench_driver.c, not the driver shipped at this commit: one handle (the A/A control's second handle is the same handle), each call its own shot, 25,000 distinct syndromes each decoded twice, 50,000 calls pooled per run. The shipped driver of this commit holds two CPU handles at once (the A/A design), whose busy-waiting workers then share the pinned set (2 x threads workers on threads CPUs), which measures oversubscription rather than the decoder. Because both sides of the A/A control are one handle that decodes different shots, bench.py's A/A output-comparison warning in these runs is an artefact of the variant, not a decoder property.",
+  "two_handle_driver_observation": {
+    "what": "the unmodified driver of this commit (two CPU handles at once, the A/A design), same machine, problem and preset, threads=8 per handle on the 8-CPU set 0-7",
+    "p50_us": 8600,
+    "note": "about 8.6 ms per bb144 xyz shot instead of about 149 us: both handles' busy-waiting workers (16) shared the 8 cores. This is why the runs below used the single-handle variant. Taken from the screen's notes; that run's results file was not kept."
+  },
+  "calls_per_run": 50000,
+  "distinct_syndromes_per_run": 25000,
+  "warmup_calls": 2000,
+  "runs": [
+    {
+      "run": "threads8_a",
+      "threads": 8,
+      "cpu_set": "0-7",
+      "generated_utc": "2026-10-21T19:28:15Z",
+      "kept": true,
+      "p50_us": 148.561,
+      "p99_us": 184.959,
+      "p99_9_us": 209.966,
+      "mean_us": 150.693,
+      "min_us": 113.244,
+      "max_us": 263.026,
+      "loadavg_1min_start_end": [0.45, 2.12]
+    },
+    {
+      "run": "threads8_b",
+      "threads": 8,
+      "cpu_set": "0-7",
+      "generated_utc": "2026-10-21T19:30:13Z",
+      "kept": true,
+      "p50_us": 148.54,
+      "p99_us": 185.921,
+      "p99_9_us": 216.298,
+      "mean_us": 150.654,
+      "min_us": 128.523,
+      "max_us": 269.258,
+      "loadavg_1min_start_end": [0.47, 2.14]
+    },
+    {
+      "run": "threads4_a",
+      "threads": 4,
+      "cpu_set": "0-3",
+      "generated_utc": "2026-10-21T19:32:39Z",
+      "kept": false,
+      "discarded_because": "a transient load spike: more than 1 % of the calls took about 24 ms (p99 23,897 us, max 25,900 us) and the timed part took 53.6 s against 19.1-19.3 s in the other two threads=4 runs; the p50 (227.319 us) was in line with them",
+      "p50_us": 227.319,
+      "p99_us": 23897.236,
+      "p99_9_us": 23915.871,
+      "mean_us": 894.524,
+      "min_us": 163.398,
+      "max_us": 25900.275,
+      "loadavg_1min_start_end": [0.49, 2.54]
+    },
+    {
+      "run": "threads4_b",
+      "threads": 4,
+      "cpu_set": "0-3",
+      "generated_utc": "2026-10-21T19:34:48Z",
+      "kept": true,
+      "p50_us": 222.991,
+      "p99_us": 252.927,
+      "p99_9_us": 290.017,
+      "mean_us": 224.838,
+      "min_us": 148.841,
+      "max_us": 399.143,
+      "loadavg_1min_start_end": [0.56, 1.54]
+    },
+    {
+      "run": "threads4_c",
+      "threads": 4,
+      "cpu_set": "0-4",
+      "generated_utc": "2026-10-21T19:36:39Z",
+      "kept": true,
+      "p50_us": 227.509,
+      "p99_us": 256.554,
+      "p99_9_us": 289.306,
+      "mean_us": 229.314,
+      "min_us": 167.957,
+      "max_us": 347.115,
+      "loadavg_1min_start_end": [0.44, 1.45]
+    }
+  ],
+  "summary": {
+    "threads8_cpus_0_7": {"p50_us": 148.6, "p99_us": 185.0, "runs": 2, "note": "p50 148.561 / 148.54, p99 184.959 / 185.921"},
+    "threads4": {"p50_us": [222.991, 227.509], "p99_us": [252.927, 256.554], "runs": 2, "note": "CPUs 0-3 and 0-4; the third run (threads4_a) discarded"}
+  },
+  "outputs": {
+    "checksum": "c35d16a43d34859f",
+    "note": "the same output checksum in all five runs (same seeded syndromes): the CPU core returned the same outputs at threads=8 and threads=4",
+    "status": "per run: 49,996 calls took the OSD path after 3 iterations, 4 converged after 1 iteration"
+  },
+  "notes": [
+    "The load average rises during each run because the CPU core's workers busy-wait (threads busy threads for the whole run).",
+    "The process was confined to the CPU set with taskset and not pinned to one CPU (--cpu none --allow-unpinned), so bench.py warns that the run was unpinned; the calling thread and the workers share the set.",
+    "A screen on a development machine outside its bench mode: indicative of the CPU core on a Zen 5 host, not a deployment latency."
+  ]
+}

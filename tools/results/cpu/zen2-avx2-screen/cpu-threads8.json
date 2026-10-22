@@ -1,0 +1,537 @@
+{
+ "c_latency": {
+  "calls_per_variant_per_session": 300,
+  "configs": {
+   "A": {
+    "config_string": "bp_method=ms;cpus=8-15;decoder=bposd;device=cpu;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel;threads=8",
+    "label": "a03125c3;threads=8;cpus=8-15"
+   }
+  },
+  "cpu": 15,
+  "handle_schedule": {
+   "cpu_core_sides": [
+    "A"
+   ],
+   "design": "sequential",
+   "what": "one live handle at a time: each handle is created, warmed up, timed for all its calls and destroyed before the other is created, in the session's call order (the CPU core: its worker threads busy-wait for the life of their handle, so two live CPU handles would share the pinned CPUs); the session order still alternates which side goes first"
+  },
+  "kind": "c_latency",
+  "library": {
+   "A": {
+    "name": "libeldpc.so",
+    "sha256": "3022250bea6ef7657991091ce3e4b47299c3026eb42a5d6b6c97cd5f1e82273b",
+    "source": "loaded by the Python package"
+   }
+  },
+  "modes": {
+   "back_to_back": {
+    "a_a_control": {
+     "a": "A",
+     "a_stats": {
+      "converged_calls": 0,
+      "max_us": 2763.913,
+      "mean_us": 1216.3193,
+      "min_us": 1057.821,
+      "p50_us": 1222.497,
+      "p99_9_us": 2745.004,
+      "p99_unreliable": false,
+      "p99_us": 1442.461,
+      "shots": 1200,
+      "slow_calls": 1200,
+      "slow_fraction": 1.0,
+      "slow_p50_us": 1222.497
+     },
+     "a_status": {
+      "abstain": 0,
+      "converged": 0,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "3": 1200
+      },
+      "iterations_max": 3,
+      "iterations_mean": 3.0,
+      "postprocessed": 1200,
+      "shots": 1200,
+      "syndrome_unmatched": 0
+     },
+     "b": "A",
+     "b_stats": {
+      "converged_calls": 0,
+      "max_us": 4624.322,
+      "mean_us": 1159.619,
+      "min_us": 1010.752,
+      "p50_us": 1050.321,
+      "p99_9_us": 2730.734,
+      "p99_unreliable": false,
+      "p99_us": 1638.315,
+      "shots": 1200,
+      "slow_calls": 1200,
+      "slow_fraction": 1.0,
+      "slow_p50_us": 1050.321
+     },
+     "b_status": {
+      "abstain": 0,
+      "converged": 0,
+      "higher_order_win": 0,
+      "iterations_histogram": {
+       "3": 1200
+      },
+      "iterations_max": 3,
+      "iterations_mean": 3.0,
+      "postprocessed": 1200,
+      "shots": 1200,
+      "syndrome_unmatched": 0
+     },
+     "band": {
+      "mean_us": [
+       -155.4459,
+       226.8363
+      ],
+      "p50_us": [
+       -151.866,
+       207.064
+      ],
+      "p99_9_us": [
+       -2956.558,
+       1550.736
+      ],
+      "p99_us": [
+       -395.619,
+       478.657
+      ]
+     },
+     "checksums": {
+      "v0": [
+       "1f9ddfb556fb6385",
+       "42f90070a57b96cd",
+       "54dce7388f829835",
+       "d401ee8972dfa20e"
+      ],
+      "v1": [
+       "1f9ddfb556fb6385",
+       "42f90070a57b96cd",
+       "54dce7388f829835",
+       "d401ee8972dfa20e"
+      ]
+     },
+     "delta": {
+      "mean_us": 56.7003,
+      "p50_us": 172.176,
+      "p99_9_us": 14.27,
+      "p99_us": -195.854
+     },
+     "delta_blocked": {
+      "mean_us": 56.7004,
+      "p50_us": 56.2008,
+      "p99_9_us": -327.8335,
+      "p99_us": 93.7627
+     },
+     "delta_blocked_note": "per-session differences averaged within each (create, call) order block and then over blocks with equal weight; equal to delta when the order blocks have equal session counts",
+     "order_blocks": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "mean_delta": {
+        "mean_us": -76.6043,
+        "p50_us": -64.0835,
+        "p99_9_us": -2101.7615,
+        "p99_us": -173.785
+       },
+       "sessions": 2
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "mean_delta": {
+        "mean_us": 190.0051,
+        "p50_us": 176.485,
+        "p99_9_us": 1446.0945,
+        "p99_us": 361.3105
+       },
+       "sessions": 2
+      }
+     ],
+     "orders": [
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 0
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 1
+      },
+      {
+       "call_order": "ab",
+       "create_order": "ab",
+       "session": 2
+      },
+      {
+       "call_order": "ba",
+       "create_order": "ba",
+       "session": 3
+      }
+     ],
+     "per_session_delta": [
+      {
+       "mean_us": -155.4459,
+       "p50_us": -151.866,
+       "p99_9_us": -2956.558,
+       "p99_us": -395.619
+      },
+      {
+       "mean_us": 226.8363,
+       "p50_us": 207.064,
+       "p99_9_us": 1550.736,
+       "p99_us": 478.657
+      },
+      {
+       "mean_us": 2.2372,
+       "p50_us": 23.699,
+       "p99_9_us": -1246.965,
+       "p99_us": 48.049
+      },
+      {
+       "mean_us": 153.1739,
+       "p50_us": 145.906,
+       "p99_9_us": 1341.453,
+       "p99_us": 243.964
+      }
+     ],
+     "sem": {
+      "mean_us": 84.7672,
+      "p50_us": 79.1385,
+      "p99_9_us": 1082.841,
+      "p99_us": 185.3574
+     },
+     "session_checksums_equal": [
+      true,
+      true,
+      true,
+      true
+     ],
+     "sides_equal": true
+    },
+    "checksum_scope": "every session decodes its own syndromes; the two handles of a session are compared on the same shots, not across sessions",
+    "comparison": null,
+    "gap_us": 0,
+    "keep_warm_a": 0,
+    "keep_warm_b": 0,
+    "mode": "back_to_back",
+    "order_design": "alternating",
+    "sessions_per_pair": 4,
+    "shots_per_variant_per_session": 300,
+    "variants": {
+     "A": {
+      "checksum": null,
+      "config_string": "bp_method=ms;cpus=8-15;decoder=bposd;device=cpu;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel;threads=8",
+      "label": "a03125c3;threads=8;cpus=8-15",
+      "library": {
+       "name": "libeldpc.so",
+       "sha256": "3022250bea6ef7657991091ce3e4b47299c3026eb42a5d6b6c97cd5f1e82273b",
+       "source": "loaded by the Python package"
+      },
+      "pooled": {
+       "converged_calls": 0,
+       "max_us": 4624.322,
+       "mean_us": 1187.9691,
+       "min_us": 1010.752,
+       "p50_us": 1165.198,
+       "p99_9_us": 2745.004,
+       "p99_unreliable": false,
+       "p99_us": 1595.596,
+       "shots": 2400,
+       "slow_calls": 2400,
+       "slow_fraction": 1.0,
+       "slow_p50_us": 1165.198
+      },
+      "status": {
+       "abstain": 0,
+       "converged": 0,
+       "higher_order_win": 0,
+       "iterations_histogram": {
+        "3": 2400
+       },
+       "iterations_max": 3,
+       "iterations_mean": 3.0,
+       "postprocessed": 2400,
+       "shots": 2400,
+       "syndrome_unmatched": 0
+      }
+     }
+    },
+    "warnings": []
+   }
+  },
+  "order_design": "alternating",
+  "problem": {
+   "build_seconds": 4.322,
+   "dem_sha256": "083163f2ecf9eb495b1dfbef2fab06b21c141b2161880f97b77ac216d68f52b0",
+   "k": 24,
+   "m": 1872,
+   "n": 75600,
+   "name": "bb144_unif_p1e-3_r12_xyz",
+   "nnz_h": 437184,
+   "nnz_o": 288776,
+   "problem_file": {
+    "file": "data/problem.bin",
+    "sha256": "678616e410f533a0deefebe1dda2607aa0818849dd40fa8b78696d60b04086ca"
+   },
+   "recipe": {
+    "basis": "xyz",
+    "dem_decompose_errors": false,
+    "description": "[[144,12,12]] bivariate bicycle code, 12 rounds, X and Z decoded jointly",
+    "family": "bb",
+    "kind": "built-in circuit",
+    "noise": "uniform depolarizing",
+    "p": 0.001,
+    "rounds": 12
+   },
+   "shots": {
+    "latency": {
+     "file": "data/shots_latency.bin",
+     "seed": 1365400256,
+     "sha256": "43a64f6194c370ff3f4b9394d2e8ca2c5bfb60df23ec85cfc39ef45b84d21b59",
+     "shots": 2048
+    },
+    "ler": {
+     "file": "data/shots_ler.bin",
+     "seed": 662162197,
+     "sha256": "a19ea4cfcda8235fc32bf6aadc4c643bcc19ef8ee7263d39a0281ecc3893d681",
+     "shots": 4000
+    }
+   },
+   "source": "built-in",
+   "timings_seconds": {
+    "latency_shots": 0.017,
+    "ler_shots": 0.027,
+    "open": 4.255
+   }
+  },
+  "sessions_per_pair": 4,
+  "syndromes": {
+   "distinct": 1200,
+   "distinct_definition": "distinct sampled shots timed per handle over the sessions of a pair, minimum over pairs; each session draws its own seeded shots and both handles of a session decode the same set",
+   "per_session": [
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 1370669486,
+     "session": 0,
+     "sha256": "e190a6d5567cc30e67e16037b3fc574d8810c1cf11dc005067f2e82aafa3f865",
+     "shots": 300
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 2098081494,
+     "session": 1,
+     "sha256": "a1a0650deea189faa14e52e54c966abab56936e2940285deb5edfa047b776862",
+     "shots": 300
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 465650253,
+     "session": 2,
+     "sha256": "d235676e927173ddc8bcc3888ce9cd302ee62aa546f6711ad6784d4d55930d2a",
+     "shots": 300
+    },
+    {
+     "mode": "back_to_back",
+     "pair": "a_a",
+     "seed": 1987859367,
+     "session": 3,
+     "sha256": "b25671f6f0aed819b96344cc77635b890aa8a3e5df4d8f6e985b536ce3a36e76",
+     "shots": 300
+    }
+   ],
+   "seed": 1325816103
+  },
+  "wall_s": 30.438,
+  "warmup_calls_per_variant": 500,
+  "what_is_timed": "one eldpc_decode call per shot, CLOCK_MONOTONIC around the call: transfers and synchronisation included"
+ },
+ "command": "bench.py c-latency --quick --device cpu --config a03125c3;threads=8;cpus=8-15 --cpu 15 --modes back_to_back --out ../z2/cpu8",
+ "elapsed_s": 34.972,
+ "environment": {
+  "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx2; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2; build_type=Release; isa=avx2; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+  "clocks": {
+   "after": {
+    "graphics_mhz": 210.0,
+    "memory_mhz": 405.0
+   },
+   "before": {
+    "graphics_mhz": 210.0,
+    "memory_mhz": 405.0
+   }
+  },
+  "core_variants": {
+   "c_latency": {
+    "A": "cpu"
+   }
+  },
+  "cpu": {
+   "affinity_cpus": 1,
+   "auto_selected": false,
+   "cpu_quota": 30.71999,
+   "frequency": {
+    "boost": "1",
+    "boost_source": "/sys/devices/system/cpu/cpu15/cpufreq/boost",
+    "core_id": "15",
+    "cur_freq_khz": 3400043,
+    "governor": "schedutil",
+    "max_freq_khz": 2900000,
+    "min_freq_khz": 1500000,
+    "scaling_driver": "acpi-cpufreq",
+    "thread_siblings_list": "15,79"
+   },
+   "hypervisor": false,
+   "hypervisor_vendor": null,
+   "logical_cores": 128,
+   "model": "AMD EPYC 7542 32-Core Processor",
+   "physical_cores": 64,
+   "pinned_cpu": 15,
+   "sockets": 2
+  },
+  "cuda_runtime": "13.3.73",
+  "cuda_runtime_library": "static (linked into the eldpc cores)",
+  "devices_api": [
+   {
+    "compute_capability": "8.9",
+    "core_variant": "ada64",
+    "cuda_driver_version": "13.0",
+    "driver_version": "13.0",
+    "l2_bytes": 100663296,
+    "name": "NVIDIA RTX 6000 Ada Generation",
+    "nvidia_driver_version": "580.126.09",
+    "nvidia_driver_version_reason": null,
+    "sm_count": 142,
+    "supported": true,
+    "supported_reason": null
+   }
+  ],
+  "driver": "580.126.09",
+  "gpu": {
+   "compute_capability": "8.9",
+   "l2_bytes": 100663296,
+   "memory_bytes": 50865307648,
+   "memory_mib": 49140.0,
+   "name": "NVIDIA RTX 6000 Ada Generation",
+   "sm_count": 142
+  },
+  "gpu_processes": [],
+  "gpu_processes_after": [],
+  "gpu_processes_between": [
+   {
+    "after": "c-latency",
+    "processes": []
+   }
+  ],
+  "gpus": [
+   {
+    "clocks": {
+     "graphics_mhz": 210.0,
+     "memory_mhz": 405.0
+    },
+    "compute_capability": "8.9",
+    "driver_version": "580.126.09",
+    "index": 0,
+    "l2_bytes": 100663296,
+    "memory_bytes": 50865307648,
+    "memory_mib": 49140.0,
+    "name": "NVIDIA RTX 6000 Ada Generation",
+    "sm_count": 142
+   }
+  ],
+  "isa": "avx2",
+  "loadavg": [
+   5.26,
+   4.57,
+   3.92
+  ],
+  "loadavg_after": [
+   6.08,
+   4.83,
+   4.03
+  ],
+  "pid": 279877,
+  "python_packages": {
+   "numpy": "2.5.4",
+   "qldpc": "0.4.2.dev20261004",
+   "scipy": "1.18.1",
+   "stim": "1.16.0"
+  },
+  "toolkit": {
+   "first_line": null,
+   "nvcc": "V13.3.73",
+   "source": "build_info",
+   "version": "13.3"
+  },
+  "version": "0.1.0"
+ },
+ "failures": [],
+ "generated_utc": "2026-10-22T05:55:11Z",
+ "problem": {
+  "build_seconds": 4.322,
+  "dem_sha256": "083163f2ecf9eb495b1dfbef2fab06b21c141b2161880f97b77ac216d68f52b0",
+  "k": 24,
+  "m": 1872,
+  "n": 75600,
+  "name": "bb144_unif_p1e-3_r12_xyz",
+  "nnz_h": 437184,
+  "nnz_o": 288776,
+  "problem_file": {
+   "file": "data/problem.bin",
+   "sha256": "678616e410f533a0deefebe1dda2607aa0818849dd40fa8b78696d60b04086ca"
+  },
+  "recipe": {
+   "basis": "xyz",
+   "dem_decompose_errors": false,
+   "description": "[[144,12,12]] bivariate bicycle code, 12 rounds, X and Z decoded jointly",
+   "family": "bb",
+   "kind": "built-in circuit",
+   "noise": "uniform depolarizing",
+   "p": 0.001,
+   "rounds": 12
+  },
+  "shots": {
+   "latency": {
+    "file": "data/shots_latency.bin",
+    "seed": 1365400256,
+    "sha256": "43a64f6194c370ff3f4b9394d2e8ca2c5bfb60df23ec85cfc39ef45b84d21b59",
+    "shots": 2048
+   },
+   "ler": {
+    "file": "data/shots_ler.bin",
+    "seed": 662162197,
+    "sha256": "a19ea4cfcda8235fc32bf6aadc4c643bcc19ef8ee7263d39a0281ecc3893d681",
+    "shots": 4000
+   }
+  },
+  "source": "built-in",
+  "timings_seconds": {
+   "latency_shots": 0.017,
+   "ler_shots": 0.027,
+   "open": 4.255
+  }
+ },
+ "quick": true,
+ "schema": "eldpc.bench.v1",
+ "settings": {
+  "c_shots": 300,
+  "latency_shots": 2048,
+  "ler_shots": 4000,
+  "processes": 4,
+  "throughput_batch": 1024,
+  "throughput_reps": 16,
+  "warmup": 500,
+  "warmup_ms": 800
+ },
+ "warnings": [
+  "--device cpu: every handle runs on the CPU core, several times the GPU core's time per shot (README, \"CPU core\"); a --quick run of a large problem such as bb144 xyz takes far longer than on a GPU",
+  "handles ran on the CPU core (--device cpu, or auto without a usable GPU): these are CPU-core numbers, not GPU-core numbers",
+  "CPU governor is 'schedutil' on the pinned CPU: its frequency may change during the run; use the 'performance' governor for publishable numbers"
+ ]
+}

@@ -1,0 +1,217 @@
+{
+  "arms": {
+    "cpu_packaged_t1": {
+      "config": "decoder=bposd;bp_method=ms;ms_scaling_factor=0.3125;max_iter=3;schedule=parallel;osd_method=osd0;osd_order=0;device=cpu;threads=1;cpus=0",
+      "latency_ns": {
+        "max": 1825083,
+        "mean": 1182524.81875,
+        "min": 1161867,
+        "n": 8000,
+        "p50": 1180303,
+        "p90": 1195411,
+        "p99": 1227115,
+        "p999": 1315953
+      },
+      "library": "installed libeldpc.so",
+      "session_seconds": [
+        4.554,
+        4.575,
+        4.569,
+        4.561
+      ],
+      "variant": "cpu"
+    },
+    "cpu_packaged_t8": {
+      "config": "decoder=bposd;bp_method=ms;ms_scaling_factor=0.3125;max_iter=3;schedule=parallel;osd_method=osd0;osd_order=0;device=cpu;threads=8;cpus=1,2,3,4,5,6,7,1",
+      "latency_ns": {
+        "max": 397909,
+        "mean": 234569.91975,
+        "min": 216613,
+        "n": 8000,
+        "p50": 230444,
+        "p90": 248395,
+        "p99": 292611,
+        "p999": 349371
+      },
+      "library": "installed libeldpc.so",
+      "session_seconds": [
+        2.545,
+        2.564,
+        2.561,
+        2.561
+      ],
+      "variant": "cpu"
+    },
+    "cpu_packaged_t8_aa": {
+      "config": "decoder=bposd;bp_method=ms;ms_scaling_factor=0.3125;max_iter=3;schedule=parallel;osd_method=osd0;osd_order=0;device=cpu;threads=8;cpus=1,2,3,4,5,6,7,1",
+      "latency_ns": {
+        "max": 4173033,
+        "mean": 232994.577625,
+        "min": 215682,
+        "n": 8000,
+        "p50": 229669,
+        "p90": 242853,
+        "p99": 281617,
+        "p999": 348485
+      },
+      "library": "installed libeldpc.so",
+      "session_seconds": [
+        2.562,
+        2.558,
+        2.554,
+        2.561
+      ],
+      "variant": "cpu"
+    },
+    "cpu_rebuilt_t1": {
+      "config": "decoder=bposd;bp_method=ms;ms_scaling_factor=0.3125;max_iter=3;schedule=parallel;osd_method=osd0;osd_order=0;threads=1;cpus=0",
+      "latency_ns": {
+        "max": 1791048,
+        "mean": 1178648.2505,
+        "min": 1160474,
+        "n": 8000,
+        "p50": 1176199,
+        "p90": 1191105,
+        "p99": 1224097,
+        "p999": 1293820
+      },
+      "library": "rebuilt from src/cpu with the same flags",
+      "session_seconds": [
+        4.566,
+        4.555,
+        4.558,
+        4.555
+      ],
+      "variant": "cpu"
+    },
+    "cpu_rebuilt_t8": {
+      "config": "decoder=bposd;bp_method=ms;ms_scaling_factor=0.3125;max_iter=3;schedule=parallel;osd_method=osd0;osd_order=0;threads=8;cpus=1,2,3,4,5,6,7,1",
+      "latency_ns": {
+        "max": 399733,
+        "mean": 233043.89175,
+        "min": 215631,
+        "n": 8000,
+        "p50": 229352,
+        "p90": 245853,
+        "p99": 290181,
+        "p999": 345841
+      },
+      "library": "rebuilt from src/cpu with the same flags",
+      "session_seconds": [
+        2.555,
+        2.554,
+        2.563,
+        2.55
+      ],
+      "variant": "cpu"
+    },
+    "gpu_core": {
+      "config": "decoder=bposd;bp_method=ms;ms_scaling_factor=0.3125;max_iter=3;schedule=parallel;osd_method=osd0;osd_order=0",
+      "latency_ns": {
+        "max": 120290,
+        "mean": 43382.611375,
+        "min": 37592,
+        "n": 8000,
+        "p50": 42040,
+        "p90": 46779,
+        "p99": 92777,
+        "p999": 113128
+      },
+      "library": "installed libeldpc.so",
+      "session_seconds": [
+        2.351,
+        2.16,
+        2.157,
+        2.148
+      ],
+      "variant": "default"
+    }
+  },
+  "call_cpu": 0,
+  "command": "python tools/cpu_screen.py --shots 2000 --rounds 4 --out eldpc/tools/results/cpu/screen.json --md eldpc/tools/results/cpu/screen.md",
+  "comparisons": {
+    "aa_t8_p50": 0.9966369269757511,
+    "aa_t8_p99": 0.9624279333312828,
+    "cpu_t1_over_gpu_p50": 28.07571360608944,
+    "cpu_t8_over_gpu_p50": 5.481541389153187,
+    "cpu_t8_over_gpu_p99": 3.1539174579906657,
+    "packaged_over_rebuilt_t1_p50": 1.0034892054830857,
+    "packaged_over_rebuilt_t8_p50": 1.0047612403641564,
+    "packaged_over_rebuilt_t8_p99": 1.0083740837615143,
+    "t8_over_t1_p50": 0.19524139140542726
+  },
+  "config": "decoder=bposd;bp_method=ms;ms_scaling_factor=0.3125;max_iter=3;schedule=parallel;osd_method=osd0;osd_order=0",
+  "cpu_list_8": "1,2,3,4,5,6,7,1",
+  "elapsed_s": 76.0,
+  "generated_utc": "2026-10-21T08:13:52Z",
+  "git_commit": "3bf7dbfb524628b66d93f7597fb53e047258bd02",
+  "machine": {
+    "affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "cpu": "AMD Ryzen 9 7950X3D 16-Core Processor",
+    "cpu_count": 32,
+    "kernel": "Linux-6.8.0-142-generic-x86_64-with-glibc2.39",
+    "loadavg": "2.23 4.61 7.15 1/1085 276980",
+    "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2026 NVIDIA Corporation\nBuilt on Tue_Jun_09_02:43:40_PM_PDT_2026\nCuda compilation tools, release 13.3, V13.3.73\nBuild cuda_13.3.r13.3/compiler.38244171_0",
+    "nvidia_smi": "name, driver_version, compute_cap\nNVIDIA GeForce RTX 5080, 595.91.07, 12.0",
+    "python": "3.12.3"
+  },
+  "outputs_sha256": {
+    "cpu_packaged_t1": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725",
+    "cpu_packaged_t8": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725",
+    "cpu_packaged_t8_aa": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725",
+    "cpu_rebuilt_t1": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725",
+    "cpu_rebuilt_t8": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725",
+    "gpu_core": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725"
+  },
+  "package": {
+    "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx512; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2 -mavx512f -mavx512vl -mavx512dq -mavx512bw; build_type=Release; isa=avx512; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+    "cpu_library": "libeldpc_cpu_avx512.so",
+    "cpu_library_sha256": "6bffce66b1090fb0dc0c45eab78181b6a7f56266d661f4fa8b5b6c6c93cd8836",
+    "isa": "avx512",
+    "libeldpc_sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+    "version": "0.1.0"
+  },
+  "problem": {
+    "id": "bb144_unif_p1e-3_r12_xyz",
+    "num_detectors": 1872,
+    "num_mechanisms": 76032,
+    "num_observables": 24,
+    "rounds": 4,
+    "shots": 2000,
+    "warmup": 100
+  },
+  "schema": "eldpc.cpu_screen.v1"
+}

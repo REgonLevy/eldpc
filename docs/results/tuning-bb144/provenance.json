@@ -1,0 +1,141 @@
+{
+ "accuracy_confirmation": {
+  "candidates": [
+   {
+    "accepted": true,
+    "failures": 1,
+    "label": "bposd:a=0.53125:c=1",
+    "latency_within": true,
+    "ler": 0.00048828125,
+    "passed": true,
+    "shots": 2048,
+    "upper": 0.0032369245298909163
+   }
+  ],
+  "chosen": "bposd:a=0.53125:c=1",
+  "confidence": 0.99,
+  "planned_shots": 2048,
+  "shots_rule": "N doubles from 64 until a point whose true LER is target/1.5 (0.00333333) has its one-sided 0.99 upper bound below the target 0.005 with probability >= 0.9, then bisection returns an N with probability >= 0.9 whose N - 1 is below it; the probability is not monotone in N, so a smaller N can also meet the margin; --quick caps N at 2048",
+  "target": 0.005
+ },
+ "choice": {
+  "config": {
+   "bp_method": "ms",
+   "decoder": "bposd",
+   "max_iter": 1,
+   "ms_scaling_factor": 0.53125,
+   "osd_method": "osd0",
+   "osd_order": 0,
+   "schedule": "parallel"
+  },
+  "config_string": "bp_method=ms;decoder=bposd;max_iter=1;ms_scaling_factor=0.53125;osd_method=osd0;osd_order=0;schedule=parallel",
+  "eligible": 15,
+  "fastest": "bposd:a=0.5625:c=1",
+  "ler": 0.00048828125,
+  "ler_source": "accuracy_confirmation",
+  "ler_upper": 0.0032369245298909163,
+  "measured": 15,
+  "p50_us": 64.944,
+  "p99_unreliable": false,
+  "p99_us": 147.83938999999995,
+  "reason": "the first candidate in the choice's order that passed the fixed-shot accuracy confirmation at every case and whose latency confirmation is within the budget",
+  "screen": {
+   "failures": 2,
+   "ler": 0.0009765625,
+   "shots": 2048,
+   "source": "screen",
+   "upper": 0.004098052364904411
+  },
+  "slow_fraction": 1.0,
+  "tie_set": [
+   {
+    "chosen": true,
+    "label": "bposd:a=0.53125:c=1",
+    "ler_upper": 0.004098052364904411,
+    "max_iter": 1,
+    "ms_scaling_factor": 0.53125,
+    "p50_us": 64.2305,
+    "p99_us": 150.73689
+   },
+   {
+    "chosen": false,
+    "label": "bposd:a=0.5625:c=1",
+    "ler_upper": 0.004098052364904411,
+    "max_iter": 1,
+    "ms_scaling_factor": 0.5625,
+    "p50_us": 63.935500000000005,
+    "p99_us": 146.0902
+   },
+   {
+    "chosen": false,
+    "label": "bposd:a=0.4375:c=1",
+    "ler_upper": 0.004896413082592572,
+    "max_iter": 1,
+    "ms_scaling_factor": 0.4375,
+    "p50_us": 63.945,
+    "p99_us": 143.69511
+   }
+  ]
+ },
+ "command": "python tuning/eldpc_tune.py --dem docs/results/tuning-bb144/model.dem --ler-target 0.005 --p99-budget-us 500 --auto --quick --out docs/results/tuning-bb144",
+ "commit": "f44723c",
+ "core_variants": {
+  "band_p50": 0.010895517636572039,
+  "band_p99": 0.02758736781043769,
+  "evaluated": true,
+  "faster": "ada64",
+  "ratio_p50": 0.6610043860097535,
+  "ratio_p99": 0.8292198521587626,
+  "reason": null,
+  "recommended_env": null,
+  "table_variant": "ada64"
+ },
+ "elapsed_seconds": 121.51080351998098,
+ "environment": {
+  "cpu": "AMD EPYC 7542 32-Core Processor",
+  "cuda_driver_version": "13.0",
+  "cuda_runtime": "NVIDIA 13.3.73, linked statically (eldpc.build_info())",
+  "driver": "580.126.09",
+  "eldpc": {
+   "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx2; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2; build_type=Release; isa=avx2; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+   "isa": "avx2",
+   "version": "0.1.0"
+  },
+  "gpu": {
+   "compute_capability": "8.9",
+   "l2_bytes": 100663296,
+   "name": "NVIDIA RTX 6000 Ada Generation",
+   "sm_count": 142
+  },
+  "logical_cores": 128,
+  "toolkit": "CUDA 13.3 (V13.3.73)"
+ },
+ "kind": "tuning",
+ "latency_confirmation": {
+  "core_variant": "ada64",
+  "distinct_syndromes": 400
+ },
+ "package_tree_clean": true,
+ "package_version": "0.1.0",
+ "problem": {
+  "dem_file_sha256": "083163f2ecf9eb495b1dfbef2fab06b21c141b2161880f97b77ac216d68f52b0",
+  "dem_sha256": "cd2dc968bb687cfc98856413f08c9ea332b88b42d85596d44a737504db516d47",
+  "label": "dem:083163f2ecf9eb49",
+  "num_detectors": 1872,
+  "num_mechanisms": 75600,
+  "num_observables": 24,
+  "source": "dem"
+ },
+ "schema": "eldpc.results.v2",
+ "tool": {
+  "auto": true,
+  "duration_seconds": 121.50966472795699,
+  "name": "eldpc-tune",
+  "quick": true,
+  "seed": 20261006,
+  "started_utc": "2026-10-22T04:32:41.413939+00:00",
+  "version": "2.2"
+ },
+ "tune_schema": "eldpc.tune.v2",
+ "warnings": []
+}

@@ -1,0 +1,68 @@
+{
+  "command": "package_sizes.py --wheel before=eldpc-0.1.0-py3-none-linux_x86_64.whl --wheel after=eldpc-0.1.0-py3-none-linux_x86_64.whl --out tools/results/wheel-sizes.json",
+  "commit": "55e584d1490909958f4ae4cf778931f34f5205fe",
+  "commit_note": "development-tree record: `commit` names a revision of the development tree, which is not in this repository's history, so the record cannot be re-run at that revision from this repository; tools/package_sizes.py here measures the same quantities",
+  "deltas": {
+    "after_minus_before": {
+      "bytes": 4410524,
+      "mb": 4.411,
+      "native_libraries_uncompressed_bytes": 33041224,
+      "native_libraries_uncompressed_mb": 33.041
+    }
+  },
+  "platform": "Linux-6.8.0-139-generic-x86_64-with-glibc2.39",
+  "probe": "eldpc wheel and native-library sizes",
+  "python": "3.12.3",
+  "wheels": {
+    "after": {
+      "bytes": 8849876,
+      "file": "eldpc-0.1.0-py3-none-linux_x86_64.whl",
+      "libraries": {
+        "eldpc/_libs/libeldpc.so": {
+          "compressed_bytes": 12776,
+          "uncompressed_bytes": 35208
+        },
+        "eldpc/_libs/libeldpc_core_avx2.so": {
+          "compressed_bytes": 2200129,
+          "uncompressed_bytes": 8249456
+        },
+        "eldpc/_libs/libeldpc_core_avx2_ada64.so": {
+          "compressed_bytes": 2200240,
+          "uncompressed_bytes": 8249456
+        },
+        "eldpc/_libs/libeldpc_core_avx512.so": {
+          "compressed_bytes": 2202477,
+          "uncompressed_bytes": 8253552
+        },
+        "eldpc/_libs/libeldpc_core_avx512_ada64.so": {
+          "compressed_bytes": 2202493,
+          "uncompressed_bytes": 8253552
+        }
+      },
+      "mb": 8.85,
+      "name": "after",
+      "sha256": "5c4d32489e91955847de00efb20c9e34a6b1d7dd3380e90ab6bf3d88308bea36"
+    },
+    "before": {
+      "bytes": 4439352,
+      "file": "eldpc-0.1.0-py3-none-linux_x86_64.whl",
+      "libraries": {
+        "eldpc/_libs/libeldpc.so": {
+          "compressed_bytes": 8005,
+          "uncompressed_bytes": 22920
+        },
+        "eldpc/_libs/libeldpc_core_avx2.so": {
+          "compressed_bytes": 2200171,
+          "uncompressed_bytes": 8249456
+        },
+        "eldpc/_libs/libeldpc_core_avx512.so": {
+          "compressed_bytes": 2202573,
+          "uncompressed_bytes": 8253552
+        }
+      },
+      "mb": 4.439,
+      "name": "before",
+      "sha256": "e7444cb6e44d76f4d9b6969b065503b03f8c67760d85586a5e39ee0f811ba396"
+    }
+  }
+}

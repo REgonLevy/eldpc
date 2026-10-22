@@ -1,0 +1,68 @@
+{
+  "command": "CUDA_VISIBLE_DEVICES= python tools/cpu_no_gpu_tests.py --out tools/results/cpu/no-gpu-tests.json",
+  "cuda_visible_devices": "",
+  "generated_utc": "2026-10-21T10:28:32Z",
+  "git_commit": "f40d6f908fbd8196cb2f66bb01499e09c989f0e2",
+  "package_version": "0.1.0",
+  "python": "3.12.3",
+  "reference_env": [
+    "ELDPC_CORE_SNAPSHOT",
+    "ELDPC_CORE_TARBALL",
+    "ELDPC_REFERENCE_LDPC_LIB",
+    "ELDPC_REFERENCE_LIB",
+    "ELDPC_REFERENCE_PYTHON"
+  ],
+  "schema": "eldpc.cpu_no_gpu_tests.v1",
+  "sets": [
+    {
+      "cpu_library": "libeldpc_cpu_avx512.so",
+      "cpu_library_sha256": "6bffce66b1090fb0dc0c45eab78181b6a7f56266d661f4fa8b5b6c6c93cd8836",
+      "isa": "avx512",
+      "selections": [
+        {
+          "elapsed_s": 6.7,
+          "errors": 0,
+          "failures": 0,
+          "returncode": 0,
+          "selection": "cpu_core",
+          "skipped": 0,
+          "tests": 162
+        },
+        {
+          "elapsed_s": 27.2,
+          "errors": 0,
+          "failures": 0,
+          "returncode": 0,
+          "selection": "not cpu_core",
+          "skipped": 49,
+          "tests": 170
+        }
+      ]
+    },
+    {
+      "cpu_library": "libeldpc_cpu_avx2.so",
+      "cpu_library_sha256": "5a4698605b9d7e48baa9818b3ddd712678cc04c0a7fd5cfcef464e103829e8fd",
+      "isa": "avx2",
+      "selections": [
+        {
+          "elapsed_s": 6.8,
+          "errors": 0,
+          "failures": 0,
+          "returncode": 0,
+          "selection": "cpu_core",
+          "skipped": 0,
+          "tests": 162
+        },
+        {
+          "elapsed_s": 27.7,
+          "errors": 0,
+          "failures": 0,
+          "returncode": 0,
+          "selection": "not cpu_core",
+          "skipped": 49,
+          "tests": 170
+        }
+      ]
+    }
+  ]
+}

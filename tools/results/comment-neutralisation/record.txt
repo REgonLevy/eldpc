@@ -1,0 +1,51 @@
+Neutralisation of the development-history comments in the frozen decoder-core sources
+=====================================================================================
+
+What changed: only the text of comments in the 12 files of src/core (6) and src/cpu (4 + manifests);
+no code token, string, preprocessor line or whitespace outside comments, and no line was added or
+removed. Compared revision (the benched sources): 0008422.
+git tree of src/ at 0008422: 30e0aa87a17f3703daed10c87ece1c58417b8521
+git tree of src/ at the neutralised tip: d7eff7f5ae48f6f42b470a0a82b2d23a2cf11275
+0008422 is a commit of the development history, which is not part of this repository.
+Without it, python3 tools/check_comment_only.py --check checks the sources against the
+stripped-text hashes of section 1 (src/core/TOKENS.sha256, src/cpu/TOKENS.sha256).
+
+1. Comment-only check (python3 tools/check_comment_only.py --compare 0008422), output:
+   (first column: SHA-256 of the text without comments; "comment-lines-changed": lines whose text
+   differs from 0008422)
+
+   858fc3ef40cd51840ece8fec7a696d3d28ae00a66b83d7d0193483492131ed16  src/core/bp_engine.hpp  comment-lines-changed=24  ok
+   3df6b7021c9138b3db186a50f77c1cebe7d5413b118626239b1b2a1b14883747  src/core/bp_gpu.cu  comment-lines-changed=460  ok
+   2667444e510153c89c81657094738c8b375cfd4103cd7d249074d903751fe43e  src/core/fastbp_ext.h  comment-lines-changed=1  ok
+   654414427dcd7dfa27ba3cb244c2dfc7b6a8e7fe681373dff1a4338c7da26545  src/core/fastbpgpu6g.cpp  comment-lines-changed=32  ok
+   7907413e7f844cfa88bf485afbdf44c192e9fe5595394babe0945f4ce8a51487  src/core/osd0_engine.hpp  comment-lines-changed=61  ok
+   206929ade14e88ac7755fefcf60d08dd8394780d07439f6a124503453145154c  src/core/osd_caps.hpp  comment-lines-changed=8  ok
+   fb1bc67c97ee3efdbc6836a9ae8e1a14234c106228208e688d908b50cf8117a1  src/cpu/bp_engine.hpp  comment-lines-changed=44  ok
+   4d9f61d10a12777a46947f3161c9c5885207ddb20ba9e155d800f7fbc6741c08  src/cpu/fastbpcpu6g.cpp  comment-lines-changed=22  ok
+   7907413e7f844cfa88bf485afbdf44c192e9fe5595394babe0945f4ce8a51487  src/cpu/osd0_engine.hpp  comment-lines-changed=61  ok
+   206929ade14e88ac7755fefcf60d08dd8394780d07439f6a124503453145154c  src/cpu/osd_caps.hpp  comment-lines-changed=8  ok
+   RESULT: OK, only comments differ from 0008422
+
+2. Compiled libraries. The package was built from an archive of 0008422 and then from an archive of
+   the neutralised revision, one after the other in the same source and build directory path
+   (the first directories moved away between the builds), with pip wheel from a clean build
+   directory each time. Toolchain: GCC 15.2.0 (Ubuntu 15.2.0-16ubuntu1), CUDA 13.3 nvcc V13.3.73,
+   Python 3.14.4, scikit-build-core 1.1.1, CUDACXX naming the 13.3 nvcc. The wheels have the same
+   size (9167821 bytes). SHA-256 of the seven installed libraries (eldpc/_libs/*.so), identical for
+   both builds:
+
+   a43ade46707f05d0769589d127f0486f86628c129601e984148fe25bd17bea25  libeldpc_core_avx2_ada64.so
+   c9c3d8b305fad32764abe96fd7f266fa0f1fffe38665ead15f2b6846968ab267  libeldpc_core_avx2.so
+   3e368cfd9f9fbb1ba44c49c5774c7825d09ccb44c368fdc12c589fcc3ebb29c7  libeldpc_core_avx512_ada64.so
+   60ef67e9c289d381492fb9a2a591776cd81473c624334e4185a6b327c54a3f42  libeldpc_core_avx512.so
+   48fd70ae0d321d28fc661df3fecf0b975bec1889102e60978bd3ce11f531cf4f  libeldpc_cpu_avx2.so
+   6f7b9f9050fb1fc040f93ad55a5b8f10e39929ec9c3e9903ad68c4f887b28f5e  libeldpc_cpu_avx512.so
+   cfd33b8b89b497e725b8fefc41247bf87c7f773a03ba0e202f3e598be7b54d30  libeldpc.so
+
+   The comparison is of one toolchain and one build path; a build at another path or with another
+   toolchain was not compared.
+
+3. Tests on the neutralised revision (RTX 5080, driver 615.71.09, libraries of section 2):
+   python -m pytest -q tests -x: 358 passed, 26 skipped.
+   python verify/run_verify.py --quick: PASS, 18 rows, 3600 shots, 0 mismatches (corrections and
+   observables against the reference; status words not compared, see docs/VERIFY.md).

@@ -1,0 +1,9 @@
+eldpc
+Copyright 2026 The eldpc Authors
+
+This product is licensed under the Apache License, Version 2.0 (LICENSE). It contains third-party
+code, listed with its licences in THIRD_PARTY_NOTICES.
+
+The frozen decoder core sources (src/core and src/cpu) carry no per-file licence headers: they are
+kept unchanged (code tokens pinned by their TOKENS.sha256, raw bytes by their SOURCES.sha256), and are
+covered by the top-level LICENSE.

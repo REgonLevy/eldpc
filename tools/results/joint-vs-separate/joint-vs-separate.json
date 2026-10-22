@@ -1,0 +1,719 @@
+{
+ "schema": "eldpc.results.joint_vs_separate.v1",
+ "what": "Joint xyz decoding (one handle on the full detector error model) against separate X and Z sector decoding (two handles on the merged sector projections) on the same shots: LER only, no timing. Summary statistics and per-row aggregates of the study; numbers as recorded.",
+ "machine": {
+  "key": "E",
+  "gpu": "NVIDIA GeForce RTX 5080",
+  "compute_capability": "12.0",
+  "nvidia_driver": "595.91.07",
+  "cpu": "AMD Ryzen 9 7950X3D 16-Core Processor",
+  "cuda_toolkit": "13.3.73",
+  "stim": "1.16.0",
+  "grade": "accuracy only (LER does not depend on the machine; the decoder is bit-exact)"
+ },
+ "decoder": "the measurement-harness build of the frozen fastbpgpu6g core through its batch decode call; BP+OSD-0 (min-sum, parallel schedule, OSD-0) unless a row says decoder=bp",
+ "configs": {
+  "a03125c3": {
+   "alpha": 0.3125,
+   "max_iter": 3
+  },
+  "a05ms31": {
+   "alpha": 0.5,
+   "max_iter": 31
+  },
+  "a03125c31": {
+   "alpha": 0.3125,
+   "max_iter": 31
+  },
+  "a05c3": {
+   "alpha": 0.5,
+   "max_iter": 3
+  }
+ },
+ "failure_definition": "a shot fails when any of its 24 observables is predicted wrong; the separate prediction is the X-sector decoder's 12 X-type observables followed by the Z-sector decoder's 12 Z-type observables; LER per shot of the 12-round experiment",
+ "construction": {
+  "problem": "bb144_unif_p1e-3_r12_xyz (the development corpus build of the circuit)",
+  "detectors": {
+   "x_type": 936,
+   "z_type": 936,
+   "mixed": 0,
+   "unclassified": 0,
+   "rule": "derived from the circuit: a detector takes the single type of its measurement records"
+  },
+  "observables": {
+   "x_sector": 12,
+   "z_sector": 12,
+   "shared": 0
+  },
+  "joint": {
+   "rows": 1872,
+   "columns": 76032,
+   "nnz_h": 438912,
+   "nnz_o": 289944,
+   "columns_after_exact_merge": 71280,
+   "duplicate_columns": 4752,
+   "max_multiplicity": 2
+  },
+  "sector": {
+   "rows": 936,
+   "observables": 12,
+   "columns_touching_the_sector": 65664,
+   "columns_with_no_detector_dropped": 10368,
+   "dropped_columns_that_flip_a_sector_observable": 0,
+   "columns_after_exact_merge": 8784,
+   "nnz_h": 30672,
+   "nnz_o": {
+    "x_sector": 15254,
+    "z_sector": 21822
+   },
+   "max_merge_multiplicity": 18,
+   "same_for_x_and_z": true
+  },
+  "merge_rule": "columns with the same detector and observable rows are one mechanism: p = p1 (1 - p2) + p2 (1 - p1), iterated in column order (exact parity)",
+  "other_problems": {
+   "bb144_unif_p3e-3_r12_xyz": "the same column structure (76,032 joint, 8,784 per merged sector, 10,368 dropped per sector)",
+   "hgp98_unif_p1e-3_r4_xyz": {
+    "joint_columns": 17248,
+    "joint_nnz_h": 99568,
+    "sector_columns_after_merge": 2058,
+    "sector_nnz_h": 7154,
+    "sector_columns_dropped": 2352
+   }
+  },
+  "package_build_note": "the package builds bb144 xyz with qLDPC 4c4f801, which gives 75,600 joint columns instead of 76,032; both merge to the same 71,280 columns with the same signatures"
+ },
+ "stopping_rule": "fixed before the first shot: at every 1,000,000-shot checkpoint stop when the 99 % Clopper-Pearson intervals of the joint and separate cumulative LERs are disjoint, else run to the requested shots (5,000,000 at a03125c3, 2,000,000 requested segments at a05ms31); the extra runs used fixed shot counts",
+ "main_run_checkpoints": {
+  "a03125c3": [
+   {
+    "shots": 1000000,
+    "joint_failures": 11,
+    "separate_failures": 22,
+    "disjoint": false
+   },
+   {
+    "shots": 2000000,
+    "joint_failures": 20,
+    "separate_failures": 36,
+    "disjoint": false
+   },
+   {
+    "shots": 3000000,
+    "joint_failures": 27,
+    "separate_failures": 54,
+    "disjoint": false
+   },
+   {
+    "shots": 4000000,
+    "joint_failures": 41,
+    "separate_failures": 73,
+    "disjoint": false
+   },
+   {
+    "shots": 5000000,
+    "joint_failures": 53,
+    "separate_failures": 86,
+    "disjoint": false
+   }
+  ],
+  "a05ms31": [
+   {
+    "shots": 1000000,
+    "joint_failures": 15,
+    "separate_failures": 4,
+    "disjoint": false
+   },
+   {
+    "shots": 2000000,
+    "joint_failures": 32,
+    "separate_failures": 7,
+    "disjoint": true
+   }
+  ]
+ },
+ "verdict_rule": "the decoding (joint or separate) with the lower LER when the exact McNemar p < 0.05, else tie; separate_over_joint = separate LER / joint LER",
+ "rows": [
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a03125c3",
+   "alpha": 0.3125,
+   "max_iter": 3,
+   "shots": 5000000,
+   "joint_failures": 53,
+   "joint_ler": 1.06e-05,
+   "separate_failures": 86,
+   "separate_ler": 1.72e-05,
+   "separate_over_joint": 1.623,
+   "joint_only": 34,
+   "separate_only": 67,
+   "mcnemar_p": 0.001331825114199613,
+   "mcnemar_log10_p": -2.8755527998839114,
+   "verdict": "joint",
+   "run": "main run (stopping rule)",
+   "joint_ci99": [
+    7.225106410138582e-06,
+    1.4959905246480717e-05
+   ],
+   "separate_ci99": [
+    1.279830260075495e-05,
+    2.257975058067852e-05
+   ],
+   "both_fail": 19,
+   "stopped": "ran to the requested 5,000,000 shots (intervals never disjoint)"
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a03125c3",
+   "alpha": 0.3125,
+   "max_iter": 3,
+   "shots": 1000000,
+   "joint_failures": 10,
+   "joint_ler": 1e-05,
+   "separate_failures": 10,
+   "separate_ler": 1e-05,
+   "separate_over_joint": 1.0,
+   "joint_only": 8,
+   "separate_only": 8,
+   "mcnemar_p": 1.0,
+   "mcnemar_log10_p": 0.0,
+   "verdict": "tie",
+   "run": "confirmation on an independent fresh shot set",
+   "joint_ci99": [
+    3.7169319499038143e-06,
+    2.1397705555457184e-05
+   ],
+   "separate_ci99": [
+    3.7169319499038143e-06,
+    2.1397705555457184e-05
+   ],
+   "both_fail": 2
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a05ms31",
+   "alpha": 0.5,
+   "max_iter": 31,
+   "shots": 2000000,
+   "joint_failures": 32,
+   "joint_ler": 1.6e-05,
+   "separate_failures": 7,
+   "separate_ler": 3.5e-06,
+   "separate_over_joint": 0.219,
+   "joint_only": 31,
+   "separate_only": 6,
+   "mcnemar_p": 4.12575900554657e-05,
+   "mcnemar_log10_p": -4.384496143696378,
+   "verdict": "separate",
+   "run": "main run (stopping rule)",
+   "joint_ci99": [
+    9.652472843407144e-06,
+    2.4832497739954354e-05
+   ],
+   "separate_ci99": [
+    1.0186697485114953e-06,
+    8.566774931429135e-06
+   ],
+   "both_fail": 1,
+   "stopped": "stopped early: the 99 % intervals were disjoint at 2,000,000 shots"
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a05ms31",
+   "alpha": 0.5,
+   "max_iter": 31,
+   "shots": 1000000,
+   "joint_failures": 16,
+   "joint_ler": 1.6e-05,
+   "separate_failures": 5,
+   "separate_ler": 5e-06,
+   "separate_over_joint": 0.313,
+   "joint_only": 16,
+   "separate_only": 5,
+   "mcnemar_p": 0.02660369873046875,
+   "mcnemar_log10_p": -1.5750579789117047,
+   "verdict": "separate",
+   "run": "confirmation on an independent fresh shot set",
+   "joint_ci99": [
+    7.567044175646884e-06,
+    2.9481764200531345e-05
+   ],
+   "separate_ci99": [
+    1.077929815547623e-06,
+    1.4149694677661562e-05
+   ],
+   "both_fail": 0
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a03125c31",
+   "alpha": 0.3125,
+   "max_iter": 31,
+   "shots": 1000000,
+   "joint_failures": 11,
+   "joint_ler": 1.1e-05,
+   "separate_failures": 9,
+   "separate_ler": 9e-06,
+   "separate_over_joint": 0.818,
+   "joint_only": 7,
+   "separate_only": 5,
+   "mcnemar_p": 0.7744140625,
+   "mcnemar_log10_p": -0.11102676932220833,
+   "verdict": "tie",
+   "run": "crossed config, sample 1"
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a03125c31",
+   "alpha": 0.3125,
+   "max_iter": 31,
+   "shots": 2000000,
+   "joint_failures": 17,
+   "joint_ler": 8.5e-06,
+   "separate_failures": 16,
+   "separate_ler": 8e-06,
+   "separate_over_joint": 0.941,
+   "joint_only": 16,
+   "separate_only": 15,
+   "mcnemar_p": 1.0,
+   "mcnemar_log10_p": 0.0,
+   "verdict": "tie",
+   "run": "crossed config, sample 2"
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a03125c31",
+   "alpha": 0.3125,
+   "max_iter": 31,
+   "shots": 3000000,
+   "joint_failures": 28,
+   "joint_ler": 9.333333333333333e-06,
+   "separate_failures": 25,
+   "separate_ler": 8.333333333333334e-06,
+   "separate_over_joint": 0.893,
+   "joint_only": 23,
+   "separate_only": 20,
+   "mcnemar_p": 0.7607916425613439,
+   "mcnemar_log10_p": -0.11873426685064638,
+   "verdict": "tie",
+   "run": "crossed config, both samples pooled (computed from the two samples)"
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a05c3",
+   "alpha": 0.5,
+   "max_iter": 3,
+   "shots": 1000000,
+   "joint_failures": 24,
+   "joint_ler": 2.4e-05,
+   "separate_failures": 14,
+   "separate_ler": 1.4e-05,
+   "separate_over_joint": 0.583,
+   "joint_only": 19,
+   "separate_only": 9,
+   "mcnemar_p": 0.08715855330228806,
+   "mcnemar_log10_p": -1.0596899869852976,
+   "verdict": "tie",
+   "run": "crossed config, sample 1"
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a05c3",
+   "alpha": 0.5,
+   "max_iter": 3,
+   "shots": 2000000,
+   "joint_failures": 26,
+   "joint_ler": 1.3e-05,
+   "separate_failures": 12,
+   "separate_ler": 6e-06,
+   "separate_over_joint": 0.462,
+   "joint_only": 23,
+   "separate_only": 9,
+   "mcnemar_p": 0.020061607006937265,
+   "mcnemar_log10_p": -1.6976342813708516,
+   "verdict": "separate",
+   "run": "crossed config, sample 2"
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a05c3",
+   "alpha": 0.5,
+   "max_iter": 3,
+   "shots": 3000000,
+   "joint_failures": 50,
+   "joint_ler": 1.6666666666666667e-05,
+   "separate_failures": 26,
+   "separate_ler": 8.666666666666666e-06,
+   "separate_over_joint": 0.52,
+   "joint_only": 42,
+   "separate_only": 18,
+   "mcnemar_p": 0.002670436282807066,
+   "mcnemar_log10_p": -2.5734177799324103,
+   "verdict": "separate",
+   "run": "crossed config, both samples pooled (computed from the two samples)"
+  },
+  {
+   "problem": "bb144_unif_p3e-3_r12_xyz",
+   "noise_p": 0.003,
+   "config": "a03125c3",
+   "alpha": 0.3125,
+   "max_iter": 3,
+   "shots": 200000,
+   "joint_failures": 1862,
+   "joint_ler": 0.00931,
+   "separate_failures": 3460,
+   "separate_ler": 0.0173,
+   "separate_over_joint": 1.858,
+   "joint_only": 915,
+   "separate_only": 2513,
+   "mcnemar_p": 3.0901081704953475e-170,
+   "mcnemar_log10_p": -169.510026317654,
+   "verdict": "joint",
+   "run": "other problem / noise point",
+   "joint_ci99": [
+    0.008766025358194365,
+    0.009877460593412893
+   ],
+   "separate_ci99": [
+    0.0165579982762036,
+    0.01806506760992442
+   ],
+   "both_fail": 947
+  },
+  {
+   "problem": "bb144_unif_p3e-3_r12_xyz",
+   "noise_p": 0.003,
+   "config": "a05ms31",
+   "alpha": 0.5,
+   "max_iter": 31,
+   "shots": 200000,
+   "joint_failures": 1773,
+   "joint_ler": 0.008865,
+   "separate_failures": 627,
+   "separate_ler": 0.003135,
+   "separate_over_joint": 0.354,
+   "joint_only": 1538,
+   "separate_only": 392,
+   "mcnemar_p": 6.497502650002258e-160,
+   "mcnemar_log10_p": -159.18725353470063,
+   "verdict": "separate",
+   "run": "other problem / noise point",
+   "joint_ci99": [
+    0.008334296319362266,
+    0.009419214493991123
+   ],
+   "separate_ci99": [
+    0.002822336758344634,
+    0.0034715495271401926
+   ],
+   "both_fail": 235
+  },
+  {
+   "problem": "hgp98_unif_p1e-3_r4_xyz",
+   "noise_p": 0.001,
+   "config": "a03125c3",
+   "alpha": 0.3125,
+   "max_iter": 3,
+   "shots": 1000000,
+   "joint_failures": 1413,
+   "joint_ler": 0.001413,
+   "separate_failures": 5731,
+   "separate_ler": 0.005731,
+   "separate_over_joint": 4.056,
+   "joint_only": 365,
+   "separate_only": 4683,
+   "mcnemar_p": 0.0,
+   "mcnemar_log10_p": -951.8822686918226,
+   "verdict": "joint",
+   "run": "other problem / noise point",
+   "joint_ci99": [
+    0.001318115640837679,
+    0.0015126614047069554
+   ],
+   "separate_ci99": [
+    0.0055384124244940765,
+    0.005928306438684108
+   ],
+   "both_fail": 1048
+  },
+  {
+   "problem": "hgp98_unif_p1e-3_r4_xyz",
+   "noise_p": 0.001,
+   "config": "a05ms31",
+   "alpha": 0.5,
+   "max_iter": 31,
+   "shots": 1000000,
+   "joint_failures": 1634,
+   "joint_ler": 0.001634,
+   "separate_failures": 5439,
+   "separate_ler": 0.005439,
+   "separate_over_joint": 3.329,
+   "joint_only": 705,
+   "separate_only": 4510,
+   "mcnemar_p": 0.0,
+   "mcnemar_log10_p": -674.1166060820925,
+   "verdict": "joint",
+   "run": "other problem / noise point",
+   "joint_ci99": [
+    0.0015318342503880757,
+    0.0017409383256666241
+   ],
+   "separate_ci99": [
+    0.0052514041895020385,
+    0.0056313179022094715
+   ],
+   "both_fail": 929
+  }
+ ],
+ "bp_only_rows": [
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a03125c3.bp",
+   "decoder": "bp (no OSD-0)",
+   "alpha": 0.3125,
+   "max_iter": 3,
+   "shots": 200000,
+   "joint_failures": 191051,
+   "joint_ler": 0.955255,
+   "joint_ci99": [
+    0.9540508381562657,
+    0.9564374442285075
+   ],
+   "separate_failures": 185544,
+   "separate_ler": 0.92772,
+   "separate_ci99": [
+    0.9262158112194805,
+    0.9292037966410351
+   ],
+   "separate_over_joint": 0.971,
+   "joint_only": 11844,
+   "separate_only": 6337,
+   "mcnemar_p": 0.0,
+   "mcnemar_log10_p": -369.54136594593524,
+   "bp_converged_decode_calls": {
+    "joint": [
+     28,
+     200000
+    ],
+    "separate": [
+     2843,
+     400000
+    ]
+   },
+   "verdict": "separate"
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "noise_p": 0.001,
+   "config": "a05ms31.bp",
+   "decoder": "bp (no OSD-0)",
+   "alpha": 0.5,
+   "max_iter": 31,
+   "shots": 200000,
+   "joint_failures": 170475,
+   "joint_ler": 0.852375,
+   "joint_ci99": [
+    0.8503209786407551,
+    0.8544122319274362
+   ],
+   "separate_failures": 45402,
+   "separate_ler": 0.22701,
+   "separate_ci99": [
+    0.22460127448869827,
+    0.22943172914385584
+   ],
+   "separate_over_joint": 0.266,
+   "joint_only": 127771,
+   "separate_only": 2698,
+   "mcnemar_p": 0.0,
+   "mcnemar_log10_p": -33572.667755973926,
+   "bp_converged_decode_calls": {
+    "joint": [
+     10044,
+     200000
+    ],
+    "separate": [
+     256996,
+     400000
+    ]
+   },
+   "verdict": "separate"
+  }
+ ],
+ "unmerged_projection": [
+  {
+   "what": "unmerged sector projection in the main run, paired against the joint decoding on the same shots",
+   "config": "a03125c3",
+   "shots": 500000,
+   "failures": 19,
+   "ler": 3.8e-05,
+   "ci99": [
+    1.9289072730708532e-05,
+    6.676500153975692e-05
+   ],
+   "joint_only": 2,
+   "unmerged_only": 17,
+   "mcnemar_p": 0.000728607177734375
+  },
+  {
+   "what": "unmerged sector projection in the main run, paired against the joint decoding on the same shots",
+   "config": "a05ms31",
+   "shots": 500000,
+   "failures": 12,
+   "ler": 2.4e-05,
+   "ci99": [
+    9.886293382610943e-06,
+    4.828929585609975e-05
+   ],
+   "joint_only": 5,
+   "unmerged_only": 10,
+   "mcnemar_p": 0.30175781249999994
+  },
+  {
+   "what": "merged against unmerged sector projections on the same fresh shots",
+   "config": "a03125c3",
+   "shots": 500000,
+   "merged_failures": 12,
+   "merged_ler": 2.4e-05,
+   "merged_ci99": [
+    9.886293382610943e-06,
+    4.828929585609975e-05
+   ],
+   "unmerged_failures": 26,
+   "unmerged_ler": 5.2e-05,
+   "unmerged_ci99": [
+    2.948146630943389e-05,
+    8.450053129411713e-05
+   ],
+   "merged_only": 3,
+   "unmerged_only": 17,
+   "mcnemar_p": 0.0025768280029296875
+  },
+  {
+   "what": "merged against unmerged sector projections on the same fresh shots",
+   "config": "a05ms31",
+   "shots": 500000,
+   "merged_failures": 0,
+   "merged_ler": 0.0,
+   "merged_ci99": [
+    0.0,
+    1.059657858896055e-05
+   ],
+   "unmerged_failures": 13,
+   "unmerged_ler": 2.6e-05,
+   "unmerged_ci99": [
+    1.1160309054344724e-05,
+    5.099273902156714e-05
+   ],
+   "merged_only": 0,
+   "unmerged_only": 13,
+   "mcnemar_p": 0.000244140625
+  }
+ ],
+ "joint_merged_control": [
+  {
+   "what": "the joint model with its duplicate columns merged exactly, decoded on the same shots as the main run",
+   "config": "a03125c3",
+   "columns": 71280,
+   "shots": 5000000,
+   "failures": 41,
+   "ler": 8.2e-06,
+   "ci99": [
+    5.276742209599619e-06,
+    1.2112605498073032e-05
+   ],
+   "joint_unmerged_failures_same_shots": 53,
+   "paired_vs_separate": {
+    "joint_merged_only": 20,
+    "separate_only": 65,
+    "mcnemar_p": 1.029887431251981e-06
+   },
+   "paired_vs_unmerged_joint": "not recorded"
+  },
+  {
+   "what": "the joint model with its duplicate columns merged exactly, decoded on the same shots as the main run",
+   "config": "a05ms31",
+   "columns": 71280,
+   "shots": 2000000,
+   "failures": 35,
+   "ler": 1.75e-05,
+   "ci99": [
+    1.081882832326966e-05,
+    2.6661785342515257e-05
+   ],
+   "joint_unmerged_failures_same_shots": 32,
+   "paired_vs_separate": {
+    "joint_merged_only": 34,
+    "separate_only": 6,
+    "mcnemar_p": 8.364584573428147e-06
+   },
+   "paired_vs_unmerged_joint": "not recorded"
+  }
+ ],
+ "per_sector_failures": [
+  {
+   "config": "a03125c3",
+   "decoding": "joint",
+   "x_sector_failures": 25,
+   "z_sector_failures": 28
+  },
+  {
+   "config": "a03125c3",
+   "decoding": "separate",
+   "x_sector_failures": 39,
+   "z_sector_failures": 47
+  },
+  {
+   "config": "a05ms31",
+   "decoding": "joint",
+   "x_sector_failures": 16,
+   "z_sector_failures": 16
+  },
+  {
+   "config": "a05ms31",
+   "decoding": "separate",
+   "x_sector_failures": 4,
+   "z_sector_failures": 3
+  }
+ ],
+ "bp_convergence_main_run": [
+  {
+   "config": "a03125c3",
+   "decoding": "joint",
+   "decode_calls": 5000000,
+   "bp_converged": 656,
+   "osd_ran": 4999344
+  },
+  {
+   "config": "a03125c3",
+   "decoding": "separate",
+   "decode_calls": 10000000,
+   "bp_converged": 70159,
+   "osd_ran": 9929841
+  },
+  {
+   "config": "a05ms31",
+   "decoding": "joint",
+   "decode_calls": 2000000,
+   "bp_converged": 99354,
+   "osd_ran": 1900646
+  },
+  {
+   "config": "a05ms31",
+   "decoding": "separate",
+   "decode_calls": 4000000,
+   "bp_converged": 2571501,
+   "osd_ran": 1428499
+  }
+ ]
+}

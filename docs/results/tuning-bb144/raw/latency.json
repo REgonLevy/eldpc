@@ -1,0 +1,5231 @@
+{
+ "environment": {
+  "timestamp_utc": "2026-10-22T04:32:41.413939+00:00",
+  "commands": [
+   {
+    "command": "nvidia-smi --query-gpu=name,driver_version,compute_cap --format=csv",
+    "exit_code": 0,
+    "stdout": "name, driver_version, compute_cap\nNVIDIA RTX 6000 Ada Generation, 580.126.09, 8.9",
+    "stderr": ""
+   }
+  ],
+  "toolkit": {
+   "version": "13.3",
+   "nvcc": "V13.3.73",
+   "first_line": null,
+   "source": "build_info"
+  },
+  "eldpc": {
+   "version": "0.1.0",
+   "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx2; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2; build_type=Release; isa=avx2; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+   "isa": "avx2",
+   "devices": [
+    {
+     "name": "NVIDIA RTX 6000 Ada Generation",
+     "compute_capability": "8.9",
+     "sm_count": 142,
+     "l2_bytes": 100663296,
+     "cuda_driver_version": "13.0",
+     "driver_version": "13.0",
+     "nvidia_driver_version": "580.126.09",
+     "nvidia_driver_version_reason": null,
+     "core_variant": "ada64",
+     "supported": true,
+     "supported_reason": null
+    }
+   ]
+  },
+  "python": {
+   "version": "3.12.3",
+   "implementation": "CPython",
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "stim": "1.16.0",
+   "qldpc": "0.4.2.dev20261004"
+  },
+  "machine": {
+   "system": "Linux",
+   "release": "6.8.0-106-generic",
+   "machine": "x86_64",
+   "cpu_model": "AMD EPYC 7542 32-Core Processor",
+   "cpu_count": 128,
+   "gpu": {
+    "cuda_visible_devices": null,
+    "devices": [
+     {
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "compute_capability": "8.9",
+      "sm_count": 142,
+      "l2_bytes": 100663296,
+      "cuda_driver_version": "13.0",
+      "driver_version": "13.0",
+      "nvidia_driver_version": "580.126.09",
+      "nvidia_driver_version_reason": null,
+      "core_variant": "ada64",
+      "supported": true,
+      "supported_reason": null
+     }
+    ]
+   }
+  }
+ },
+ "latency": {
+  "cadence_us": 0.0,
+  "experiments": [
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.46875,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.46875,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.46875:c=1"
+    },
+    "label": "bposd:a=0.46875:c=1",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 1600,
+      "calls_per_run": [
+       800,
+       800
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 1600,
+       "min_us": 56.416,
+       "mean_us": 71.11106875,
+       "p50_us": 64.4205,
+       "p99_us": 159.35141,
+       "max_us": 1008.507,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 1600,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.4205,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 1600,
+       "min_us": 56.936,
+       "mean_us": 70.776404375,
+       "p50_us": 63.975,
+       "p99_us": 152.91910000000001,
+       "max_us": 1038.304,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 1600,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 63.975,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 0.9930844994993829,
+      "ratio_p99": 0.9596344331060518,
+      "ref_runs": [
+       {
+        "calls": 800,
+        "min_us": 57.685,
+        "mean_us": 70.88976875,
+        "p50_us": 64.9205,
+        "p99_us": 158.19311,
+        "max_us": 247.882,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.9205,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 800,
+        "min_us": 56.416,
+        "mean_us": 71.33236875,
+        "p50_us": 64.07050000000001,
+        "p99_us": 159.38379999999995,
+        "max_us": 1008.507,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.07050000000001,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 800,
+        "min_us": 57.786,
+        "mean_us": 70.74979125,
+        "p50_us": 64.4805,
+        "p99_us": 155.16599,
+        "max_us": 437.088,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.4805,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 800,
+        "min_us": 56.936,
+        "mean_us": 70.8030175,
+        "p50_us": 63.595,
+        "p99_us": 148.08850999999999,
+        "max_us": 1038.304,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 63.595,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.986907063254288,
+      "ref_drift_p99": 1.0075268132727144,
+      "cand_drift_p50": 0.9862671660424468,
+      "cand_drift_p99": 0.9543876850848565,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 63.975,
+     "p99_us": 152.91910000000001,
+     "mean_us": 70.776404375,
+     "calls": 1600,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 1600,
+     "slow_median_us": 63.975,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.4205,
+     "p99_us": 159.35141,
+     "mean_us": 71.11106875,
+     "calls": 1600,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 1600,
+     "slow_median_us": 64.4205,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 0.9930844994993829,
+    "ratio_p99": 0.9596344331060518,
+    "verdict": "within_noise",
+    "calls_per_side": 1600,
+    "top_candidate": true,
+    "band_p50": 0.011471017631676128,
+    "band_p99": 0.02078468627047325,
+    "distinct_syndromes": 1600,
+    "syndrome_seeds": {
+     "dem": 7542877542897879162
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.4375,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.4375,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.4375:c=1"
+    },
+    "label": "bposd:a=0.4375:c=1",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 1600,
+      "calls_per_run": [
+       800,
+       800
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 1600,
+       "min_us": 58.396,
+       "mean_us": 71.5143575,
+       "p50_us": 64.585,
+       "p99_us": 150.174,
+       "max_us": 1659.597,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 1600,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.585,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 1600,
+       "min_us": 57.476,
+       "mean_us": 69.58778125,
+       "p50_us": 63.945,
+       "p99_us": 143.69511,
+       "max_us": 663.421,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 1600,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 63.945,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 0.9900905783076567,
+      "ratio_p99": 0.9568574453633785,
+      "ref_runs": [
+       {
+        "calls": 800,
+        "min_us": 58.396,
+        "mean_us": 70.74638875000001,
+        "p50_us": 64.6605,
+        "p99_us": 148.01579999999998,
+        "max_us": 718.997,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.6605,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 800,
+        "min_us": 58.696,
+        "mean_us": 72.28232625000001,
+        "p50_us": 64.49000000000001,
+        "p99_us": 150.23458999999994,
+        "max_us": 1659.597,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.49000000000001,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 800,
+        "min_us": 58.175,
+        "mean_us": 69.75613,
+        "p50_us": 64.1805,
+        "p99_us": 143.6952,
+        "max_us": 663.421,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.1805,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 800,
+        "min_us": 57.476,
+        "mean_us": 69.4194325,
+        "p50_us": 63.6455,
+        "p99_us": 142.97241,
+        "max_us": 274.58,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 63.6455,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.9973631506097232,
+      "ref_drift_p99": 1.0149902240166249,
+      "cand_drift_p50": 0.991664134744977,
+      "cand_drift_p99": 0.9949699781203547,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 63.945,
+     "p99_us": 143.69511,
+     "mean_us": 69.58778125,
+     "calls": 1600,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 1600,
+     "slow_median_us": 63.945,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.585,
+     "p99_us": 150.174,
+     "mean_us": 71.5143575,
+     "calls": 1600,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 1600,
+     "slow_median_us": 64.585,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 0.9900905783076567,
+    "ratio_p99": 0.9568574453633785,
+    "verdict": "within_noise",
+    "calls_per_side": 1600,
+    "top_candidate": true,
+    "band_p50": 0.011471017631676128,
+    "band_p99": 0.02078468627047325,
+    "distinct_syndromes": 1600,
+    "syndrome_seeds": {
+     "dem": 7153669726486307092
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.53125,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.53125,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.53125:c=1"
+    },
+    "label": "bposd:a=0.53125:c=1",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.135,
+       "mean_us": 70.60132750000001,
+       "p50_us": 64.7955,
+       "p99_us": 169.00388999999984,
+       "max_us": 215.413,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.7955,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 58.346,
+       "mean_us": 69.5035125,
+       "p50_us": 64.2305,
+       "p99_us": 150.73689,
+       "max_us": 203.374,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.2305,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 0.9912802586599379,
+      "ratio_p99": 0.8919137305064406,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.135,
+        "mean_us": 71.70546,
+        "p50_us": 65.13,
+        "p99_us": 169.17936999999966,
+        "max_us": 215.413,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.13,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.405,
+        "mean_us": 69.497195,
+        "p50_us": 64.21000000000001,
+        "p99_us": 151.81946999999968,
+        "max_us": 194.685,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.21000000000001,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 58.476,
+        "mean_us": 70.70696,
+        "p50_us": 64.69999999999999,
+        "p99_us": 152.78008999999977,
+        "max_us": 203.374,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.69999999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 58.346,
+        "mean_us": 68.30006499999999,
+        "p50_us": 63.945,
+        "p99_us": 144.83518999999998,
+        "max_us": 155.188,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 63.945,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.9858744050360819,
+      "ref_drift_p99": 0.8973876070114222,
+      "cand_drift_p50": 0.9883307573415767,
+      "cand_drift_p99": 0.9479978052114002,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 64.2305,
+     "p99_us": 150.73689,
+     "mean_us": 69.5035125,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.2305,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.7955,
+     "p99_us": 169.00388999999984,
+     "mean_us": 70.60132750000001,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.7955,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 0.9912802586599379,
+    "ratio_p99": 0.8919137305064406,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 8293330973688360911
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=1"
+    },
+    "label": "bposd:a=0.625:c=1",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.506,
+       "mean_us": 73.5971,
+       "p50_us": 64.555,
+       "p99_us": 162.74027999999961,
+       "max_us": 887.472,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.555,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 58.956,
+       "mean_us": 74.21744000000001,
+       "p50_us": 65.21,
+       "p99_us": 162.35049999999998,
+       "max_us": 906.26,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 65.21,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.0101463868019516,
+      "ratio_p99": 0.9976048953584224,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.506,
+        "mean_us": 69.54258,
+        "p50_us": 64.475,
+        "p99_us": 140.55968999999996,
+        "max_us": 204.645,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.475,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.765,
+        "mean_us": 77.65162000000001,
+        "p50_us": 64.735,
+        "p99_us": 244.2886399999956,
+        "max_us": 887.472,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.735,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 58.956,
+        "mean_us": 69.98325,
+        "p50_us": 65.125,
+        "p99_us": 141.50388999999987,
+        "max_us": 154.618,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.125,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.065,
+        "mean_us": 78.45163000000001,
+        "p50_us": 65.21,
+        "p99_us": 248.7787299999957,
+        "max_us": 906.26,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.21,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.004032570763862,
+      "ref_drift_p99": 1.737970822217918,
+      "cand_drift_p50": 1.0013051823416506,
+      "cand_drift_p99": 1.758105236541525,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 65.21,
+     "p99_us": 162.35049999999998,
+     "mean_us": 74.21744000000001,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 65.21,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.555,
+     "p99_us": 162.74027999999961,
+     "mean_us": 73.5971,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.555,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.0101463868019516,
+    "ratio_p99": 0.9976048953584224,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 3999867776855315809
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=1"
+    },
+    "label": "bposd:a=0.5:c=1",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 58.545,
+       "mean_us": 73.4759575,
+       "p50_us": 64.69,
+       "p99_us": 192.88548999999995,
+       "max_us": 1370.782,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.69,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 58.525,
+       "mean_us": 73.1196475,
+       "p50_us": 64.35499999999999,
+       "p99_us": 183.5414899999999,
+       "max_us": 1318.537,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.35499999999999,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 0.9948214561756066,
+      "ratio_p99": 0.9515567500696913,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 58.545,
+        "mean_us": 75.876115,
+        "p50_us": 64.6,
+        "p99_us": 166.4643699999997,
+        "max_us": 1370.782,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.6,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.065,
+        "mean_us": 71.0758,
+        "p50_us": 64.83,
+        "p99_us": 192.9478899999999,
+        "max_us": 221.772,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.83,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 58.976,
+        "mean_us": 75.594905,
+        "p50_us": 64.235,
+        "p99_us": 183.5414899999999,
+        "max_us": 1318.537,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.235,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 58.525,
+        "mean_us": 70.64439,
+        "p50_us": 64.435,
+        "p99_us": 150.90134999999947,
+        "max_us": 217.973,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.435,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.0035603715170278,
+      "ref_drift_p99": 1.159094225388894,
+      "cand_drift_p50": 1.003113567369814,
+      "cand_drift_p99": 0.8221647868283054,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 64.35499999999999,
+     "p99_us": 183.5414899999999,
+     "mean_us": 73.1196475,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.35499999999999,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.69,
+     "p99_us": 192.88548999999995,
+     "mean_us": 73.4759575,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.69,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 0.9948214561756066,
+    "ratio_p99": 0.9515567500696913,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 1474405987135933625
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 3,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.3125:c=3"
+    },
+    "label": "bposd:a=0.3125:c=3",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.016,
+       "mean_us": 75.7099725,
+       "p50_us": 64.5145,
+       "p99_us": 156.22920000000002,
+       "max_us": 947.014,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.5145,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 78.463,
+       "mean_us": 86.35098749999999,
+       "p50_us": 83.3635,
+       "p99_us": 165.86070999999998,
+       "max_us": 392.549,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 83.3635,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.2921668772136496,
+      "ratio_p99": 1.0616498708308046,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.016,
+        "mean_us": 77.89859,
+        "p50_us": 64.16499999999999,
+        "p99_us": 164.1699799999929,
+        "max_us": 947.014,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.16499999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.485,
+        "mean_us": 73.521355,
+        "p50_us": 64.905,
+        "p99_us": 153.20849999999996,
+        "max_us": 751.29,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.905,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 78.464,
+        "mean_us": 85.53475999999999,
+        "p50_us": 83.0235,
+        "p99_us": 154.3728899999999,
+        "max_us": 170.526,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 83.0235,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 78.463,
+        "mean_us": 87.167215,
+        "p50_us": 84.17349999999999,
+        "p99_us": 167.8638499999995,
+        "max_us": 392.549,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 84.17349999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.0115327670848595,
+      "ref_drift_p99": 0.933230911035054,
+      "cand_drift_p50": 1.0138514998765409,
+      "cand_drift_p99": 1.0873920284837553,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 83.3635,
+     "p99_us": 165.86070999999998,
+     "mean_us": 86.35098749999999,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 83.3635,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.5145,
+     "p99_us": 156.22920000000002,
+     "mean_us": 75.7099725,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.5145,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.2921668772136496,
+    "ratio_p99": 1.0616498708308046,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 7305528565605146873
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 3,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=3"
+    },
+    "label": "bposd:a=0.5:c=3",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 58.935,
+       "mean_us": 71.2279075,
+       "p50_us": 64.71000000000001,
+       "p99_us": 153.68,
+       "max_us": 738.2,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.71000000000001,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 80.453,
+       "mean_us": 87.46494249999999,
+       "p50_us": 84.973,
+       "p99_us": 142.9103699999998,
+       "max_us": 184.615,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 1,
+       "slow_calls": 399,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 84.943,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.3131355277391437,
+      "ratio_p99": 0.9299217204580934,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 58.935,
+        "mean_us": 73.718165,
+        "p50_us": 65.245,
+        "p99_us": 196.6983,
+        "max_us": 738.2,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.245,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.325,
+        "mean_us": 68.73764999999999,
+        "p50_us": 64.315,
+        "p99_us": 149.19319999999996,
+        "max_us": 154.868,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.315,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 80.533,
+        "mean_us": 87.45909999999999,
+        "p50_us": 85.068,
+        "p99_us": 118.39994999999956,
+        "max_us": 171.156,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 85.063,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 80.453,
+        "mean_us": 87.47078499999999,
+        "p50_us": 84.733,
+        "p99_us": 143.08025999999964,
+        "max_us": 184.615,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 84.733,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.9857460341788642,
+      "ref_drift_p99": 0.7584874907408959,
+      "cand_drift_p50": 0.9960619739502516,
+      "cand_drift_p99": 1.208448652216493,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 84.973,
+     "p99_us": 142.9103699999998,
+     "mean_us": 87.46494249999999,
+     "calls": 400,
+     "slow_fraction": 0.9975,
+     "p99_unreliable": false,
+     "slow_calls": 399,
+     "slow_median_us": 84.943,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.71000000000001,
+     "p99_us": 153.68,
+     "mean_us": 71.2279075,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.71000000000001,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.3131355277391437,
+    "ratio_p99": 0.9299217204580934,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 5183706046091661019
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 3,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=3"
+    },
+    "label": "bposd:a=0.625:c=3",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.715,
+       "mean_us": 70.40817500000001,
+       "p50_us": 64.9645,
+       "p99_us": 151.83998999999994,
+       "max_us": 189.114,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.9645,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 80.313,
+       "mean_us": 93.4262425,
+       "p50_us": 88.54249999999999,
+       "p99_us": 174.68688999999998,
+       "max_us": 204.333,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 88.54249999999999,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.362936680802592,
+      "ratio_p99": 1.1504669487926076,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 60.005,
+        "mean_us": 70.06531000000001,
+        "p50_us": 64.85,
+        "p99_us": 159.24246999999977,
+        "max_us": 189.114,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.85,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.715,
+        "mean_us": 70.75104,
+        "p50_us": 65.0445,
+        "p99_us": 142.34879999999995,
+        "max_us": 168.306,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.0445,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 80.523,
+        "mean_us": 93.57164499999999,
+        "p50_us": 88.538,
+        "p99_us": 177.7512,
+        "max_us": 204.333,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 88.538,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 80.313,
+        "mean_us": 93.28084000000001,
+        "p50_us": 88.60249999999999,
+        "p99_us": 156.28258999999983,
+        "max_us": 199.694,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 88.60249999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.002999228989977,
+      "ref_drift_p99": 0.8939122835761099,
+      "cand_drift_p50": 1.0007285007567372,
+      "cand_drift_p99": 0.8792210122913365,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 88.54249999999999,
+     "p99_us": 174.68688999999998,
+     "mean_us": 93.4262425,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 88.54249999999999,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.9645,
+     "p99_us": 151.83998999999994,
+     "mean_us": 70.40817500000001,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.9645,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.362936680802592,
+    "ratio_p99": 1.1504669487926076,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 3237046419539520428
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 7,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 7,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.3125:c=7"
+    },
+    "label": "bposd:a=0.3125:c=7",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.305,
+       "mean_us": 73.89440250000001,
+       "p50_us": 64.91,
+       "p99_us": 158.83257999999978,
+       "max_us": 836.29,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.91,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 120.54,
+       "mean_us": 128.8437725,
+       "p50_us": 127.4545,
+       "p99_us": 183.58727999999974,
+       "max_us": 221.692,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 127.4545,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.9635572330919735,
+      "ratio_p99": 1.155854044554335,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.505,
+        "mean_us": 75.868765,
+        "p50_us": 65.475,
+        "p99_us": 184.7678499999994,
+        "max_us": 836.29,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.475,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.305,
+        "mean_us": 71.92004000000001,
+        "p50_us": 64.49950000000001,
+        "p99_us": 148.22159999999988,
+        "max_us": 690.643,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.49950000000001,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 120.54,
+        "mean_us": 129.09983,
+        "p50_us": 127.6995,
+        "p99_us": 161.26475999999954,
+        "max_us": 221.692,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 127.6995,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 122.689,
+        "mean_us": 128.587715,
+        "p50_us": 127.2245,
+        "p99_us": 183.59237999999974,
+        "max_us": 213.302,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 127.2245,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.9851011836578849,
+      "ref_drift_p99": 0.8022044960744001,
+      "cand_drift_p50": 0.9962803299934613,
+      "cand_drift_p99": 1.1384531871687296,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 127.4545,
+     "p99_us": 183.58727999999974,
+     "mean_us": 128.8437725,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 127.4545,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.91,
+     "p99_us": 158.83257999999978,
+     "mean_us": 73.89440250000001,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.91,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.9635572330919735,
+    "ratio_p99": 1.155854044554335,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 4750992666415071211
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 7,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 7,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=7"
+    },
+    "label": "bposd:a=0.5:c=7",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.275,
+       "mean_us": 70.588295,
+       "p50_us": 64.7345,
+       "p99_us": 161.01138999999998,
+       "max_us": 224.061,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.7345,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 101.361,
+       "mean_us": 130.5155875,
+       "p50_us": 128.22899999999998,
+       "p99_us": 164.80315999999956,
+       "max_us": 226.581,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 8,
+       "slow_calls": 392,
+       "slow_fraction": 0.98,
+       "p99_unreliable": false,
+       "slow_median_us": 128.214,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.9808448354432333,
+      "ratio_p99": 1.023549700428023,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.275,
+        "mean_us": 69.920455,
+        "p50_us": 64.50999999999999,
+        "p99_us": 138.7334899999999,
+        "max_us": 224.061,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.50999999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.705,
+        "mean_us": 71.256135,
+        "p50_us": 64.9495,
+        "p99_us": 164.55078999999986,
+        "max_us": 213.432,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.9495,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 101.801,
+        "mean_us": 130.42081,
+        "p50_us": 128.204,
+        "p99_us": 164.80315999999956,
+        "max_us": 224.401,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 4,
+        "slow_calls": 196,
+        "slow_fraction": 0.98,
+        "p99_unreliable": false,
+        "slow_median_us": 128.18900000000002,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 101.361,
+        "mean_us": 130.610365,
+        "p50_us": 128.3095,
+        "p99_us": 153.98684999999946,
+        "max_us": 226.581,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 4,
+        "slow_calls": 196,
+        "slow_fraction": 0.98,
+        "p99_unreliable": false,
+        "slow_median_us": 128.3095,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.0068128972252366,
+      "ref_drift_p99": 1.1860927739942244,
+      "cand_drift_p50": 1.0008229072415837,
+      "cand_drift_p99": 0.9343683094426094,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 128.22899999999998,
+     "p99_us": 164.80315999999956,
+     "mean_us": 130.5155875,
+     "calls": 400,
+     "slow_fraction": 0.98,
+     "p99_unreliable": false,
+     "slow_calls": 392,
+     "slow_median_us": 128.214,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.7345,
+     "p99_us": 161.01138999999998,
+     "mean_us": 70.588295,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.7345,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.9808448354432333,
+    "ratio_p99": 1.023549700428023,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 2037029581692358204
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 7,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 7,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=7"
+    },
+    "label": "bposd:a=0.625:c=7",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.005,
+       "mean_us": 73.393525,
+       "p50_us": 65.414,
+       "p99_us": 185.60059999999996,
+       "max_us": 743.826,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 1,
+       "slow_calls": 399,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 65.404,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 79.733,
+       "mean_us": 133.0460275,
+       "p50_us": 129.304,
+       "p99_us": 222.41069999999996,
+       "max_us": 236.28,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 5,
+       "slow_calls": 395,
+       "slow_fraction": 0.9875,
+       "p99_unreliable": false,
+       "slow_median_us": 129.349,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.9767022349955667,
+      "ratio_p99": 1.1983296390205636,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.005,
+        "mean_us": 75.918045,
+        "p50_us": 65.95949999999999,
+        "p99_us": 191.44797999999977,
+        "max_us": 743.826,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.95949999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.095,
+        "mean_us": 70.869005,
+        "p50_us": 64.73949999999999,
+        "p99_us": 169.11098999999984,
+        "max_us": 200.193,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 64.735,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 115.31,
+        "mean_us": 133.355245,
+        "p50_us": 129.019,
+        "p99_us": 209.75948999999986,
+        "max_us": 228.011,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 129.049,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 79.733,
+        "mean_us": 132.73681,
+        "p50_us": 129.49900000000002,
+        "p99_us": 222.4683899999999,
+        "max_us": 236.28,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 4,
+        "slow_calls": 196,
+        "slow_fraction": 0.98,
+        "p99_unreliable": false,
+        "slow_median_us": 129.549,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.981503801575209,
+      "ref_drift_p99": 0.8833260606876084,
+      "cand_drift_p50": 1.0037203822692784,
+      "cand_drift_p99": 1.0605879619558574,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 129.304,
+     "p99_us": 222.41069999999996,
+     "mean_us": 133.0460275,
+     "calls": 400,
+     "slow_fraction": 0.9875,
+     "p99_unreliable": false,
+     "slow_calls": 395,
+     "slow_median_us": 129.349,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 65.414,
+     "p99_us": 185.60059999999996,
+     "mean_us": 73.393525,
+     "calls": 400,
+     "slow_fraction": 0.9975,
+     "p99_unreliable": false,
+     "slow_calls": 399,
+     "slow_median_us": 65.404,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.9767022349955667,
+    "ratio_p99": 1.1983296390205636,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 3820922836620143292
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 15,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=15"
+    },
+    "label": "bposd:a=0.5:c=15",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.494,
+       "mean_us": 73.36889000000001,
+       "p50_us": 65.09899999999999,
+       "p99_us": 159.7688699999997,
+       "max_us": 1081.877,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 1,
+       "slow_calls": 399,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 65.094,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 92.642,
+       "mean_us": 217.22714,
+       "p50_us": 216.031,
+       "p99_us": 258.4608599999996,
+       "max_us": 310.954,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 11,
+       "slow_calls": 389,
+       "slow_fraction": 0.9725,
+       "p99_unreliable": false,
+       "slow_median_us": 216.121,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 3.3184995161216,
+      "ratio_p99": 1.6177172687019699,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.515,
+        "mean_us": 75.82181,
+        "p50_us": 65.594,
+        "p99_us": 191.74371,
+        "max_us": 1081.877,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.594,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.494,
+        "mean_us": 70.91597,
+        "p50_us": 64.70400000000001,
+        "p99_us": 152.90308999999993,
+        "max_us": 242.319,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 64.694,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 145.957,
+        "mean_us": 218.13765,
+        "p50_us": 216.466,
+        "p99_us": 253.66465999999954,
+        "max_us": 310.954,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 5,
+        "slow_calls": 195,
+        "slow_fraction": 0.975,
+        "p99_unreliable": false,
+        "slow_median_us": 216.541,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 92.642,
+        "mean_us": 216.31663,
+        "p50_us": 215.4115,
+        "p99_us": 258.4608599999996,
+        "max_us": 304.424,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 6,
+        "slow_calls": 194,
+        "slow_fraction": 0.97,
+        "p99_unreliable": false,
+        "slow_median_us": 215.546,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.9864316858249232,
+      "ref_drift_p99": 0.7974347111568871,
+      "cand_drift_p50": 0.9951285652250237,
+      "cand_drift_p99": 1.0189076397161516,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 216.031,
+     "p99_us": 258.4608599999996,
+     "mean_us": 217.22714,
+     "calls": 400,
+     "slow_fraction": 0.9725,
+     "p99_unreliable": false,
+     "slow_calls": 389,
+     "slow_median_us": 216.121,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 65.09899999999999,
+     "p99_us": 159.7688699999997,
+     "mean_us": 73.36889000000001,
+     "calls": 400,
+     "slow_fraction": 0.9975,
+     "p99_unreliable": false,
+     "slow_calls": 399,
+     "slow_median_us": 65.094,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 3.3184995161216,
+    "ratio_p99": 1.6177172687019699,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 5536762041333918214
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 15,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.3125:c=15"
+    },
+    "label": "bposd:a=0.3125:c=15",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 58.835,
+       "mean_us": 70.2902825,
+       "p50_us": 64.834,
+       "p99_us": 151.07149999999993,
+       "max_us": 232.149,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 1,
+       "slow_calls": 399,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 64.834,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 208.032,
+       "mean_us": 217.4872,
+       "p50_us": 215.531,
+       "p99_us": 246.20905999999954,
+       "max_us": 333.091,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 215.531,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 3.3243514205509452,
+      "ratio_p99": 1.6297518724577413,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.004,
+        "mean_us": 70.16603500000001,
+        "p50_us": 65.0145,
+        "p99_us": 138.7417799999999,
+        "max_us": 195.383,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.0145,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 58.835,
+        "mean_us": 70.41453,
+        "p50_us": 64.7345,
+        "p99_us": 158.7528799999998,
+        "max_us": 232.149,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 64.725,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 209.451,
+        "mean_us": 218.19958,
+        "p50_us": 216.2765,
+        "p99_us": 240.11004999999943,
+        "max_us": 333.091,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 216.2765,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 208.032,
+        "mean_us": 216.77482,
+        "p50_us": 215.2365,
+        "p99_us": 246.20905999999954,
+        "max_us": 298.434,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 215.2365,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.995693268424736,
+      "ref_drift_p99": 1.1442326889564192,
+      "cand_drift_p50": 0.9951913407143171,
+      "cand_drift_p99": 1.0254008942982609,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 215.531,
+     "p99_us": 246.20905999999954,
+     "mean_us": 217.4872,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 215.531,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.834,
+     "p99_us": 151.07149999999993,
+     "mean_us": 70.2902825,
+     "calls": 400,
+     "slow_fraction": 0.9975,
+     "p99_unreliable": false,
+     "slow_calls": 399,
+     "slow_median_us": 64.834,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 3.3243514205509452,
+    "ratio_p99": 1.6297518724577413,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 6602751713457889098
+    }
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 15,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=15"
+    },
+    "label": "bposd:a=0.625:c=15",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 58.285,
+       "mean_us": 74.9144175,
+       "p50_us": 65.769,
+       "p99_us": 151.28349999999992,
+       "max_us": 1259.749,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 1,
+       "slow_calls": 399,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 65.764,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 85.603,
+       "mean_us": 219.59749250000002,
+       "p50_us": 217.151,
+       "p99_us": 300.4486,
+       "max_us": 397.945,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 8,
+       "slow_calls": 392,
+       "slow_fraction": 0.98,
+       "p99_unreliable": false,
+       "slow_median_us": 217.281,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 3.301722696103027,
+      "ratio_p99": 1.9859971510442327,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.794,
+        "mean_us": 78.84381,
+        "p50_us": 65.6545,
+        "p99_us": 161.33165999999966,
+        "max_us": 1259.749,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 65.634,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 58.285,
+        "mean_us": 70.985025,
+        "p50_us": 65.78399999999999,
+        "p99_us": 149.25648999999999,
+        "max_us": 281.405,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.78399999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 85.603,
+        "mean_us": 218.696245,
+        "p50_us": 217.0005,
+        "p99_us": 250.30014999999952,
+        "max_us": 309.922,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 3,
+        "slow_calls": 197,
+        "slow_fraction": 0.985,
+        "p99_unreliable": false,
+        "slow_median_us": 217.031,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 145.657,
+        "mean_us": 220.49874,
+        "p50_us": 217.47050000000002,
+        "p99_us": 300.4899899999999,
+        "max_us": 397.945,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 5,
+        "slow_calls": 195,
+        "slow_fraction": 0.975,
+        "p99_unreliable": false,
+        "slow_median_us": 217.831,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.0019724466715914,
+      "ref_drift_p99": 0.9251531286543528,
+      "cand_drift_p50": 1.0021658936269733,
+      "cand_drift_p99": 1.200518617348014,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 217.151,
+     "p99_us": 300.4486,
+     "mean_us": 219.59749250000002,
+     "calls": 400,
+     "slow_fraction": 0.98,
+     "p99_unreliable": false,
+     "slow_calls": 392,
+     "slow_median_us": 217.281,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 65.769,
+     "p99_us": 151.28349999999992,
+     "mean_us": 74.9144175,
+     "calls": 400,
+     "slow_fraction": 0.9975,
+     "p99_unreliable": false,
+     "slow_calls": 399,
+     "slow_median_us": 65.764,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 3.301722696103027,
+    "ratio_p99": 1.9859971510442327,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 4813912062144541344
+    }
+   }
+  ],
+  "aa": {
+   "cases": [
+    {
+     "calls_per_side": 1600,
+     "calls_per_run": [
+      800,
+      800
+     ],
+     "keep_warm": false,
+     "cadence_us": 0.0,
+     "schedule": "ref,cand,cand,ref",
+     "ref": {
+      "calls": 1600,
+      "min_us": 55.017,
+      "mean_us": 71.8797425,
+      "p50_us": 63.861000000000004,
+      "p99_us": 149.19108999999995,
+      "max_us": 1676.925,
+      "quantile_method": "numpy.percentile linear",
+      "converged_calls": 2,
+      "slow_calls": 1598,
+      "slow_fraction": 0.99875,
+      "p99_unreliable": false,
+      "slow_median_us": 63.856,
+      "pooling": "exact: union of the run samples"
+     },
+     "cand": {
+      "calls": 1600,
+      "min_us": 56.966,
+      "mean_us": 70.98109812499999,
+      "p50_us": 63.935500000000005,
+      "p99_us": 146.0902,
+      "max_us": 1014.82,
+      "quantile_method": "numpy.percentile linear",
+      "converged_calls": 2,
+      "slow_calls": 1598,
+      "slow_fraction": 0.99875,
+      "p99_unreliable": false,
+      "slow_median_us": 63.935,
+      "pooling": "exact: union of the run samples"
+     },
+     "ratio_p50": 1.0011665962011242,
+     "ratio_p99": 0.9792153137295267,
+     "ref_runs": [
+      {
+       "calls": 800,
+       "min_us": 57.916,
+       "mean_us": 70.2522475,
+       "p50_us": 64.74549999999999,
+       "p99_us": 145.83339999999998,
+       "max_us": 201.607,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 800,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.74549999999999,
+       "keep_warm": false,
+       "cadence_us": 0.0
+      },
+      {
+       "calls": 800,
+       "min_us": 55.017,
+       "mean_us": 73.50723750000002,
+       "p50_us": 62.836,
+       "p99_us": 154.29969999999994,
+       "max_us": 1676.925,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 2,
+       "slow_calls": 798,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 62.836,
+       "keep_warm": false,
+       "cadence_us": 0.0
+      }
+     ],
+     "cand_runs": [
+      {
+       "calls": 800,
+       "min_us": 58.286,
+       "mean_us": 69.69170249999999,
+       "p50_us": 64.2005,
+       "p99_us": 146.20068999999992,
+       "max_us": 206.916,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 800,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.2005,
+       "keep_warm": false,
+       "cadence_us": 0.0
+      },
+      {
+       "calls": 800,
+       "min_us": 56.966,
+       "mean_us": 72.27049375,
+       "p50_us": 63.556,
+       "p99_us": 143.54549999999998,
+       "max_us": 1014.82,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 2,
+       "slow_calls": 798,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 63.555499999999995,
+       "keep_warm": false,
+       "cadence_us": 0.0
+      }
+     ],
+     "ref_drift_p50": 0.9705076028449855,
+     "ref_drift_p99": 1.0580546020321817,
+     "cand_drift_p50": 0.9899611373743193,
+     "cand_drift_p99": 0.9818387314040724,
+     "aa_cycles": 2,
+     "aa_ratios": [
+      {
+       "ratio_p50": 1.0011665962011242,
+       "ratio_p99": 0.9792153137295267
+      },
+      {
+       "ratio_p50": 0.9885289823683239,
+       "ratio_p99": 1.006639948244516
+      }
+     ],
+     "band_p50": 0.011471017631676128,
+     "band_p99": 0.02078468627047325,
+     "band_basis": "max deviation of the paired pooled-quantile ratio over the A/A cycles; the per-run drift values are diagnostics only",
+     "case": "dem",
+     "syndrome_seeds": [
+      5051882025619754826,
+      7888065843228876669
+     ]
+    }
+   ],
+   "band_p50": 0.011471017631676128,
+   "band_p99": 0.02078468627047325,
+   "aggregation": "max over physical error rates",
+   "calls_per_side": 1600,
+   "set": "top",
+   "aa_cycles": 2,
+   "distinct_syndromes": 3200,
+   "syndrome_seeds": {
+    "dem": [
+     5051882025619754826,
+     7888065843228876669
+    ]
+   }
+  },
+  "survivors": [],
+  "order": [
+   "bposd:a=0.5625:c=1",
+   "bposd:a=0.46875:c=1",
+   "bposd:a=0.4375:c=1",
+   "bposd:a=0.53125:c=1",
+   "bposd:a=0.625:c=1",
+   "bposd:a=0.5:c=1",
+   "bposd:a=0.3125:c=3",
+   "bposd:a=0.5:c=3",
+   "bposd:a=0.625:c=3",
+   "bposd:a=0.3125:c=7",
+   "bposd:a=0.5:c=7",
+   "bposd:a=0.625:c=7",
+   "bposd:a=0.5:c=15",
+   "bposd:a=0.3125:c=15",
+   "bposd:a=0.625:c=15"
+  ],
+  "order_basis": "mean decode time per shot measured in the accuracy stages",
+  "cases": [
+   {
+    "label": "dem",
+    "p": null
+   }
+  ],
+  "calls_per_side": 400,
+  "calls_top": 1600,
+  "handle_creation": {
+   "mode": "lazy",
+   "handles": 15,
+   "workers": 1
+  },
+  "aa_cycles": 2,
+  "top_candidates": 3,
+  "aa_base": {
+   "cases": [
+    {
+     "calls_per_side": 400,
+     "calls_per_run": [
+      200,
+      200
+     ],
+     "keep_warm": false,
+     "cadence_us": 0.0,
+     "schedule": "ref,cand,cand,ref",
+     "ref": {
+      "calls": 400,
+      "min_us": 59.276,
+      "mean_us": 71.8710225,
+      "p50_us": 65.17,
+      "p99_us": 188.23839999999996,
+      "max_us": 301.139,
+      "quantile_method": "numpy.percentile linear",
+      "converged_calls": 0,
+      "slow_calls": 400,
+      "slow_fraction": 1.0,
+      "p99_unreliable": false,
+      "slow_median_us": 65.17,
+      "pooling": "exact: union of the run samples"
+     },
+     "cand": {
+      "calls": 400,
+      "min_us": 58.906,
+      "mean_us": 70.9722725,
+      "p50_us": 64.6455,
+      "p99_us": 166.44568999999993,
+      "max_us": 233.533,
+      "quantile_method": "numpy.percentile linear",
+      "converged_calls": 0,
+      "slow_calls": 400,
+      "slow_fraction": 1.0,
+      "p99_unreliable": false,
+      "slow_median_us": 64.6455,
+      "pooling": "exact: union of the run samples"
+     },
+     "ratio_p50": 0.9919518183213134,
+     "ratio_p99": 0.8842281383607169,
+     "ref_runs": [
+      {
+       "calls": 200,
+       "min_us": 59.276,
+       "mean_us": 71.14759,
+       "p50_us": 64.715,
+       "p99_us": 159.86407999999975,
+       "max_us": 213.215,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 200,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.715,
+       "keep_warm": false,
+       "cadence_us": 0.0
+      },
+      {
+       "calls": 200,
+       "min_us": 59.485,
+       "mean_us": 72.594455,
+       "p50_us": 65.26050000000001,
+       "p99_us": 193.80366999999964,
+       "max_us": 301.139,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 200,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 65.26050000000001,
+       "keep_warm": false,
+       "cadence_us": 0.0
+      }
+     ],
+     "cand_runs": [
+      {
+       "calls": 200,
+       "min_us": 58.946,
+       "mean_us": 70.618835,
+       "p50_us": 64.4405,
+       "p99_us": 151.94468999999987,
+       "max_us": 212.665,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 200,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.4405,
+       "keep_warm": false,
+       "cadence_us": 0.0
+      },
+      {
+       "calls": 200,
+       "min_us": 58.906,
+       "mean_us": 71.32571,
+       "p50_us": 64.8155,
+       "p99_us": 174.3341899999998,
+       "max_us": 233.533,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 200,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.8155,
+       "keep_warm": false,
+       "cadence_us": 0.0
+      }
+     ],
+     "ref_drift_p50": 1.008429266785135,
+     "ref_drift_p99": 1.2123027887190165,
+     "cand_drift_p50": 1.0058193216998628,
+     "cand_drift_p99": 1.1473529611334228,
+     "aa_cycles": 2,
+     "aa_ratios": [
+      {
+       "ratio_p50": 0.9919518183213134,
+       "ratio_p99": 0.8842281383607169
+      },
+      {
+       "ratio_p50": 0.9982190214728458,
+       "ratio_p99": 0.9657981833092268
+      }
+     ],
+     "band_p50": 0.008048181678686595,
+     "band_p99": 0.1157718616392831,
+     "band_basis": "max deviation of the paired pooled-quantile ratio over the A/A cycles; the per-run drift values are diagnostics only",
+     "case": "dem",
+     "syndrome_seeds": [
+      4481426313864429188,
+      1676183648741080592
+     ]
+    }
+   ],
+   "band_p50": 0.008048181678686595,
+   "band_p99": 0.1157718616392831,
+   "aggregation": "max over physical error rates",
+   "calls_per_side": 400,
+   "set": "rest",
+   "aa_cycles": 2,
+   "distinct_syndromes": 800,
+   "syndrome_seeds": {
+    "dem": [
+     4481426313864429188,
+     1676183648741080592
+    ]
+   }
+  },
+  "measured": {
+   "bposd:a=0.5625:c=1": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5625,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5625,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5625:c=1"
+    },
+    "label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "case": "dem",
+      "ref": {
+       "calls": 1600,
+       "min_us": 55.017,
+       "mean_us": 71.8797425,
+       "p50_us": 63.861000000000004,
+       "p99_us": 149.19108999999995,
+       "max_us": 1676.925,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 2,
+       "slow_calls": 1598,
+       "slow_fraction": 0.99875,
+       "p99_unreliable": false,
+       "slow_median_us": 63.856,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 1600,
+       "min_us": 56.966,
+       "mean_us": 70.98109812499999,
+       "p50_us": 63.935500000000005,
+       "p99_us": 146.0902,
+       "max_us": 1014.82,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 2,
+       "slow_calls": 1598,
+       "slow_fraction": 0.99875,
+       "p99_unreliable": false,
+       "slow_median_us": 63.935,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.0011665962011242,
+      "ratio_p99": 0.9792153137295267
+     }
+    ],
+    "distinct_syndromes": 3200,
+    "syndrome_seeds": {
+     "dem": [
+      5051882025619754826,
+      7888065843228876669
+     ]
+    },
+    "cand": {
+     "p50_us": 63.935500000000005,
+     "p99_us": 146.0902,
+     "mean_us": 70.98109812499999,
+     "calls": 1600,
+     "slow_fraction": 0.99875,
+     "p99_unreliable": false,
+     "slow_calls": 1598,
+     "slow_median_us": 63.935,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 63.861000000000004,
+     "p99_us": 149.19108999999995,
+     "mean_us": 71.8797425,
+     "calls": 1600,
+     "slow_fraction": 0.99875,
+     "p99_unreliable": false,
+     "slow_calls": 1598,
+     "slow_median_us": 63.856,
+     "aggregation": "worst case over physical error rates"
+    },
+    "role": "initial best (measured as the reference of the A/A experiment)",
+    "calls_per_side": 1600
+   },
+   "bposd:a=0.46875:c=1": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.46875,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.46875,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.46875:c=1"
+    },
+    "label": "bposd:a=0.46875:c=1",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 1600,
+      "calls_per_run": [
+       800,
+       800
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 1600,
+       "min_us": 56.416,
+       "mean_us": 71.11106875,
+       "p50_us": 64.4205,
+       "p99_us": 159.35141,
+       "max_us": 1008.507,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 1600,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.4205,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 1600,
+       "min_us": 56.936,
+       "mean_us": 70.776404375,
+       "p50_us": 63.975,
+       "p99_us": 152.91910000000001,
+       "max_us": 1038.304,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 1600,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 63.975,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 0.9930844994993829,
+      "ratio_p99": 0.9596344331060518,
+      "ref_runs": [
+       {
+        "calls": 800,
+        "min_us": 57.685,
+        "mean_us": 70.88976875,
+        "p50_us": 64.9205,
+        "p99_us": 158.19311,
+        "max_us": 247.882,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.9205,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 800,
+        "min_us": 56.416,
+        "mean_us": 71.33236875,
+        "p50_us": 64.07050000000001,
+        "p99_us": 159.38379999999995,
+        "max_us": 1008.507,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.07050000000001,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 800,
+        "min_us": 57.786,
+        "mean_us": 70.74979125,
+        "p50_us": 64.4805,
+        "p99_us": 155.16599,
+        "max_us": 437.088,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.4805,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 800,
+        "min_us": 56.936,
+        "mean_us": 70.8030175,
+        "p50_us": 63.595,
+        "p99_us": 148.08850999999999,
+        "max_us": 1038.304,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 63.595,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.986907063254288,
+      "ref_drift_p99": 1.0075268132727144,
+      "cand_drift_p50": 0.9862671660424468,
+      "cand_drift_p99": 0.9543876850848565,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 63.975,
+     "p99_us": 152.91910000000001,
+     "mean_us": 70.776404375,
+     "calls": 1600,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 1600,
+     "slow_median_us": 63.975,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.4205,
+     "p99_us": 159.35141,
+     "mean_us": 71.11106875,
+     "calls": 1600,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 1600,
+     "slow_median_us": 64.4205,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 0.9930844994993829,
+    "ratio_p99": 0.9596344331060518,
+    "verdict": "within_noise",
+    "calls_per_side": 1600,
+    "top_candidate": true,
+    "band_p50": 0.011471017631676128,
+    "band_p99": 0.02078468627047325,
+    "distinct_syndromes": 1600,
+    "syndrome_seeds": {
+     "dem": 7542877542897879162
+    }
+   },
+   "bposd:a=0.4375:c=1": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.4375,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.4375,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.4375:c=1"
+    },
+    "label": "bposd:a=0.4375:c=1",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 1600,
+      "calls_per_run": [
+       800,
+       800
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 1600,
+       "min_us": 58.396,
+       "mean_us": 71.5143575,
+       "p50_us": 64.585,
+       "p99_us": 150.174,
+       "max_us": 1659.597,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 1600,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.585,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 1600,
+       "min_us": 57.476,
+       "mean_us": 69.58778125,
+       "p50_us": 63.945,
+       "p99_us": 143.69511,
+       "max_us": 663.421,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 1600,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 63.945,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 0.9900905783076567,
+      "ratio_p99": 0.9568574453633785,
+      "ref_runs": [
+       {
+        "calls": 800,
+        "min_us": 58.396,
+        "mean_us": 70.74638875000001,
+        "p50_us": 64.6605,
+        "p99_us": 148.01579999999998,
+        "max_us": 718.997,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.6605,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 800,
+        "min_us": 58.696,
+        "mean_us": 72.28232625000001,
+        "p50_us": 64.49000000000001,
+        "p99_us": 150.23458999999994,
+        "max_us": 1659.597,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.49000000000001,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 800,
+        "min_us": 58.175,
+        "mean_us": 69.75613,
+        "p50_us": 64.1805,
+        "p99_us": 143.6952,
+        "max_us": 663.421,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.1805,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 800,
+        "min_us": 57.476,
+        "mean_us": 69.4194325,
+        "p50_us": 63.6455,
+        "p99_us": 142.97241,
+        "max_us": 274.58,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 800,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 63.6455,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.9973631506097232,
+      "ref_drift_p99": 1.0149902240166249,
+      "cand_drift_p50": 0.991664134744977,
+      "cand_drift_p99": 0.9949699781203547,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 63.945,
+     "p99_us": 143.69511,
+     "mean_us": 69.58778125,
+     "calls": 1600,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 1600,
+     "slow_median_us": 63.945,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.585,
+     "p99_us": 150.174,
+     "mean_us": 71.5143575,
+     "calls": 1600,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 1600,
+     "slow_median_us": 64.585,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 0.9900905783076567,
+    "ratio_p99": 0.9568574453633785,
+    "verdict": "within_noise",
+    "calls_per_side": 1600,
+    "top_candidate": true,
+    "band_p50": 0.011471017631676128,
+    "band_p99": 0.02078468627047325,
+    "distinct_syndromes": 1600,
+    "syndrome_seeds": {
+     "dem": 7153669726486307092
+    }
+   },
+   "bposd:a=0.53125:c=1": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.53125,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.53125,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.53125:c=1"
+    },
+    "label": "bposd:a=0.53125:c=1",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.135,
+       "mean_us": 70.60132750000001,
+       "p50_us": 64.7955,
+       "p99_us": 169.00388999999984,
+       "max_us": 215.413,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.7955,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 58.346,
+       "mean_us": 69.5035125,
+       "p50_us": 64.2305,
+       "p99_us": 150.73689,
+       "max_us": 203.374,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.2305,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 0.9912802586599379,
+      "ratio_p99": 0.8919137305064406,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.135,
+        "mean_us": 71.70546,
+        "p50_us": 65.13,
+        "p99_us": 169.17936999999966,
+        "max_us": 215.413,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.13,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.405,
+        "mean_us": 69.497195,
+        "p50_us": 64.21000000000001,
+        "p99_us": 151.81946999999968,
+        "max_us": 194.685,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.21000000000001,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 58.476,
+        "mean_us": 70.70696,
+        "p50_us": 64.69999999999999,
+        "p99_us": 152.78008999999977,
+        "max_us": 203.374,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.69999999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 58.346,
+        "mean_us": 68.30006499999999,
+        "p50_us": 63.945,
+        "p99_us": 144.83518999999998,
+        "max_us": 155.188,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 63.945,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.9858744050360819,
+      "ref_drift_p99": 0.8973876070114222,
+      "cand_drift_p50": 0.9883307573415767,
+      "cand_drift_p99": 0.9479978052114002,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 64.2305,
+     "p99_us": 150.73689,
+     "mean_us": 69.5035125,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.2305,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.7955,
+     "p99_us": 169.00388999999984,
+     "mean_us": 70.60132750000001,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.7955,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 0.9912802586599379,
+    "ratio_p99": 0.8919137305064406,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 8293330973688360911
+    }
+   },
+   "bposd:a=0.625:c=1": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=1"
+    },
+    "label": "bposd:a=0.625:c=1",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.506,
+       "mean_us": 73.5971,
+       "p50_us": 64.555,
+       "p99_us": 162.74027999999961,
+       "max_us": 887.472,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.555,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 58.956,
+       "mean_us": 74.21744000000001,
+       "p50_us": 65.21,
+       "p99_us": 162.35049999999998,
+       "max_us": 906.26,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 65.21,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.0101463868019516,
+      "ratio_p99": 0.9976048953584224,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.506,
+        "mean_us": 69.54258,
+        "p50_us": 64.475,
+        "p99_us": 140.55968999999996,
+        "max_us": 204.645,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.475,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.765,
+        "mean_us": 77.65162000000001,
+        "p50_us": 64.735,
+        "p99_us": 244.2886399999956,
+        "max_us": 887.472,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.735,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 58.956,
+        "mean_us": 69.98325,
+        "p50_us": 65.125,
+        "p99_us": 141.50388999999987,
+        "max_us": 154.618,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.125,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.065,
+        "mean_us": 78.45163000000001,
+        "p50_us": 65.21,
+        "p99_us": 248.7787299999957,
+        "max_us": 906.26,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.21,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.004032570763862,
+      "ref_drift_p99": 1.737970822217918,
+      "cand_drift_p50": 1.0013051823416506,
+      "cand_drift_p99": 1.758105236541525,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 65.21,
+     "p99_us": 162.35049999999998,
+     "mean_us": 74.21744000000001,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 65.21,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.555,
+     "p99_us": 162.74027999999961,
+     "mean_us": 73.5971,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.555,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.0101463868019516,
+    "ratio_p99": 0.9976048953584224,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 3999867776855315809
+    }
+   },
+   "bposd:a=0.5:c=1": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=1"
+    },
+    "label": "bposd:a=0.5:c=1",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 58.545,
+       "mean_us": 73.4759575,
+       "p50_us": 64.69,
+       "p99_us": 192.88548999999995,
+       "max_us": 1370.782,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.69,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 58.525,
+       "mean_us": 73.1196475,
+       "p50_us": 64.35499999999999,
+       "p99_us": 183.5414899999999,
+       "max_us": 1318.537,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.35499999999999,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 0.9948214561756066,
+      "ratio_p99": 0.9515567500696913,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 58.545,
+        "mean_us": 75.876115,
+        "p50_us": 64.6,
+        "p99_us": 166.4643699999997,
+        "max_us": 1370.782,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.6,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.065,
+        "mean_us": 71.0758,
+        "p50_us": 64.83,
+        "p99_us": 192.9478899999999,
+        "max_us": 221.772,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.83,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 58.976,
+        "mean_us": 75.594905,
+        "p50_us": 64.235,
+        "p99_us": 183.5414899999999,
+        "max_us": 1318.537,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.235,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 58.525,
+        "mean_us": 70.64439,
+        "p50_us": 64.435,
+        "p99_us": 150.90134999999947,
+        "max_us": 217.973,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.435,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.0035603715170278,
+      "ref_drift_p99": 1.159094225388894,
+      "cand_drift_p50": 1.003113567369814,
+      "cand_drift_p99": 0.8221647868283054,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 64.35499999999999,
+     "p99_us": 183.5414899999999,
+     "mean_us": 73.1196475,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.35499999999999,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.69,
+     "p99_us": 192.88548999999995,
+     "mean_us": 73.4759575,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.69,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 0.9948214561756066,
+    "ratio_p99": 0.9515567500696913,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 1474405987135933625
+    }
+   },
+   "bposd:a=0.3125:c=3": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 3,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.3125:c=3"
+    },
+    "label": "bposd:a=0.3125:c=3",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.016,
+       "mean_us": 75.7099725,
+       "p50_us": 64.5145,
+       "p99_us": 156.22920000000002,
+       "max_us": 947.014,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.5145,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 78.463,
+       "mean_us": 86.35098749999999,
+       "p50_us": 83.3635,
+       "p99_us": 165.86070999999998,
+       "max_us": 392.549,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 83.3635,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.2921668772136496,
+      "ratio_p99": 1.0616498708308046,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.016,
+        "mean_us": 77.89859,
+        "p50_us": 64.16499999999999,
+        "p99_us": 164.1699799999929,
+        "max_us": 947.014,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.16499999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.485,
+        "mean_us": 73.521355,
+        "p50_us": 64.905,
+        "p99_us": 153.20849999999996,
+        "max_us": 751.29,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.905,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 78.464,
+        "mean_us": 85.53475999999999,
+        "p50_us": 83.0235,
+        "p99_us": 154.3728899999999,
+        "max_us": 170.526,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 83.0235,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 78.463,
+        "mean_us": 87.167215,
+        "p50_us": 84.17349999999999,
+        "p99_us": 167.8638499999995,
+        "max_us": 392.549,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 84.17349999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.0115327670848595,
+      "ref_drift_p99": 0.933230911035054,
+      "cand_drift_p50": 1.0138514998765409,
+      "cand_drift_p99": 1.0873920284837553,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 83.3635,
+     "p99_us": 165.86070999999998,
+     "mean_us": 86.35098749999999,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 83.3635,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.5145,
+     "p99_us": 156.22920000000002,
+     "mean_us": 75.7099725,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.5145,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.2921668772136496,
+    "ratio_p99": 1.0616498708308046,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 7305528565605146873
+    }
+   },
+   "bposd:a=0.5:c=3": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 3,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=3"
+    },
+    "label": "bposd:a=0.5:c=3",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 58.935,
+       "mean_us": 71.2279075,
+       "p50_us": 64.71000000000001,
+       "p99_us": 153.68,
+       "max_us": 738.2,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.71000000000001,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 80.453,
+       "mean_us": 87.46494249999999,
+       "p50_us": 84.973,
+       "p99_us": 142.9103699999998,
+       "max_us": 184.615,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 1,
+       "slow_calls": 399,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 84.943,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.3131355277391437,
+      "ratio_p99": 0.9299217204580934,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 58.935,
+        "mean_us": 73.718165,
+        "p50_us": 65.245,
+        "p99_us": 196.6983,
+        "max_us": 738.2,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.245,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.325,
+        "mean_us": 68.73764999999999,
+        "p50_us": 64.315,
+        "p99_us": 149.19319999999996,
+        "max_us": 154.868,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.315,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 80.533,
+        "mean_us": 87.45909999999999,
+        "p50_us": 85.068,
+        "p99_us": 118.39994999999956,
+        "max_us": 171.156,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 85.063,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 80.453,
+        "mean_us": 87.47078499999999,
+        "p50_us": 84.733,
+        "p99_us": 143.08025999999964,
+        "max_us": 184.615,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 84.733,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.9857460341788642,
+      "ref_drift_p99": 0.7584874907408959,
+      "cand_drift_p50": 0.9960619739502516,
+      "cand_drift_p99": 1.208448652216493,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 84.973,
+     "p99_us": 142.9103699999998,
+     "mean_us": 87.46494249999999,
+     "calls": 400,
+     "slow_fraction": 0.9975,
+     "p99_unreliable": false,
+     "slow_calls": 399,
+     "slow_median_us": 84.943,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.71000000000001,
+     "p99_us": 153.68,
+     "mean_us": 71.2279075,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.71000000000001,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.3131355277391437,
+    "ratio_p99": 0.9299217204580934,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 5183706046091661019
+    }
+   },
+   "bposd:a=0.625:c=3": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 3,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=3"
+    },
+    "label": "bposd:a=0.625:c=3",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.715,
+       "mean_us": 70.40817500000001,
+       "p50_us": 64.9645,
+       "p99_us": 151.83998999999994,
+       "max_us": 189.114,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.9645,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 80.313,
+       "mean_us": 93.4262425,
+       "p50_us": 88.54249999999999,
+       "p99_us": 174.68688999999998,
+       "max_us": 204.333,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 88.54249999999999,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.362936680802592,
+      "ratio_p99": 1.1504669487926076,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 60.005,
+        "mean_us": 70.06531000000001,
+        "p50_us": 64.85,
+        "p99_us": 159.24246999999977,
+        "max_us": 189.114,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.85,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.715,
+        "mean_us": 70.75104,
+        "p50_us": 65.0445,
+        "p99_us": 142.34879999999995,
+        "max_us": 168.306,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.0445,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 80.523,
+        "mean_us": 93.57164499999999,
+        "p50_us": 88.538,
+        "p99_us": 177.7512,
+        "max_us": 204.333,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 88.538,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 80.313,
+        "mean_us": 93.28084000000001,
+        "p50_us": 88.60249999999999,
+        "p99_us": 156.28258999999983,
+        "max_us": 199.694,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 88.60249999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.002999228989977,
+      "ref_drift_p99": 0.8939122835761099,
+      "cand_drift_p50": 1.0007285007567372,
+      "cand_drift_p99": 0.8792210122913365,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 88.54249999999999,
+     "p99_us": 174.68688999999998,
+     "mean_us": 93.4262425,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 88.54249999999999,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.9645,
+     "p99_us": 151.83998999999994,
+     "mean_us": 70.40817500000001,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.9645,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.362936680802592,
+    "ratio_p99": 1.1504669487926076,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 3237046419539520428
+    }
+   },
+   "bposd:a=0.3125:c=7": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 7,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 7,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.3125:c=7"
+    },
+    "label": "bposd:a=0.3125:c=7",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.305,
+       "mean_us": 73.89440250000001,
+       "p50_us": 64.91,
+       "p99_us": 158.83257999999978,
+       "max_us": 836.29,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.91,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 120.54,
+       "mean_us": 128.8437725,
+       "p50_us": 127.4545,
+       "p99_us": 183.58727999999974,
+       "max_us": 221.692,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 127.4545,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.9635572330919735,
+      "ratio_p99": 1.155854044554335,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.505,
+        "mean_us": 75.868765,
+        "p50_us": 65.475,
+        "p99_us": 184.7678499999994,
+        "max_us": 836.29,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.475,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.305,
+        "mean_us": 71.92004000000001,
+        "p50_us": 64.49950000000001,
+        "p99_us": 148.22159999999988,
+        "max_us": 690.643,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.49950000000001,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 120.54,
+        "mean_us": 129.09983,
+        "p50_us": 127.6995,
+        "p99_us": 161.26475999999954,
+        "max_us": 221.692,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 127.6995,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 122.689,
+        "mean_us": 128.587715,
+        "p50_us": 127.2245,
+        "p99_us": 183.59237999999974,
+        "max_us": 213.302,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 127.2245,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.9851011836578849,
+      "ref_drift_p99": 0.8022044960744001,
+      "cand_drift_p50": 0.9962803299934613,
+      "cand_drift_p99": 1.1384531871687296,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 127.4545,
+     "p99_us": 183.58727999999974,
+     "mean_us": 128.8437725,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 127.4545,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.91,
+     "p99_us": 158.83257999999978,
+     "mean_us": 73.89440250000001,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.91,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.9635572330919735,
+    "ratio_p99": 1.155854044554335,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 4750992666415071211
+    }
+   },
+   "bposd:a=0.5:c=7": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 7,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 7,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=7"
+    },
+    "label": "bposd:a=0.5:c=7",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.275,
+       "mean_us": 70.588295,
+       "p50_us": 64.7345,
+       "p99_us": 161.01138999999998,
+       "max_us": 224.061,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 64.7345,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 101.361,
+       "mean_us": 130.5155875,
+       "p50_us": 128.22899999999998,
+       "p99_us": 164.80315999999956,
+       "max_us": 226.581,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 8,
+       "slow_calls": 392,
+       "slow_fraction": 0.98,
+       "p99_unreliable": false,
+       "slow_median_us": 128.214,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.9808448354432333,
+      "ratio_p99": 1.023549700428023,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.275,
+        "mean_us": 69.920455,
+        "p50_us": 64.50999999999999,
+        "p99_us": 138.7334899999999,
+        "max_us": 224.061,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.50999999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.705,
+        "mean_us": 71.256135,
+        "p50_us": 64.9495,
+        "p99_us": 164.55078999999986,
+        "max_us": 213.432,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 64.9495,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 101.801,
+        "mean_us": 130.42081,
+        "p50_us": 128.204,
+        "p99_us": 164.80315999999956,
+        "max_us": 224.401,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 4,
+        "slow_calls": 196,
+        "slow_fraction": 0.98,
+        "p99_unreliable": false,
+        "slow_median_us": 128.18900000000002,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 101.361,
+        "mean_us": 130.610365,
+        "p50_us": 128.3095,
+        "p99_us": 153.98684999999946,
+        "max_us": 226.581,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 4,
+        "slow_calls": 196,
+        "slow_fraction": 0.98,
+        "p99_unreliable": false,
+        "slow_median_us": 128.3095,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.0068128972252366,
+      "ref_drift_p99": 1.1860927739942244,
+      "cand_drift_p50": 1.0008229072415837,
+      "cand_drift_p99": 0.9343683094426094,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 128.22899999999998,
+     "p99_us": 164.80315999999956,
+     "mean_us": 130.5155875,
+     "calls": 400,
+     "slow_fraction": 0.98,
+     "p99_unreliable": false,
+     "slow_calls": 392,
+     "slow_median_us": 128.214,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.7345,
+     "p99_us": 161.01138999999998,
+     "mean_us": 70.588295,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.7345,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.9808448354432333,
+    "ratio_p99": 1.023549700428023,
+    "verdict": "within_noise",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 2037029581692358204
+    }
+   },
+   "bposd:a=0.625:c=7": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 7,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 7,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=7"
+    },
+    "label": "bposd:a=0.625:c=7",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.005,
+       "mean_us": 73.393525,
+       "p50_us": 65.414,
+       "p99_us": 185.60059999999996,
+       "max_us": 743.826,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 1,
+       "slow_calls": 399,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 65.404,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 79.733,
+       "mean_us": 133.0460275,
+       "p50_us": 129.304,
+       "p99_us": 222.41069999999996,
+       "max_us": 236.28,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 5,
+       "slow_calls": 395,
+       "slow_fraction": 0.9875,
+       "p99_unreliable": false,
+       "slow_median_us": 129.349,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 1.9767022349955667,
+      "ratio_p99": 1.1983296390205636,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.005,
+        "mean_us": 75.918045,
+        "p50_us": 65.95949999999999,
+        "p99_us": 191.44797999999977,
+        "max_us": 743.826,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.95949999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.095,
+        "mean_us": 70.869005,
+        "p50_us": 64.73949999999999,
+        "p99_us": 169.11098999999984,
+        "max_us": 200.193,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 64.735,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 115.31,
+        "mean_us": 133.355245,
+        "p50_us": 129.019,
+        "p99_us": 209.75948999999986,
+        "max_us": 228.011,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 129.049,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 79.733,
+        "mean_us": 132.73681,
+        "p50_us": 129.49900000000002,
+        "p99_us": 222.4683899999999,
+        "max_us": 236.28,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 4,
+        "slow_calls": 196,
+        "slow_fraction": 0.98,
+        "p99_unreliable": false,
+        "slow_median_us": 129.549,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.981503801575209,
+      "ref_drift_p99": 0.8833260606876084,
+      "cand_drift_p50": 1.0037203822692784,
+      "cand_drift_p99": 1.0605879619558574,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 129.304,
+     "p99_us": 222.41069999999996,
+     "mean_us": 133.0460275,
+     "calls": 400,
+     "slow_fraction": 0.9875,
+     "p99_unreliable": false,
+     "slow_calls": 395,
+     "slow_median_us": 129.349,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 65.414,
+     "p99_us": 185.60059999999996,
+     "mean_us": 73.393525,
+     "calls": 400,
+     "slow_fraction": 0.9975,
+     "p99_unreliable": false,
+     "slow_calls": 399,
+     "slow_median_us": 65.404,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 1.9767022349955667,
+    "ratio_p99": 1.1983296390205636,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 3820922836620143292
+    }
+   },
+   "bposd:a=0.5:c=15": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 15,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=15"
+    },
+    "label": "bposd:a=0.5:c=15",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 59.494,
+       "mean_us": 73.36889000000001,
+       "p50_us": 65.09899999999999,
+       "p99_us": 159.7688699999997,
+       "max_us": 1081.877,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 1,
+       "slow_calls": 399,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 65.094,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 92.642,
+       "mean_us": 217.22714,
+       "p50_us": 216.031,
+       "p99_us": 258.4608599999996,
+       "max_us": 310.954,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 11,
+       "slow_calls": 389,
+       "slow_fraction": 0.9725,
+       "p99_unreliable": false,
+       "slow_median_us": 216.121,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 3.3184995161216,
+      "ratio_p99": 1.6177172687019699,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.515,
+        "mean_us": 75.82181,
+        "p50_us": 65.594,
+        "p99_us": 191.74371,
+        "max_us": 1081.877,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.594,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 59.494,
+        "mean_us": 70.91597,
+        "p50_us": 64.70400000000001,
+        "p99_us": 152.90308999999993,
+        "max_us": 242.319,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 64.694,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 145.957,
+        "mean_us": 218.13765,
+        "p50_us": 216.466,
+        "p99_us": 253.66465999999954,
+        "max_us": 310.954,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 5,
+        "slow_calls": 195,
+        "slow_fraction": 0.975,
+        "p99_unreliable": false,
+        "slow_median_us": 216.541,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 92.642,
+        "mean_us": 216.31663,
+        "p50_us": 215.4115,
+        "p99_us": 258.4608599999996,
+        "max_us": 304.424,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 6,
+        "slow_calls": 194,
+        "slow_fraction": 0.97,
+        "p99_unreliable": false,
+        "slow_median_us": 215.546,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.9864316858249232,
+      "ref_drift_p99": 0.7974347111568871,
+      "cand_drift_p50": 0.9951285652250237,
+      "cand_drift_p99": 1.0189076397161516,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 216.031,
+     "p99_us": 258.4608599999996,
+     "mean_us": 217.22714,
+     "calls": 400,
+     "slow_fraction": 0.9725,
+     "p99_unreliable": false,
+     "slow_calls": 389,
+     "slow_median_us": 216.121,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 65.09899999999999,
+     "p99_us": 159.7688699999997,
+     "mean_us": 73.36889000000001,
+     "calls": 400,
+     "slow_fraction": 0.9975,
+     "p99_unreliable": false,
+     "slow_calls": 399,
+     "slow_median_us": 65.094,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 3.3184995161216,
+    "ratio_p99": 1.6177172687019699,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 5536762041333918214
+    }
+   },
+   "bposd:a=0.3125:c=15": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 15,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.3125:c=15"
+    },
+    "label": "bposd:a=0.3125:c=15",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 58.835,
+       "mean_us": 70.2902825,
+       "p50_us": 64.834,
+       "p99_us": 151.07149999999993,
+       "max_us": 232.149,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 1,
+       "slow_calls": 399,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 64.834,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 208.032,
+       "mean_us": 217.4872,
+       "p50_us": 215.531,
+       "p99_us": 246.20905999999954,
+       "max_us": 333.091,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 0,
+       "slow_calls": 400,
+       "slow_fraction": 1.0,
+       "p99_unreliable": false,
+       "slow_median_us": 215.531,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 3.3243514205509452,
+      "ratio_p99": 1.6297518724577413,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.004,
+        "mean_us": 70.16603500000001,
+        "p50_us": 65.0145,
+        "p99_us": 138.7417799999999,
+        "max_us": 195.383,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.0145,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 58.835,
+        "mean_us": 70.41453,
+        "p50_us": 64.7345,
+        "p99_us": 158.7528799999998,
+        "max_us": 232.149,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 64.725,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 209.451,
+        "mean_us": 218.19958,
+        "p50_us": 216.2765,
+        "p99_us": 240.11004999999943,
+        "max_us": 333.091,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 216.2765,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 208.032,
+        "mean_us": 216.77482,
+        "p50_us": 215.2365,
+        "p99_us": 246.20905999999954,
+        "max_us": 298.434,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 215.2365,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 0.995693268424736,
+      "ref_drift_p99": 1.1442326889564192,
+      "cand_drift_p50": 0.9951913407143171,
+      "cand_drift_p99": 1.0254008942982609,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 215.531,
+     "p99_us": 246.20905999999954,
+     "mean_us": 217.4872,
+     "calls": 400,
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 215.531,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 64.834,
+     "p99_us": 151.07149999999993,
+     "mean_us": 70.2902825,
+     "calls": 400,
+     "slow_fraction": 0.9975,
+     "p99_unreliable": false,
+     "slow_calls": 399,
+     "slow_median_us": 64.834,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 3.3243514205509452,
+    "ratio_p99": 1.6297518724577413,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 6602751713457889098
+    }
+   },
+   "bposd:a=0.625:c=15": {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 15,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=15"
+    },
+    "label": "bposd:a=0.625:c=15",
+    "ref_label": "bposd:a=0.5625:c=1",
+    "per_case": [
+     {
+      "calls_per_side": 400,
+      "calls_per_run": [
+       200,
+       200
+      ],
+      "keep_warm": false,
+      "cadence_us": 0.0,
+      "schedule": "ref,cand,cand,ref",
+      "ref": {
+       "calls": 400,
+       "min_us": 58.285,
+       "mean_us": 74.9144175,
+       "p50_us": 65.769,
+       "p99_us": 151.28349999999992,
+       "max_us": 1259.749,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 1,
+       "slow_calls": 399,
+       "slow_fraction": 0.9975,
+       "p99_unreliable": false,
+       "slow_median_us": 65.764,
+       "pooling": "exact: union of the run samples"
+      },
+      "cand": {
+       "calls": 400,
+       "min_us": 85.603,
+       "mean_us": 219.59749250000002,
+       "p50_us": 217.151,
+       "p99_us": 300.4486,
+       "max_us": 397.945,
+       "quantile_method": "numpy.percentile linear",
+       "converged_calls": 8,
+       "slow_calls": 392,
+       "slow_fraction": 0.98,
+       "p99_unreliable": false,
+       "slow_median_us": 217.281,
+       "pooling": "exact: union of the run samples"
+      },
+      "ratio_p50": 3.301722696103027,
+      "ratio_p99": 1.9859971510442327,
+      "ref_runs": [
+       {
+        "calls": 200,
+        "min_us": 59.794,
+        "mean_us": 78.84381,
+        "p50_us": 65.6545,
+        "p99_us": 161.33165999999966,
+        "max_us": 1259.749,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 1,
+        "slow_calls": 199,
+        "slow_fraction": 0.995,
+        "p99_unreliable": false,
+        "slow_median_us": 65.634,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 58.285,
+        "mean_us": 70.985025,
+        "p50_us": 65.78399999999999,
+        "p99_us": 149.25648999999999,
+        "max_us": 281.405,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 0,
+        "slow_calls": 200,
+        "slow_fraction": 1.0,
+        "p99_unreliable": false,
+        "slow_median_us": 65.78399999999999,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "cand_runs": [
+       {
+        "calls": 200,
+        "min_us": 85.603,
+        "mean_us": 218.696245,
+        "p50_us": 217.0005,
+        "p99_us": 250.30014999999952,
+        "max_us": 309.922,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 3,
+        "slow_calls": 197,
+        "slow_fraction": 0.985,
+        "p99_unreliable": false,
+        "slow_median_us": 217.031,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       },
+       {
+        "calls": 200,
+        "min_us": 145.657,
+        "mean_us": 220.49874,
+        "p50_us": 217.47050000000002,
+        "p99_us": 300.4899899999999,
+        "max_us": 397.945,
+        "quantile_method": "numpy.percentile linear",
+        "converged_calls": 5,
+        "slow_calls": 195,
+        "slow_fraction": 0.975,
+        "p99_unreliable": false,
+        "slow_median_us": 217.831,
+        "keep_warm": false,
+        "cadence_us": 0.0
+       }
+      ],
+      "ref_drift_p50": 1.0019724466715914,
+      "ref_drift_p99": 0.9251531286543528,
+      "cand_drift_p50": 1.0021658936269733,
+      "cand_drift_p99": 1.200518617348014,
+      "case": "dem"
+     }
+    ],
+    "cand": {
+     "p50_us": 217.151,
+     "p99_us": 300.4486,
+     "mean_us": 219.59749250000002,
+     "calls": 400,
+     "slow_fraction": 0.98,
+     "p99_unreliable": false,
+     "slow_calls": 392,
+     "slow_median_us": 217.281,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ref": {
+     "p50_us": 65.769,
+     "p99_us": 151.28349999999992,
+     "mean_us": 74.9144175,
+     "calls": 400,
+     "slow_fraction": 0.9975,
+     "p99_unreliable": false,
+     "slow_calls": 399,
+     "slow_median_us": 65.764,
+     "aggregation": "worst case over physical error rates"
+    },
+    "ratio_p50": 3.301722696103027,
+    "ratio_p99": 1.9859971510442327,
+    "verdict": "slower",
+    "calls_per_side": 400,
+    "top_candidate": false,
+    "band_p50": 0.008048181678686595,
+    "band_p99": 0.1157718616392831,
+    "distinct_syndromes": 400,
+    "syndrome_seeds": {
+     "dem": 4813912062144541344
+    }
+   }
+  }
+ }
+}

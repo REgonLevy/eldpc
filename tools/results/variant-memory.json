@@ -1,0 +1,288 @@
+{
+  "ada64_core_cost_over_control": {
+    "VmRSS_median_minus_control": 5980160,
+    "note": "median VmRSS growth of the ada64 handle (which loads the ada64 core) minus the median VmRSS growth of a second default handle (same allocation work, no new core)"
+  },
+  "command": "measure_variant_memory.py --runs 5 --out eldpc/tools/results/variant-memory.json",
+  "commit": "06723113aa3e6fcbe44c5f66fd6fa1d8e0df4bd4",
+  "commit_note": "development-tree record: `commit` names a revision of the development tree, which is not in this repository's history, so the record cannot be re-run at that revision from this repository; tools/measure_variant_memory.py here measures the same quantities",
+  "deltas": {
+    "ada64_handle_and_second_core": {
+      "VmHWM": {
+        "count": 5,
+        "max": 6152192,
+        "median": 6135808,
+        "min": 6017024
+      },
+      "VmRSS": {
+        "count": 5,
+        "max": 6152192,
+        "median": 6135808,
+        "min": 6017024
+      },
+      "VmSize": {
+        "count": 5,
+        "max": 10272768,
+        "median": 10268672,
+        "min": 10268672
+      }
+    },
+    "close_every_handle": {
+      "VmHWM": {
+        "count": 5,
+        "max": -544768,
+        "median": -1761280,
+        "min": -1884160
+      },
+      "VmRSS": {
+        "count": 5,
+        "max": -2076672,
+        "median": -2080768,
+        "min": -2088960
+      },
+      "VmSize": {
+        "count": 5,
+        "max": 0,
+        "median": 0,
+        "min": 0
+      }
+    },
+    "first_default_handle_cuda_context": {
+      "VmHWM": {
+        "count": 5,
+        "max": 120963072,
+        "median": 120733696,
+        "min": 120565760
+      },
+      "VmRSS": {
+        "count": 5,
+        "max": 120963072,
+        "median": 120733696,
+        "min": 120565760
+      },
+      "VmSize": {
+        "count": 5,
+        "max": 13694775296,
+        "median": 13694758912,
+        "min": 13694742528
+      }
+    },
+    "load_front_and_default_core": {
+      "VmHWM": {
+        "count": 5,
+        "max": 622592,
+        "median": 610304,
+        "min": 561152
+      },
+      "VmRSS": {
+        "count": 5,
+        "max": 622592,
+        "median": 610304,
+        "min": 561152
+      },
+      "VmSize": {
+        "count": 5,
+        "max": 8310784,
+        "median": 8310784,
+        "min": 8310784
+      }
+    },
+    "second_default_handle_control": {
+      "VmHWM": {
+        "count": 5,
+        "max": 159744,
+        "median": 155648,
+        "min": 151552
+      },
+      "VmRSS": {
+        "count": 5,
+        "max": 159744,
+        "median": 155648,
+        "min": 151552
+      },
+      "VmSize": {
+        "count": 5,
+        "max": 135168,
+        "median": 135168,
+        "min": 135168
+      }
+    }
+  },
+  "environment": {
+    "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
+    "gpu": {
+      "compute_capability": "12.0",
+      "core_variant": "default",
+      "cuda_driver_version": "13.0",
+      "driver_version": "13.0",
+      "l2_bytes": 67108864,
+      "name": "NVIDIA GeForce RTX 5080",
+      "nvidia_driver_version": "580.159.03",
+      "nvidia_driver_version_reason": null,
+      "sm_count": 84
+    },
+    "version": "0.1.0"
+  },
+  "platform": "Linux-6.8.0-139-generic-x86_64-with-glibc2.39",
+  "probe": "host-memory cost of loading the second core variant on first use",
+  "python": "3.12.3",
+  "runs": 5,
+  "steps": {
+    "after_ada64": {
+      "VmHWM": [
+        174632960,
+        174522368,
+        174374912,
+        174407680,
+        174825472
+      ],
+      "VmRSS": [
+        174632960,
+        174522368,
+        174374912,
+        174407680,
+        174825472
+      ],
+      "VmSize": [
+        15143780352,
+        15143780352,
+        15143784448,
+        15143784448,
+        15143784448
+      ],
+      "cores": [
+        "libeldpc_core_avx512.so",
+        "libeldpc_core_avx512_ada64.so"
+      ]
+    },
+    "after_close": {
+      "VmHWM": [
+        174088192,
+        172695552,
+        173391872,
+        172646400,
+        172941312
+      ],
+      "VmRSS": [
+        172552192,
+        172445696,
+        172285952,
+        172318720,
+        172748800
+      ],
+      "VmSize": [
+        15143780352,
+        15143780352,
+        15143784448,
+        15143784448,
+        15143784448
+      ],
+      "cores": [
+        "libeldpc_core_avx512.so",
+        "libeldpc_core_avx512_ada64.so"
+      ]
+    },
+    "after_default": {
+      "VmHWM": [
+        168341504,
+        168230912,
+        168198144,
+        168099840,
+        168538112
+      ],
+      "VmRSS": [
+        168341504,
+        168230912,
+        168198144,
+        168099840,
+        168538112
+      ],
+      "VmSize": [
+        15133376512,
+        15133376512,
+        15133376512,
+        15133380608,
+        15133376512
+      ],
+      "cores": [
+        "libeldpc_core_avx512.so"
+      ]
+    },
+    "after_load": {
+      "VmHWM": [
+        47702016,
+        47439872,
+        47632384,
+        47366144,
+        47575040
+      ],
+      "VmRSS": [
+        47702016,
+        47439872,
+        47632384,
+        47366144,
+        47575040
+      ],
+      "VmSize": [
+        1438601216,
+        1438617600,
+        1438633984,
+        1438617600,
+        1438617600
+      ],
+      "cores": [
+        "libeldpc_core_avx512.so"
+      ]
+    },
+    "after_second_default": {
+      "VmHWM": [
+        168497152,
+        168390656,
+        168357888,
+        168255488,
+        168689664
+      ],
+      "VmRSS": [
+        168497152,
+        168390656,
+        168357888,
+        168255488,
+        168689664
+      ],
+      "VmSize": [
+        15133511680,
+        15133511680,
+        15133511680,
+        15133515776,
+        15133511680
+      ],
+      "cores": [
+        "libeldpc_core_avx512.so"
+      ]
+    },
+    "base": {
+      "VmHWM": [
+        47083520,
+        46874624,
+        47022080,
+        46804992,
+        46952448
+      ],
+      "VmRSS": [
+        47083520,
+        46874624,
+        47022080,
+        46804992,
+        46952448
+      ],
+      "VmSize": [
+        1430290432,
+        1430306816,
+        1430323200,
+        1430306816,
+        1430306816
+      ],
+      "cores": []
+    }
+  }
+}

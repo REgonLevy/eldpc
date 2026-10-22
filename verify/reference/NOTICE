@@ -1,0 +1,25 @@
+eldpc verification reference decoder
+====================================
+
+This directory is a self-contained build of the reference decoder the verification suite compares
+against. It contains:
+
+- ldpc/src_cpp/*.hpp and ldpc/include/robin_map: the header-only C++ core of ldpc
+  2.4.1, upstream https://github.com/quantumgizmos/ldpc, commit
+  d3429964cd4ffe1abfc041c6ec8b8425cb174f40 (v2.4.1 era, 2025-12-08), MIT licence (see LICENSE).
+  The changes of ldpc-2.4.1-decoder-bench.patch are applied to these headers: an explicit total
+  order for the OSD column sort (soft value ascending, ties by ascending column index, NaN after
+  every number) and for the LSD candidate orders, plus a fixed shuffle seed, so post-processing is
+  reproducible. BP itself is unchanged. Comments in the patched headers and in the patch that
+  point to documents of the decoder's development tree refer to files that are not part of this
+  package.
+  The robin_map headers carry their own MIT licence text. Upstream's include/rapidcsv (a CSV
+  reader used only by upstream's C++ unit tests) is intentionally not vendored: the decoder
+  headers do not use it.
+- include/decoder_abi.h: the decoder ABI v1 header.
+- ldpc_ref_abi.cpp, ldpc_ref_build_info.hpp.in, CMakeLists.txt: the C ABI shim and build of this
+  package.
+
+The patched headers produce the same decoder outputs as the reference construction's reference
+library at the same settings (the patch file is the reference construction's reference patch, SHA-256
+f451d4cd8ce992242460bf12e745bb8b5bb5f0c4f3b415792109ba9b78f42d9c).

@@ -1,0 +1,52 @@
+{
+  "command": "python tools/cpu_no_gpu_tests.py --no-driver --isa avx2 --out tools/results/cpu/release/no-driver-run.json",
+  "cuda_visible_devices": null,
+  "generated_utc": "2026-10-22T04:36:01Z",
+  "git_commit": "f44723cda1951b249d1d744dfa7a4263d74755f3",
+  "no_driver_shim": "LD_PRELOAD shim: dlopen of libcuda.so* and libnvidia-ml.so* fails (SHIM_C in this script)",
+  "package_version": "0.1.0",
+  "python": "3.12.3",
+  "reference_env": [
+    "ELDPC_REFERENCE_LIB"
+  ],
+  "schema": "eldpc.cpu_no_gpu_tests.v1",
+  "sets": [
+    {
+      "cpu_library": "libeldpc_cpu_avx2.so",
+      "cpu_library_sha256": "5a4698605b9d7e48baa9818b3ddd712678cc04c0a7fd5cfcef464e103829e8fd",
+      "isa": "avx2",
+      "no_driver_check": {
+        "check_last_line": "CPU only: no usable CUDA device: the NVIDIA driver library libcuda.so.1 cannot be loaded (no NVIDIA driver is installed, or it is not visible to this process). device=\"gpu\" fails; device=\"cpu\" and device=\"auto\" run on the CPU core.",
+        "check_returned": false,
+        "cpu_decode": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            1
+          ],
+          131073
+        ],
+        "devices": [],
+        "driver_libraries_mapped": [],
+        "gpu_create_error": "eldpc: no usable CUDA device for device=gpu: the NVIDIA driver library libcuda.so.1 cannot be loaded (no NVIDIA driver is installed, or it is not visible to this process); to run on the CPU core, create the decoder with device=cpu, or with device=auto to use the GPU only when it is usable (Python: device=\"cpu\" or device=\"auto\"; C: device=cpu or device=auto in the config string)",
+        "isa": "avx2",
+        "ok": true,
+        "returncode": 0
+      },
+      "selections": [
+        {
+          "elapsed_s": 16.9,
+          "errors": 0,
+          "failures": 0,
+          "returncode": 0,
+          "selection": "cpu_core",
+          "skipped": 5,
+          "tests": 210
+        }
+      ]
+    }
+  ]
+}

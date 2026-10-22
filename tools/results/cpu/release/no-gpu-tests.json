@@ -1,0 +1,40 @@
+{
+  "command": "CUDA_VISIBLE_DEVICES= python tools/cpu_no_gpu_tests.py --isa avx2 --out tools/results/cpu/release/no-gpu-tests.json",
+  "cuda_visible_devices": "",
+  "generated_utc": "2026-10-22T04:35:43Z",
+  "git_commit": "f44723cda1951b249d1d744dfa7a4263d74755f3",
+  "no_driver_shim": null,
+  "package_version": "0.1.0",
+  "python": "3.12.3",
+  "reference_env": [
+    "ELDPC_REFERENCE_LIB"
+  ],
+  "schema": "eldpc.cpu_no_gpu_tests.v1",
+  "sets": [
+    {
+      "cpu_library": "libeldpc_cpu_avx2.so",
+      "cpu_library_sha256": "5a4698605b9d7e48baa9818b3ddd712678cc04c0a7fd5cfcef464e103829e8fd",
+      "isa": "avx2",
+      "selections": [
+        {
+          "elapsed_s": 16.7,
+          "errors": 0,
+          "failures": 0,
+          "returncode": 0,
+          "selection": "cpu_core",
+          "skipped": 5,
+          "tests": 210
+        },
+        {
+          "elapsed_s": 28.7,
+          "errors": 0,
+          "failures": 0,
+          "returncode": 0,
+          "selection": "not cpu_core",
+          "skipped": 63,
+          "tests": 160
+        }
+      ]
+    }
+  ]
+}

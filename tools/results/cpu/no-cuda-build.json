@@ -1,0 +1,96 @@
+{
+  "cmake": {
+    "build_command": "cmake --build <build> -j 16",
+    "build_returncode": 0,
+    "configure_command": "cmake -S eldpc -B <build> -DCMAKE_BUILD_TYPE=Release -DELDPC_WITHOUT_CUDA=ON -G Ninja",
+    "configure_returncode": 0,
+    "cuda_toolkit_in_cache": false,
+    "libraries": {
+      "libeldpc.so": {
+        "bytes": 49104,
+        "sha256": "e01f4d83869637f1056729ee8c71a602d0bddbfe19b161eec5fd4d6cd4ff8c54"
+      },
+      "libeldpc_cpu_avx2.so": {
+        "bytes": 274904,
+        "sha256": "95d69a50aae5c7535663f146e789efd4b7dc53bd3aba1b271e5df8525a72a0a2"
+      },
+      "libeldpc_cpu_avx512.so": {
+        "bytes": 287192,
+        "sha256": "104934c1675271cfdbd911601a0e31851f3b3a833d9372703f2b92652a073aed"
+      }
+    },
+    "nvcc_mentions_in_build_files": 0
+  },
+  "command": "python tools/cpu_only_build.py --out tools/results/cpu/no-cuda-build.json",
+  "generated_utc": "2026-10-21T10:28:32Z",
+  "git_commit": "f40d6f908fbd8196cb2f66bb01499e09c989f0e2",
+  "guard": {
+    "CUDACXX": "unset",
+    "env": "ELDPC_WITHOUT_CUDA=1",
+    "nvcc": "a PATH entry whose nvcc is /bin/false"
+  },
+  "machine": {
+    "cpu": "AMD Ryzen 9 7950X3D 16-Core Processor",
+    "cpu_count": 32,
+    "kernel": "Linux-6.8.0-142-generic-x86_64-with-glibc2.39",
+    "loadavg": "1.12 1.32 1.27 1/1018 336521",
+    "nvcc_on_path_before_the_guard": true,
+    "python": "3.12.3"
+  },
+  "package_check": {
+    "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx512; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2 -mavx512f -mavx512vl -mavx512dq -mavx512bw; build_type=Release; isa=avx512; lib=fastbpcpu6g; threads=1..64",
+    "core_variant": "cpu",
+    "decode": [
+      1,
+      0,
+      0
+    ],
+    "gpu_create": "eldpc: this is a CPU-only build: it has no GPU core; create the decoder with device=\"cpu\" to run on the CPU core",
+    "isa": "avx512",
+    "returncode": 0
+  },
+  "schema": "eldpc.cpu_only_build.v1",
+  "tests": {
+    "command": "python -m pytest -q -p no:cacheprovider -m cpu_core --junitxml <junit> eldpc/tests",
+    "errors": 0,
+    "failures": 0,
+    "reference_env": [
+      "ELDPC_CORE_SNAPSHOT",
+      "ELDPC_CORE_TARBALL",
+      "ELDPC_REFERENCE_LDPC_LIB",
+      "ELDPC_REFERENCE_LIB",
+      "ELDPC_REFERENCE_PYTHON",
+      "ELDPC_WITHOUT_CUDA"
+    ],
+    "returncode": 0,
+    "skipped": 0,
+    "tests": 162
+  },
+  "wheel": {
+    "bytes": 277192,
+    "command": "python -m pip wheel --no-build-isolation --no-deps -w <wheel dir> ./eldpc",
+    "file": "eldpc-0.1.0-py3-none-linux_x86_64.whl",
+    "install_returncode": 0,
+    "installed_libraries": {
+      "libeldpc.so": {
+        "bytes": 43416,
+        "sha256": "8a5f674488c5dc4320861d9c06ed76da4a86cca0b89f7b79b0fa582fb396d40e"
+      },
+      "libeldpc_cpu_avx2.so": {
+        "bytes": 240608,
+        "sha256": "5a4698605b9d7e48baa9818b3ddd712678cc04c0a7fd5cfcef464e103829e8fd"
+      },
+      "libeldpc_cpu_avx512.so": {
+        "bytes": 252896,
+        "sha256": "6bffce66b1090fb0dc0c45eab78181b6a7f56266d661f4fa8b5b6c6c93cd8836"
+      }
+    },
+    "libraries": [
+      "libeldpc.so",
+      "libeldpc_cpu_avx2.so",
+      "libeldpc_cpu_avx512.so"
+    ],
+    "returncode": 0,
+    "sha256": "cb736cf382ba9c73c7cc214a7e8d13887097b25d1e57274d0455ef56e58278c9"
+  }
+}

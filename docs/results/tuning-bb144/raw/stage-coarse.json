@@ -1,0 +1,1170 @@
+{
+ "environment": {
+  "timestamp_utc": "2026-10-22T04:32:41.413939+00:00",
+  "commands": [
+   {
+    "command": "nvidia-smi --query-gpu=name,driver_version,compute_cap --format=csv",
+    "exit_code": 0,
+    "stdout": "name, driver_version, compute_cap\nNVIDIA RTX 6000 Ada Generation, 580.126.09, 8.9",
+    "stderr": ""
+   }
+  ],
+  "toolkit": {
+   "version": "13.3",
+   "nvcc": "V13.3.73",
+   "first_line": null,
+   "source": "build_info"
+  },
+  "eldpc": {
+   "version": "0.1.0",
+   "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx2; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2; build_type=Release; isa=avx2; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+   "isa": "avx2",
+   "devices": [
+    {
+     "name": "NVIDIA RTX 6000 Ada Generation",
+     "compute_capability": "8.9",
+     "sm_count": 142,
+     "l2_bytes": 100663296,
+     "cuda_driver_version": "13.0",
+     "driver_version": "13.0",
+     "nvidia_driver_version": "580.126.09",
+     "nvidia_driver_version_reason": null,
+     "core_variant": "ada64",
+     "supported": true,
+     "supported_reason": null
+    }
+   ]
+  },
+  "python": {
+   "version": "3.12.3",
+   "implementation": "CPython",
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "stim": "1.16.0",
+   "qldpc": "0.4.2.dev20261004"
+  },
+  "machine": {
+   "system": "Linux",
+   "release": "6.8.0-106-generic",
+   "machine": "x86_64",
+   "cpu_model": "AMD EPYC 7542 32-Core Processor",
+   "cpu_count": 128,
+   "gpu": {
+    "cuda_visible_devices": null,
+    "devices": [
+     {
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "compute_capability": "8.9",
+      "sm_count": 142,
+      "l2_bytes": 100663296,
+      "cuda_driver_version": "13.0",
+      "driver_version": "13.0",
+      "nvidia_driver_version": "580.126.09",
+      "nvidia_driver_version_reason": null,
+      "core_variant": "ada64",
+      "supported": true,
+      "supported_reason": null
+     }
+    ]
+   }
+  }
+ },
+ "stage": {
+  "name": "coarse",
+  "settings": {
+   "max_shots": 2048,
+   "chunk_shots": 512,
+   "cp_confidence": 0.99,
+   "ler_target": 0.005
+  },
+  "cases": [
+   {
+    "label": "dem",
+    "p": null,
+    "seed": 5366971217894584958,
+    "problem": {
+     "label": "dem:083163f2ecf9eb49",
+     "key": "dem:083163f2ecf9eb49",
+     "num_detectors": 1872,
+     "num_mechanisms": 75600,
+     "dem_options": null,
+     "num_observables": 24,
+     "dem_sha256": "cd2dc968bb687cfc98856413f08c9ea332b88b42d85596d44a737504db516d47",
+     "circuit_present": false,
+     "source": "dem",
+     "path": "docs/results/tuning-bb144/model.dem"
+    },
+    "shots_sampled": 2048,
+    "shots_sampled_this_run": 2048,
+    "sample_seconds": 0.08372828410938382,
+    "sample_seconds_this_run": 0.08372828410938382
+   }
+  ],
+  "points": [
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.3125:c=1"
+    },
+    "label": "bposd:a=0.3125:c=1",
+    "status": "inconclusive",
+    "create_seconds": 2.847095976001583,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "inconclusive",
+      "shots": 2048,
+      "failures": 5,
+      "converged_shots": 0,
+      "converged_share": 0.0,
+      "ler": 0.00244140625,
+      "cp99_lower": 0.0006249788376902156,
+      "cp99_upper": 0.00638796565409298,
+      "mean_iterations": 1.0,
+      "decode_seconds": 0.13001055200584233,
+      "decode_us_per_shot": 63.4817148466027,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 1,
+        "converged": 0,
+        "ler": 0.001953125,
+        "cp99_lower": 1.962936955527427e-05,
+        "cp99_upper": 0.012894371317079168,
+        "decode_seconds": 0.032433592015877366
+       },
+       {
+        "shots": 1024,
+        "failures": 3,
+        "converged": 0,
+        "ler": 0.0029296875,
+        "cp99_lower": 0.0004261509305425901,
+        "cp99_upper": 0.00977599471199598,
+        "decode_seconds": 0.06532217399217188
+       },
+       {
+        "shots": 1536,
+        "failures": 3,
+        "converged": 0,
+        "ler": 0.001953125,
+        "cp99_lower": 0.0002840282123674069,
+        "cp99_upper": 0.006524808421868165,
+        "decode_seconds": 0.09799367096275091
+       },
+       {
+        "shots": 2048,
+        "failures": 5,
+        "converged": 0,
+        "ler": 0.00244140625,
+        "cp99_lower": 0.0006249788376902156,
+        "cp99_upper": 0.00638796565409298,
+        "decode_seconds": 0.13001055200584233
+       }
+      ]
+     }
+    ],
+    "shots": 2048,
+    "failures": 5,
+    "decode_seconds": 0.13001055200584233,
+    "decode_us_per_shot": 63.4817148466027,
+    "mean_iterations": 1.0,
+    "cp99_upper_max": 0.00638796565409298,
+    "cp99_lower_min": 0.0006249788376902156,
+    "converged_share": 0.0,
+    "converged_shots": 0,
+    "wall_seconds": 3.092416313942522
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=1"
+    },
+    "label": "bposd:a=0.5:c=1",
+    "status": "pass",
+    "create_seconds": 2.6808857229771093,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 0,
+      "converged_share": 0.0,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 1.0,
+      "decode_seconds": 0.07772663503419608,
+      "decode_us_per_shot": 75.90491702558211,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 0,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.03772997297346592
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 0,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.07772663503419608
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.07772663503419608,
+    "decode_us_per_shot": 75.90491702558211,
+    "mean_iterations": 1.0,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.0,
+    "converged_shots": 0,
+    "wall_seconds": 2.7877040409948677
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 1,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 1,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=1"
+    },
+    "label": "bposd:a=0.625:c=1",
+    "status": "pass",
+    "create_seconds": 2.6961364950984716,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 0,
+      "converged_share": 0.0,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 1.0,
+      "decode_seconds": 0.06743231695145369,
+      "decode_us_per_shot": 65.85187202290399,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 0,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.03192219801712781
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 0,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.06743231695145369
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.06743231695145369,
+    "decode_us_per_shot": 65.85187202290399,
+    "mean_iterations": 1.0,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.0,
+    "converged_shots": 0,
+    "wall_seconds": 2.7937284039799124
+   },
+   {
+    "point": {
+     "decoder": "bp",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bp",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 3
+     },
+     "label": "bp:a=0.3125:c=3"
+    },
+    "label": "bp:a=0.3125:c=3",
+    "status": "fail",
+    "create_seconds": 0.02647132403217256,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "fail",
+      "shots": 512,
+      "failures": 490,
+      "converged_shots": 0,
+      "converged_share": 0.0,
+      "ler": 0.95703125,
+      "cp99_lower": 0.9313922638435146,
+      "cp99_upper": 0.9752358782407058,
+      "mean_iterations": 3.0,
+      "decode_seconds": 0.04042105900589377,
+      "decode_us_per_shot": 78.94738087088626,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 490,
+        "converged": 0,
+        "ler": 0.95703125,
+        "cp99_lower": 0.9313922638435146,
+        "cp99_upper": 0.9752358782407058,
+        "decode_seconds": 0.04042105900589377
+       }
+      ]
+     }
+    ],
+    "shots": 512,
+    "failures": 490,
+    "decode_seconds": 0.04042105900589377,
+    "decode_us_per_shot": 78.94738087088626,
+    "mean_iterations": 3.0,
+    "cp99_upper_max": 0.9752358782407058,
+    "cp99_lower_min": 0.9313922638435146,
+    "converged_share": 0.0,
+    "converged_shots": 0,
+    "wall_seconds": 0.07026240101549774
+   },
+   {
+    "point": {
+     "decoder": "bp",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bp",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 3
+     },
+     "label": "bp:a=0.5:c=3"
+    },
+    "label": "bp:a=0.5:c=3",
+    "status": "fail",
+    "create_seconds": 0.02658416097983718,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "fail",
+      "shots": 512,
+      "failures": 504,
+      "converged_shots": 0,
+      "converged_share": 0.0,
+      "ler": 0.984375,
+      "cp99_lower": 0.9663217716479438,
+      "cp99_upper": 0.994301167042033,
+      "mean_iterations": 3.0,
+      "decode_seconds": 0.04025792400352657,
+      "decode_us_per_shot": 78.62875781938783,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 504,
+        "converged": 0,
+        "ler": 0.984375,
+        "cp99_lower": 0.9663217716479438,
+        "cp99_upper": 0.994301167042033,
+        "decode_seconds": 0.04025792400352657
+       }
+      ]
+     }
+    ],
+    "shots": 512,
+    "failures": 504,
+    "decode_seconds": 0.04025792400352657,
+    "decode_us_per_shot": 78.62875781938783,
+    "mean_iterations": 3.0,
+    "cp99_upper_max": 0.994301167042033,
+    "cp99_lower_min": 0.9663217716479438,
+    "converged_share": 0.0,
+    "converged_shots": 0,
+    "wall_seconds": 0.07023768103681505
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 3,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.3125:c=3"
+    },
+    "label": "bposd:a=0.3125:c=3",
+    "status": "pass",
+    "create_seconds": 2.6832653619349003,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 0,
+      "converged_share": 0.0,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 3.0,
+      "decode_seconds": 0.07855339592788368,
+      "decode_us_per_shot": 76.71230071082391,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 0,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.03877976001240313
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 0,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.07855339592788368
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.07855339592788368,
+    "decode_us_per_shot": 76.71230071082391,
+    "mean_iterations": 3.0,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.0,
+    "converged_shots": 0,
+    "wall_seconds": 2.7907331429887563
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 3,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=3"
+    },
+    "label": "bposd:a=0.5:c=3",
+    "status": "pass",
+    "create_seconds": 2.6781176370568573,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 1,
+      "converged_share": 0.0009765625,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 3.0,
+      "decode_seconds": 0.07944174308795482,
+      "decode_us_per_shot": 77.57982723433088,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 0,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.0390197120141238
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 1,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.07944174308795482
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.07944174308795482,
+    "decode_us_per_shot": 77.57982723433088,
+    "mean_iterations": 3.0,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.0009765625,
+    "converged_shots": 1,
+    "wall_seconds": 2.7874726539012045
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 3,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 3,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=3"
+    },
+    "label": "bposd:a=0.625:c=3",
+    "status": "pass",
+    "create_seconds": 2.6815628219628707,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 1,
+      "converged_share": 0.0009765625,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 2.9990234375,
+      "decode_seconds": 0.08601094002369791,
+      "decode_us_per_shot": 83.99505861689249,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 1,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.04222191602457315
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 1,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.08601094002369791
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.08601094002369791,
+    "decode_us_per_shot": 83.99505861689249,
+    "mean_iterations": 2.9990234375,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.0009765625,
+    "converged_shots": 1,
+    "wall_seconds": 2.7969176480546594
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 7,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 7,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.3125:c=7"
+    },
+    "label": "bposd:a=0.3125:c=7",
+    "status": "pass",
+    "create_seconds": 2.670368683990091,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 1,
+      "converged_share": 0.0009765625,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 6.9970703125,
+      "decode_seconds": 0.12165822088718414,
+      "decode_us_per_shot": 118.80685633514076,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 1,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.060114825959317386
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 1,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.12165822088718414
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.12165822088718414,
+    "decode_us_per_shot": 118.80685633514076,
+    "mean_iterations": 6.9970703125,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.0009765625,
+    "converged_shots": 1,
+    "wall_seconds": 2.8222436319338158
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 7,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 7,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=7"
+    },
+    "label": "bposd:a=0.5:c=7",
+    "status": "pass",
+    "create_seconds": 2.674241252010688,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 12,
+      "converged_share": 0.01171875,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 6.99609375,
+      "decode_seconds": 0.12397335900459439,
+      "decode_us_per_shot": 121.0677334029242,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 4,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.06155210896395147
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 12,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.12397335900459439
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.12397335900459439,
+    "decode_us_per_shot": 121.0677334029242,
+    "mean_iterations": 6.99609375,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.01171875,
+    "converged_shots": 12,
+    "wall_seconds": 2.828709592926316
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 7,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 7,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=7"
+    },
+    "label": "bposd:a=0.625:c=7",
+    "status": "pass",
+    "create_seconds": 2.6860561239300296,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 5,
+      "converged_share": 0.0048828125,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 6.9873046875,
+      "decode_seconds": 0.12527275900356472,
+      "decode_us_per_shot": 122.33667871441867,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 2,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.06186299701221287
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 5,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.12527275900356472
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.12527275900356472,
+    "decode_us_per_shot": 122.33667871441867,
+    "mean_iterations": 6.9873046875,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.0048828125,
+    "converged_shots": 5,
+    "wall_seconds": 2.840866223908961
+   },
+   {
+    "point": {
+     "decoder": "bp",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bp",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 15
+     },
+     "label": "bp:a=0.3125:c=15"
+    },
+    "label": "bp:a=0.3125:c=15",
+    "status": "fail",
+    "create_seconds": 0.02646361105144024,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "fail",
+      "shots": 512,
+      "failures": 477,
+      "converged_shots": 1,
+      "converged_share": 0.001953125,
+      "ler": 0.931640625,
+      "cp99_lower": 0.901212017960709,
+      "cp99_upper": 0.9551218851407275,
+      "mean_iterations": 14.978515625,
+      "decode_seconds": 0.10826133692171425,
+      "decode_us_per_shot": 211.44792367522314,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 477,
+        "converged": 1,
+        "ler": 0.931640625,
+        "cp99_lower": 0.901212017960709,
+        "cp99_upper": 0.9551218851407275,
+        "decode_seconds": 0.10826133692171425
+       }
+      ]
+     }
+    ],
+    "shots": 512,
+    "failures": 477,
+    "decode_seconds": 0.10826133692171425,
+    "decode_us_per_shot": 211.44792367522314,
+    "mean_iterations": 14.978515625,
+    "cp99_upper_max": 0.9551218851407275,
+    "cp99_lower_min": 0.901212017960709,
+    "converged_share": 0.001953125,
+    "converged_shots": 1,
+    "wall_seconds": 0.13801841798704118
+   },
+   {
+    "point": {
+     "decoder": "bp",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bp",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 15
+     },
+     "label": "bp:a=0.5:c=15"
+    },
+    "label": "bp:a=0.5:c=15",
+    "status": "fail",
+    "create_seconds": 0.02600662293843925,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "fail",
+      "shots": 512,
+      "failures": 466,
+      "converged_shots": 16,
+      "converged_share": 0.03125,
+      "ler": 0.91015625,
+      "cp99_lower": 0.876499185748763,
+      "cp99_upper": 0.937246370659249,
+      "mean_iterations": 14.84765625,
+      "decode_seconds": 0.10061956907156855,
+      "decode_us_per_shot": 196.52259584290732,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 466,
+        "converged": 16,
+        "ler": 0.91015625,
+        "cp99_lower": 0.876499185748763,
+        "cp99_upper": 0.937246370659249,
+        "decode_seconds": 0.10061956907156855
+       }
+      ]
+     }
+    ],
+    "shots": 512,
+    "failures": 466,
+    "decode_seconds": 0.10061956907156855,
+    "decode_us_per_shot": 196.52259584290732,
+    "mean_iterations": 14.84765625,
+    "cp99_upper_max": 0.937246370659249,
+    "cp99_lower_min": 0.876499185748763,
+    "converged_share": 0.03125,
+    "converged_shots": 16,
+    "wall_seconds": 0.12986895500216633
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.3125,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.3125,
+      "max_iter": 15,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.3125:c=15"
+    },
+    "label": "bposd:a=0.3125:c=15",
+    "status": "pass",
+    "create_seconds": 2.670913922949694,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 1,
+      "converged_share": 0.0009765625,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 14.9892578125,
+      "decode_seconds": 0.20960495597682893,
+      "decode_us_per_shot": 204.692339821122,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 1,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.10488161398097873
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 1,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.20960495597682893
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.20960495597682893,
+    "decode_us_per_shot": 204.692339821122,
+    "mean_iterations": 14.9892578125,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.0009765625,
+    "converged_shots": 1,
+    "wall_seconds": 2.9134355360874906
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.5,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.5,
+      "max_iter": 15,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.5:c=15"
+    },
+    "label": "bposd:a=0.5:c=15",
+    "status": "pass",
+    "create_seconds": 2.713635446038097,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 38,
+      "converged_share": 0.037109375,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 14.8212890625,
+      "decode_seconds": 0.2072114070178941,
+      "decode_us_per_shot": 202.3548896659122,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 16,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.10578036098740995
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 38,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.2072114070178941
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.2072114070178941,
+    "decode_us_per_shot": 202.3548896659122,
+    "mean_iterations": 14.8212890625,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.037109375,
+    "converged_shots": 38,
+    "wall_seconds": 2.9522985219955444
+   },
+   {
+    "point": {
+     "decoder": "bposd",
+     "ms_scaling_factor": 0.625,
+     "max_iter": 15,
+     "config": {
+      "decoder": "bposd",
+      "bp_method": "ms",
+      "schedule": "parallel",
+      "ms_scaling_factor": 0.625,
+      "max_iter": 15,
+      "osd_method": "osd0",
+      "osd_order": 0
+     },
+     "label": "bposd:a=0.625:c=15"
+    },
+    "label": "bposd:a=0.625:c=15",
+    "status": "pass",
+    "create_seconds": 2.6887659180210903,
+    "per_p": [
+     {
+      "stage": "coarse",
+      "case": "dem",
+      "p": null,
+      "status": "pass",
+      "shots": 1024,
+      "failures": 0,
+      "converged_shots": 20,
+      "converged_share": 0.01953125,
+      "ler": 0.0,
+      "cp99_lower": 0.0,
+      "cp99_upper": 0.004487139084149817,
+      "mean_iterations": 14.900390625,
+      "decode_seconds": 0.2141909960191697,
+      "decode_us_per_shot": 209.1708945499704,
+      "chunks": [
+       {
+        "shots": 512,
+        "failures": 0,
+        "converged": 11,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.008954143751139128,
+        "decode_seconds": 0.1068334779702127
+       },
+       {
+        "shots": 1024,
+        "failures": 0,
+        "converged": 20,
+        "ler": 0.0,
+        "cp99_lower": 0.0,
+        "cp99_upper": 0.004487139084149817,
+        "decode_seconds": 0.2141909960191697
+       }
+      ]
+     }
+    ],
+    "shots": 1024,
+    "failures": 0,
+    "decode_seconds": 0.2141909960191697,
+    "decode_us_per_shot": 209.1708945499704,
+    "mean_iterations": 14.900390625,
+    "cp99_upper_max": 0.004487139084149817,
+    "cp99_lower_min": 0.0,
+    "converged_share": 0.01953125,
+    "converged_shots": 20,
+    "wall_seconds": 2.9352938439697027
+   }
+  ],
+  "points_digest": "399087d6815257fac973a451f67e5d39d691153d44d77fc5bd479e2e83c0f92b",
+  "wall_seconds": 34.777393737924285
+ }
+}

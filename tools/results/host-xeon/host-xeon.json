@@ -1,0 +1,4569 @@
+{
+ "schema": "eldpc.results.host_xeon.v1",
+ "what": "Host half of the frozen GPU core on a two-socket Emerald Rapids Xeon host with an L40S (machine M): host-ISA builds, pinning of the calling thread, call cadence and keep-warm. Paired latency of the measurement harness build of the final core (src/core/) in one process; per-row aggregates as recorded by the study. A shared host: ratios hold, absolute times are indicative.",
+ "machine": {
+  "key": "M (tuning/KNOWLEDGE.md section 0.2)",
+  "gpu": "NVIDIA L40S",
+  "compute_capability": "8.9",
+  "sm_count": 142,
+  "gpu_memory": "46068 MiB",
+  "gpu_power_limit": "350.00 W",
+  "ecc": "Enabled",
+  "nvidia_driver": "595.84",
+  "cuda_toolkit": "NVIDIA 13.3.73",
+  "host_compiler": "GNU 13.3.0",
+  "cpu": "2x INTEL(R) XEON(R) SILVER 4514Y (Emerald Rapids, AVX-512)",
+  "sockets": 2,
+  "cores_per_socket": 16,
+  "threads_per_core": 2,
+  "logical_cpus": 64,
+  "l3": "60 MiB (2 instances)",
+  "numa_node0_cpus": "0-15,32-47",
+  "numa_node1_cpus": "16-31,48-63",
+  "gpu_numa_node": 0,
+  "smt_active": true,
+  "governor": "schedutil",
+  "kernel": "6.8.0-142-generic",
+  "hypervisor_flag": false,
+  "container_cpu_quota_cpus": 7.68,
+  "host_load_at_check_1min": [
+   5.58,
+   5.7
+  ],
+  "shared_with_other_tenants": true,
+  "perf_counters": "unavailable (perf_event_paranoid=4): no effective-clock reading",
+  "timed_cpu": "CPU 0, a primary hardware thread on the GPU NUMA node 0, SMT sibling (CPU 32) idle, unless a row says otherwise"
+ },
+ "build": {
+  "core": "the final core (6g, the sources of src/core/), measurement-harness builds",
+  "cuda_arch": "sm_89",
+  "launch_plan": "gpu_sm_budget=64 (the ada64 plan) except avx2-b0 and avx512-b0",
+  "reference_build": "avx512"
+ },
+ "method": {
+  "exactness_gate": "Before any timing each build was compared per shot with the default AVX-512 build and with the ldpc reference: correction, observables, status word and soft output (soft output on the first shots of each row), five problems x three presets (a03125c3, a05c11, ms30).",
+  "screen": "Paired A/A screen: 3 processes x 2 create orders x {main run (candidate against avx512), A/A run (avx512 against itself)}, 20,000 shots per side per run (120,000 pooled per side), both handles in one process, interleaved shot by shot, on CPU 0; pooled nearest-rank p50 / p99 / p99.9; verdict = the separation rule (every main-run ratio of a create order beyond every A/A ratio of that order and the pooled ratio beyond the A/A band).",
+  "full": "The same paired protocol with 4 processes (160,000 shots per side back to back); cadence rows insert a 10 ms host busy-wait before every call, with or without keep-warm every 500 us during the gap and once 25 us before the call; 4,000 shots per side pooled over two sessions.",
+  "pinning": "The avx512 build A/A in one process under five pinning conditions; per session one discarded warm-up process, then 4 processes x both create orders x 20,000 shots per side (320,000 pooled); two rounds in opposite order, each round's ratios against its own idle-sibling row: between-session ratios, not a paired A/B.",
+  "keep_warm_paired": "Both handles avx512, the same shots and the same gap; only one handle kept warm, so the ratio is the keep-warm effect (2,000 shots per side; 2 processes x 500 shots x 2 create orders).",
+  "keep_warm_back_to_back": "No gap; the driver enqueues the keep-warm kernel after a random half of the pairs and each pair is grouped by the treatment of the pair before it."
+ },
+ "exactness_gate": [
+  {
+   "name": "avx2",
+   "description": "AVX2 host core (-mavx2), 64-block launch plan",
+   "host_flags": "-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2",
+   "host_isa": "avx2",
+   "gpu_sm_budget": 64,
+   "cuda_arch": "sm_89",
+   "exact": true,
+   "gate_rows": 15,
+   "gate_shots_per_comparison": 2700,
+   "gate_problems": [
+    "bb144_unif_p1e-3_r12_xyz",
+    "bb144_unif_p1e-3_r12_z",
+    "bb288_unif_p1e-3_r18_z",
+    "bb72_unif_p1e-3_r6_z",
+    "hgp98_unif_p1e-3_r4_z"
+   ],
+   "gate_presets": [
+    "a03125c3",
+    "a05c11",
+    "ms30"
+   ],
+   "gate_mismatches_vs_default_and_reference": {
+    "corr": 0,
+    "obs": 0,
+    "soft": 0,
+    "status": 0
+   },
+   "recommended": false
+  },
+  {
+   "name": "avx512",
+   "description": "the shipped AVX-512 flag set (-mavx2 -mavx512f -mavx512vl -mavx512dq -mavx512bw), 64-block launch plan; the reference side of every paired row",
+   "host_flags": "-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2 -mavx512f -mavx512vl -mavx512dq -mavx512bw",
+   "host_isa": "avx512",
+   "gpu_sm_budget": 64,
+   "cuda_arch": "sm_89",
+   "exact": true,
+   "gate_rows": 15,
+   "gate_shots_per_comparison": 2700,
+   "gate_problems": [
+    "bb144_unif_p1e-3_r12_xyz",
+    "bb144_unif_p1e-3_r12_z",
+    "bb288_unif_p1e-3_r18_z",
+    "bb72_unif_p1e-3_r6_z",
+    "hgp98_unif_p1e-3_r4_z"
+   ],
+   "gate_presets": [
+    "a03125c3",
+    "a05c11",
+    "ms30"
+   ],
+   "gate_mismatches_vs_default_and_reference": {
+    "corr": 0,
+    "obs": 0,
+    "soft": 0,
+    "status": 0
+   },
+   "recommended": true
+  },
+  {
+   "name": "avx512-spr",
+   "description": "AVX-512 with -march=sapphirerapids, 64-block launch plan",
+   "host_flags": "-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -march=sapphirerapids",
+   "host_isa": "avx512-spr",
+   "gpu_sm_budget": 64,
+   "cuda_arch": "sm_89",
+   "exact": true,
+   "gate_rows": 15,
+   "gate_shots_per_comparison": 2700,
+   "gate_problems": [
+    "bb144_unif_p1e-3_r12_xyz",
+    "bb144_unif_p1e-3_r12_z",
+    "bb288_unif_p1e-3_r18_z",
+    "bb72_unif_p1e-3_r6_z",
+    "hgp98_unif_p1e-3_r4_z"
+   ],
+   "gate_presets": [
+    "a03125c3",
+    "a05c11",
+    "ms30"
+   ],
+   "gate_mismatches_vs_default_and_reference": {
+    "corr": 0,
+    "obs": 0,
+    "soft": 0,
+    "status": 0
+   },
+   "recommended": false
+  },
+  {
+   "name": "avx512-v4",
+   "description": "AVX-512 with -march=x86-64-v4, 64-block launch plan",
+   "host_flags": "-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -march=x86-64-v4",
+   "host_isa": "avx512-v4",
+   "gpu_sm_budget": 64,
+   "cuda_arch": "sm_89",
+   "exact": true,
+   "gate_rows": 15,
+   "gate_shots_per_comparison": 2700,
+   "gate_problems": [
+    "bb144_unif_p1e-3_r12_xyz",
+    "bb144_unif_p1e-3_r12_z",
+    "bb288_unif_p1e-3_r18_z",
+    "bb72_unif_p1e-3_r6_z",
+    "hgp98_unif_p1e-3_r4_z"
+   ],
+   "gate_presets": [
+    "a03125c3",
+    "a05c11",
+    "ms30"
+   ],
+   "gate_mismatches_vs_default_and_reference": {
+    "corr": 0,
+    "obs": 0,
+    "soft": 0,
+    "status": 0
+   },
+   "recommended": false
+  },
+  {
+   "name": "clang-avx512",
+   "description": "clang++ 16 with the shipped AVX-512 flags, 64-block launch plan",
+   "host_flags": "-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2 -mavx512f -mavx512vl -mavx512dq -mavx512bw",
+   "host_isa": "avx512",
+   "gpu_sm_budget": 64,
+   "cuda_arch": "sm_89",
+   "exact": true,
+   "gate_rows": 15,
+   "gate_shots_per_comparison": 2700,
+   "gate_problems": [
+    "bb144_unif_p1e-3_r12_xyz",
+    "bb144_unif_p1e-3_r12_z",
+    "bb288_unif_p1e-3_r18_z",
+    "bb72_unif_p1e-3_r6_z",
+    "hgp98_unif_p1e-3_r4_z"
+   ],
+   "gate_presets": [
+    "a03125c3",
+    "a05c11",
+    "ms30"
+   ],
+   "gate_mismatches_vs_default_and_reference": {
+    "corr": 0,
+    "obs": 0,
+    "soft": 0,
+    "status": 0
+   },
+   "recommended": false
+  },
+  {
+   "name": "avx2-b0",
+   "description": "AVX2 host core on the default 142-block launch table (gpu_sm_budget=0); screened against avx512-b0",
+   "host_flags": "-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2",
+   "host_isa": "avx2",
+   "gpu_sm_budget": 0,
+   "cuda_arch": "sm_89",
+   "exact": true,
+   "gate_rows": 15,
+   "gate_shots_per_comparison": 2700,
+   "gate_problems": [
+    "bb144_unif_p1e-3_r12_xyz",
+    "bb144_unif_p1e-3_r12_z",
+    "bb288_unif_p1e-3_r18_z",
+    "bb72_unif_p1e-3_r6_z",
+    "hgp98_unif_p1e-3_r4_z"
+   ],
+   "gate_presets": [
+    "a03125c3",
+    "a05c11",
+    "ms30"
+   ],
+   "gate_mismatches_vs_default_and_reference": {
+    "corr": 0,
+    "obs": 0,
+    "soft": 0,
+    "status": 0
+   },
+   "recommended": false
+  },
+  {
+   "name": "avx512-b0",
+   "description": "the shipped AVX-512 flag set on the default 142-block launch table (gpu_sm_budget=0)",
+   "host_flags": "-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2 -mavx512f -mavx512vl -mavx512dq -mavx512bw",
+   "host_isa": "avx512",
+   "gpu_sm_budget": 0,
+   "cuda_arch": "sm_89",
+   "exact": true,
+   "gate_rows": 15,
+   "gate_shots_per_comparison": 2700,
+   "gate_problems": [
+    "bb144_unif_p1e-3_r12_xyz",
+    "bb144_unif_p1e-3_r12_z",
+    "bb288_unif_p1e-3_r18_z",
+    "bb72_unif_p1e-3_r6_z",
+    "hgp98_unif_p1e-3_r4_z"
+   ],
+   "gate_presets": [
+    "a03125c3",
+    "a05c11",
+    "ms30"
+   ],
+   "gate_mismatches_vs_default_and_reference": {
+    "corr": 0,
+    "obs": 0,
+    "soft": 0,
+    "status": 0
+   },
+   "recommended": false
+  }
+ ],
+ "screens": [
+  {
+   "candidate": "avx2",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0257699413043986,
+    "p99": 1.0311974942438134,
+    "p999": 1.0519967963314856
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "slower",
+    "p999": "slower"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0016965526991681,
+      1.003136126765545
+     ],
+     "ref-first": [
+      0.9986823219369868,
+      1.0007070135746607
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9954579392732703,
+      1.0096099491237989
+     ],
+     "ref-first": [
+      0.9939343233633131,
+      0.9992062663185378
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9831457090920688,
+      1.000269845553104
+     ],
+     "ref-first": [
+      0.9940310385992838,
+      1.0075483387133588
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 43.865,
+    "p99": 49.713,
+    "p999": 66.988
+   },
+   "reference_us": {
+    "p50": 42.763,
+    "p99": 48.209,
+    "p999": 63.677
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.19",
+    "6.50"
+   ]
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a05c15",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0002644580413276,
+    "p99": 1.0136662495282363,
+    "p999": 1.0213796845401846
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "slower",
+    "p999": "slower"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0020265379975875,
+      1.0028255750769788
+     ],
+     "ref-first": [
+      0.9981331823820593,
+      0.9983020640157992
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0018563985867417,
+      1.0040338282427885
+     ],
+     "ref-first": [
+      0.9963161187182873,
+      0.9977840271084039
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9949698381185095,
+      1.0093147998615757
+     ],
+     "ref-first": [
+      0.9862241879595459,
+      1.0084455735033313
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 83.211,
+    "p99": 102.062,
+    "p999": 107.299
+   },
+   "reference_us": {
+    "p50": 83.189,
+    "p99": 100.686,
+    "p999": 105.053
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.01",
+    "6.39"
+   ]
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0697624652257651,
+    "p99": 1.0414103871328488,
+    "p999": 1.0138838522509455
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "slower",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9954658758810383,
+      1.004351478856552
+     ],
+     "ref-first": [
+      1.0017468567361816,
+      1.0045173561578697
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.012096111494593,
+      1.0257054120134805
+     ],
+     "ref-first": [
+      1.009537496733734,
+      1.0138041099721944
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9394984783424355,
+      1.0333871655115179
+     ],
+     "ref-first": [
+      0.9732910719035376,
+      1.0198931621508205
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 49.99,
+    "p99": 63.324,
+    "p999": 97.855
+   },
+   "reference_us": {
+    "p50": 46.73,
+    "p99": 60.806,
+    "p999": 96.515
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.95",
+    "6.12"
+   ]
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a05ms31",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0204458091533521,
+    "p99": 1.020292368138019,
+    "p999": 1.0172312124200065
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "slower",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9961009515739331,
+      0.9983850481899321
+     ],
+     "ref-first": [
+      1.0020021287000547,
+      1.003500428917688
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9957334850316433,
+      1.0017822066256152
+     ],
+     "ref-first": [
+      1.0026081131536755,
+      1.005547796183873
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9452886339896333,
+      1.0047256229810209
+     ],
+     "ref-first": [
+      0.9878580503580504,
+      1.0065268712678794
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 178.128,
+    "p99": 185.934,
+    "p999": 210.457
+   },
+   "reference_us": {
+    "p50": 174.559,
+    "p99": 182.236,
+    "p999": 206.892
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.02",
+    "6.52"
+   ]
+  },
+  {
+   "candidate": "avx2",
+   "problem": "hgp98_unif_p1e-3_r4_xyz",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.011582746961528,
+    "p99": 1.0243887666309988,
+    "p999": 1.055281647798526
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "slower",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9908103203592118,
+      0.9929499240586676
+     ],
+     "ref-first": [
+      1.0102057613168725,
+      1.0103427760743215
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9922185105128709,
+      0.9936389421873697
+     ],
+     "ref-first": [
+      1.0055326194018903,
+      1.0091295384744836
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9309304515778888,
+      0.993844379974708
+     ],
+     "ref-first": [
+      0.9739737274220033,
+      1.0241272812353768
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 44.279,
+    "p99": 50.739,
+    "p999": 61.429
+   },
+   "reference_us": {
+    "p50": 43.772,
+    "p99": 49.531,
+    "p999": 58.211
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.62",
+    "5.99"
+   ]
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0363106452184274,
+    "p99": 1.0534562452667589,
+    "p999": 1.076045741124382
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "slower",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9985530102264782,
+      1.0000974484741194
+     ],
+     "ref-first": [
+      0.9996588416862968,
+      0.9999837662337663
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.000713983499048,
+      1.0065401180411548
+     ],
+     "ref-first": [
+      0.9930413964562423,
+      1.0005684822845056
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9435438040259624,
+      1.050756069885161
+     ],
+     "ref-first": [
+      0.9591786076949115,
+      1.0708437253872407
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 64.358,
+    "p99": 80.68,
+    "p999": 143.877
+   },
+   "reference_us": {
+    "p50": 62.103,
+    "p99": 76.586,
+    "p999": 133.709
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.34",
+    "6.21"
+   ]
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "bp_a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0091730600115232,
+    "p99": 1.0091154431397318,
+    "p999": 1.013996132647558
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "slower",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9992879111555535,
+      1.0028071133770333
+     ],
+     "ref-first": [
+      0.9983819259617711,
+      0.9995461078750284
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9999145031206361,
+      1.0048401162790697
+     ],
+     "ref-first": [
+      0.9951596467391305,
+      0.9992277767254819
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9972508683232979,
+      1.012905386260014
+     ],
+     "ref-first": [
+      0.9829600778967867,
+      1.0015048618613984
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 66.559,
+    "p99": 70.297,
+    "p999": 77.085
+   },
+   "reference_us": {
+    "p50": 65.954,
+    "p99": 69.662,
+    "p999": 76.021
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.39",
+    "6.79"
+   ]
+  },
+  {
+   "candidate": "avx512-spr",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.999065202150035,
+    "p99": 0.9988809913587666,
+    "p999": 0.9897922383379067
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0018158664276955,
+      1.0035603131189286
+     ],
+     "ref-first": [
+      0.9957530678805228,
+      0.9996708747678492
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0011712295819128,
+      1.0079865842154911
+     ],
+     "ref-first": [
+      0.9929515968063872,
+      1.0064640294542184
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9924852730456933,
+      0.9973802038677717
+     ],
+     "ref-first": [
+      0.9843047908360231,
+      1.0164760171584557
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 42.75,
+    "p99": 48.203,
+    "p999": 63.124
+   },
+   "reference_us": {
+    "p50": 42.79,
+    "p99": 48.257,
+    "p999": 63.775
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.98",
+    "6.18"
+   ]
+  },
+  {
+   "candidate": "avx512-spr",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a05c15",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0000239406272444,
+    "p99": 1.0005043363033137,
+    "p999": 1.0020223112666253
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0013875598086124,
+      1.0021839330099664
+     ],
+     "ref-first": [
+      0.9975090876586615,
+      0.9981716716656908
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.004607143570986,
+      1.006328674450209
+     ],
+     "ref-first": [
+      0.9975518745928017,
+      0.9982339476696003
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9875954469329246,
+      1.034843701112154
+     ],
+     "ref-first": [
+      0.9948713166728832,
+      1.0295693816274563
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 83.542,
+    "p99": 101.174,
+    "p999": 106.529
+   },
+   "reference_us": {
+    "p50": 83.54,
+    "p99": 101.123,
+    "p999": 106.314
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.84",
+    "6.07"
+   ]
+  },
+  {
+   "candidate": "avx512-spr",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9980423032727582,
+    "p99": 1.0088073454237618,
+    "p999": 0.9897969052224371
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9948068669527897,
+      0.9979535124189484
+     ],
+     "ref-first": [
+      0.9998708121608819,
+      1.004580416558638
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9999183313460628,
+      1.0172252571484817
+     ],
+     "ref-first": [
+      0.9920954414329254,
+      1.0183728779741616
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.8466325036603221,
+      1.0266368944700779
+     ],
+     "ref-first": [
+      0.8713761836127785,
+      1.0176252530076642
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 46.902,
+    "p99": 61.967,
+    "p999": 102.345
+   },
+   "reference_us": {
+    "p50": 46.994,
+    "p99": 61.426,
+    "p999": 103.4
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.97",
+    "6.15"
+   ]
+  },
+  {
+   "candidate": "avx512-spr",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a05ms31",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0000916663802093,
+    "p99": 1.0004878289419594,
+    "p999": 1.016714674818255
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.997598275802772,
+      0.9984433160240798
+     ],
+     "ref-first": [
+      1.000683205208435,
+      1.002290792510605
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9972824579890189,
+      1.0004378332243369
+     ],
+     "ref-first": [
+      1.0008958938199917,
+      1.0026187451106585
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9829134954425827,
+      1.0091604902388218
+     ],
+     "ref-first": [
+      0.9968768575141801,
+      1.0127587757638843
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 174.562,
+    "p99": 182.53,
+    "p999": 207.544
+   },
+   "reference_us": {
+    "p50": 174.546,
+    "p99": 182.441,
+    "p999": 204.132
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.75",
+    "6.23"
+   ]
+  },
+  {
+   "candidate": "avx512-spr",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9993916788064098,
+    "p99": 0.9935407498906302,
+    "p999": 0.9783443180995147
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9990423477089386,
+      1.0004061936406323
+     ],
+     "ref-first": [
+      0.9989142940480628,
+      1.0035351660236647
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0,
+      1.0106960429975593
+     ],
+     "ref-first": [
+      0.9962899392659097,
+      1.0085634963047927
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9868935897043989,
+      0.988069929525367
+     ],
+     "ref-first": [
+      1.0282019165008107,
+      1.0343085490279498
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 62.429,
+    "p99": 77.216,
+    "p999": 135.08
+   },
+   "reference_us": {
+    "p50": 62.467,
+    "p99": 77.718,
+    "p999": 138.07
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.15",
+    "7.03"
+   ]
+  },
+  {
+   "candidate": "avx512-v4",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0028020361462664,
+    "p99": 1.0020040899795501,
+    "p999": 1.001845304552785
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0007297208229369,
+      1.0020196327086563
+     ],
+     "ref-first": [
+      0.9974164454987434,
+      0.9985901593119978
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.996981412946844,
+      0.9999584303292318
+     ],
+     "ref-first": [
+      0.9944602331232753,
+      1.0000826224361226
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9843257222152139,
+      1.0078618604281053
+     ],
+     "ref-first": [
+      0.970149021074947,
+      1.005540686481664
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 42.946,
+    "p99": 48.998,
+    "p999": 64.607
+   },
+   "reference_us": {
+    "p50": 42.826,
+    "p99": 48.9,
+    "p999": 64.488
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.36",
+    "6.62"
+   ]
+  },
+  {
+   "candidate": "avx512-v4",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a05c15",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.000560310912949,
+    "p99": 1.0018103999606436,
+    "p999": 1.0130032461475318
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0008177794881663,
+      1.002571979709938
+     ],
+     "ref-first": [
+      0.9979358431240775,
+      0.9979651231573717
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0012213528220202,
+      1.0048886742427976
+     ],
+     "ref-first": [
+      0.9969612384685433,
+      0.9994183397477533
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.997123836915839,
+      1.0113404894316491
+     ],
+     "ref-first": [
+      0.9796491293520738,
+      1.0185168057122773
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 83.929,
+    "p99": 101.819,
+    "p999": 108.598
+   },
+   "reference_us": {
+    "p50": 83.882,
+    "p99": 101.635,
+    "p999": 107.204
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.28",
+    "6.61"
+   ]
+  },
+  {
+   "candidate": "avx512-v4",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9980805323323665,
+    "p99": 1.0040496407576747,
+    "p999": 0.9805299384550492
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9946363441321605,
+      0.9989049919484702
+     ],
+     "ref-first": [
+      1.001808551866684,
+      1.0044695618540087
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0009380407886013,
+      1.0115006828016255
+     ],
+     "ref-first": [
+      0.9944826457105436,
+      1.0054033758855987
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.8937750966858496,
+      1.0331256036425516
+     ],
+     "ref-first": [
+      0.8479234742278908,
+      0.95430985584916
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 46.798,
+    "p99": 61.488,
+    "p999": 102.283
+   },
+   "reference_us": {
+    "p50": 46.888,
+    "p99": 61.24,
+    "p999": 104.314
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.41",
+    "6.80"
+   ]
+  },
+  {
+   "candidate": "avx512-v4",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a05ms31",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9992263077939607,
+    "p99": 0.9987920648772908,
+    "p999": 0.9972991190540832
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.99731253979075,
+      0.9978274767613562
+     ],
+     "ref-first": [
+      1.0018247659723516,
+      1.0033011494771769
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9974736391371836,
+      0.9984083796659748
+     ],
+     "ref-first": [
+      1.0031896970060468,
+      1.009145338159892
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9683738650795155,
+      1.002095365128016
+     ],
+     "ref-first": [
+      0.9935748903761827,
+      1.0244178987663117
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 176.936,
+    "p99": 187.697,
+    "p999": 213.057
+   },
+   "reference_us": {
+    "p50": 177.073,
+    "p99": 187.924,
+    "p999": 213.634
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.07",
+    "6.45"
+   ]
+  },
+  {
+   "candidate": "avx512-v4",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9986384532829294,
+    "p99": 0.9866803805605554,
+    "p999": 1.0012799227658034
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9964063714063714,
+      0.999545299533932
+     ],
+     "ref-first": [
+      0.9984989589554045,
+      0.999740562978337
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9963269782129032,
+      1.0144663052310479
+     ],
+     "ref-first": [
+      0.9848877818293873,
+      1.0000901631953836
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.997424016214,
+      1.0535993089073286
+     ],
+     "ref-first": [
+      0.9954749801663092,
+      1.035470604729414
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 62.344,
+    "p99": 76.744,
+    "p999": 136.902
+   },
+   "reference_us": {
+    "p50": 62.429,
+    "p99": 77.78,
+    "p999": 136.727
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.15",
+    "6.81"
+   ]
+  },
+  {
+   "candidate": "clang-avx512",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.005392213829169,
+    "p99": 1.0095570630486832,
+    "p999": 1.0138390648193962
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9994612068965517,
+      1.003351427897097
+     ],
+     "ref-first": [
+      0.9977440428631856,
+      0.9986834471370554
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9971368658762804,
+      1.0067580370113054
+     ],
+     "ref-first": [
+      0.9942116763138729,
+      0.9978973227297331
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9797493988102772,
+      1.0037020272236412
+     ],
+     "ref-first": [
+      0.9763224392355052,
+      1.01910176236498
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 43.257,
+    "p99": 50.599,
+    "p999": 65.567
+   },
+   "reference_us": {
+    "p50": 43.025,
+    "p99": 50.12,
+    "p999": 64.672
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.15",
+    "6.39"
+   ]
+  },
+  {
+   "candidate": "clang-avx512",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0016194677065353,
+    "p99": 1.0151619010314663,
+    "p999": 0.959281045751634
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9954946257321233,
+      0.9981088689747061
+     ],
+     "ref-first": [
+      1.0005580956060705,
+      1.0027277804029382
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0004890932211679,
+      1.015034836817015
+     ],
+     "ref-first": [
+      1.0052954882440162,
+      1.0144989199450154
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.8872839540204537,
+      0.9393136942500192
+     ],
+     "ref-first": [
+      0.9482793171922538,
+      1.1524726726853711
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 47.005,
+    "p99": 62.201,
+    "p999": 102.739
+   },
+   "reference_us": {
+    "p50": 46.929,
+    "p99": 61.272,
+    "p999": 107.1
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.95",
+    "6.33"
+   ]
+  },
+  {
+   "candidate": "clang-avx512",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0002071548083817,
+    "p99": 1.0079544743918454,
+    "p999": 1.0095155955978787
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9972269071094966,
+      0.9984518376364722
+     ],
+     "ref-first": [
+      0.9992061306158159,
+      1.001890542440254
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0040740644015564,
+      1.0139750931005487
+     ],
+     "ref-first": [
+      0.9997652612772395,
+      1.0036459794062262
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.971362784946953,
+      1.0578516919997498
+     ],
+     "ref-first": [
+      0.986122939351542,
+      1.0213984447603994
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 62.768,
+    "p99": 80.591,
+    "p999": 141.631
+   },
+   "reference_us": {
+    "p50": 62.755,
+    "p99": 79.955,
+    "p999": 140.296
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.64",
+    "6.24"
+   ]
+  },
+  {
+   "candidate": "avx2-b0",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.030682624532854,
+    "p99": 1.0288834851419857,
+    "p999": 1.0098767045184587
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9984496418958121,
+      0.999762061121739
+     ],
+     "ref-first": [
+      0.9999333460293277,
+      1.0116992857278186
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9980611040980834,
+      1.0044910553148314
+     ],
+     "ref-first": [
+      1.0028389281800976,
+      1.0561190938085687
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      1.0154593666845708,
+      1.0637629186571214
+     ],
+     "ref-first": [
+      0.9050415850102768,
+      1.1173016646512774
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 108.938,
+    "p99": 124.819,
+    "p999": 170.039
+   },
+   "reference_us": {
+    "p50": 105.695,
+    "p99": 121.315,
+    "p999": 168.376
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.01",
+    "6.51"
+   ]
+  },
+  {
+   "candidate": "avx2-b0",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 120000,
+   "processes": 3,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.019332286426588,
+    "p99": 1.0310589519650655,
+    "p999": 1.0526924722775468
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "slower",
+    "p999": "slower"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0032427039161886,
+      1.003969069860993
+     ],
+     "ref-first": [
+      0.9955997941839215,
+      0.9964818687745914
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0053325479192987,
+      1.0097652849658927
+     ],
+     "ref-first": [
+      0.99090644035208,
+      0.9990931919642857
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9819196393385772,
+      1.0269432416487638
+     ],
+     "ref-first": [
+      0.9768380372166273,
+      0.9980350731237412
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 114.892,
+    "p99": 132.223,
+    "p999": 199.261
+   },
+   "reference_us": {
+    "p50": 112.713,
+    "p99": 128.24,
+    "p999": 189.287
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.79",
+    "6.53"
+   ]
+  }
+ ],
+ "full_rows": [
+  {
+   "candidate": "avx2",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 160000,
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0254457088113653,
+    "p99": 1.0261106298725404,
+    "p999": 1.0354669399670797
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "slower",
+    "p999": "slower"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0006117071334462,
+      1.0018159949057805
+     ],
+     "ref-first": [
+      0.9973862057597664,
+      0.9989876397881107
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0003333541679689,
+      1.0035058430717863
+     ],
+     "ref-first": [
+      0.9904911851836506,
+      0.9975803591915062
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9899223577879892,
+      1.0156976744186046
+     ],
+     "ref-first": [
+      0.9873433762613062,
+      0.9954234136884426
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 43.886,
+    "p99": 49.752,
+    "p999": 66.682
+   },
+   "reference_us": {
+    "p50": 42.797,
+    "p99": 48.486,
+    "p999": 64.398
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "7.24",
+    "8.13"
+   ]
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 160000,
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0679174403961496,
+    "p99": 1.0490751350466525,
+    "p999": 1.1206083069203687
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "slower",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9960268029723809,
+      0.9986259902531184
+     ],
+     "ref-first": [
+      1.0006050260377277,
+      1.0024946773048882
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9990486032511523,
+      1.012811187886402
+     ],
+     "ref-first": [
+      0.984103025242469,
+      1.007463293279784
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.8353597036548018,
+      1.1163488212593025
+     ],
+     "ref-first": [
+      0.7641760933784855,
+      1.0711493003820172
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 50.033,
+    "p99": 64.088,
+    "p999": 108.541
+   },
+   "reference_us": {
+    "p50": 46.851,
+    "p99": 61.09,
+    "p999": 96.859
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.05",
+    "6.63"
+   ]
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "cadence",
+   "shots_pooled_per_side": 4000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 2,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0895286301803226,
+    "p99": 1.088023047399191,
+    "p999": 1.186699251122107
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9811674245233309,
+      0.9912364373435079
+     ],
+     "ref-first": [
+      0.9867907593849996,
+      0.998734812732202
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.8856675626070997,
+      1.1158603145674935
+     ],
+     "ref-first": [
+      1.0192398446291793,
+      1.0998109833971903
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.4983833910034602,
+      1.381279743950667
+     ],
+     "ref-first": [
+      0.6929254173680521,
+      0.864990915237049
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 55.104,
+    "p99": 115.943,
+    "p999": 196.178
+   },
+   "reference_us": {
+    "p50": 50.576,
+    "p99": 106.563,
+    "p999": 165.314
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    5.94,
+    9.04
+   ],
+   "gap_us": 10000,
+   "keep_warm": 0,
+   "output_checksum_runs": 16,
+   "distinct_output_checksums": 1
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "cadence",
+   "shots_pooled_per_side": 4000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 2,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0924114602437136,
+    "p99": 1.0792259598787926,
+    "p999": 1.014300306435138
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9800700297219168,
+      0.9960899517967603
+     ],
+     "ref-first": [
+      0.9873355465387925,
+      0.9948666351820291
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9034340620559199,
+      1.0892361743377714
+     ],
+     "ref-first": [
+      0.9893273559146927,
+      1.1408370980316769
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.659152825842283,
+      1.5569560822927195
+     ],
+     "ref-first": [
+      0.3581218449953533,
+      0.9899008514245696
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 53.609,
+    "p99": 112.546,
+    "p999": 164.838
+   },
+   "reference_us": {
+    "p50": 49.074,
+    "p99": 104.284,
+    "p999": 162.514
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    5.81,
+    6.72
+   ],
+   "gap_us": 10000,
+   "keep_warm": 1,
+   "keep_warm_calls": 335918,
+   "keep_warm_periodic_call_mean_ns": 1525.10625,
+   "keep_warm_final_call_mean_ns": 3176.38125,
+   "output_checksum_runs": 16,
+   "distinct_output_checksums": 1
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 160000,
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0369741980920673,
+    "p99": 1.055580537818149,
+    "p999": 1.0766890236320683
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "slower",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9974841550147564,
+      0.9996284689690822
+     ],
+     "ref-first": [
+      0.9984814216478191,
+      0.9999515010427276
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0097598493588469,
+      1.0149343594979123
+     ],
+     "ref-first": [
+      0.9900366164296328,
+      1.0085377295268732
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9792856174392504,
+      1.0358303429794704
+     ],
+     "ref-first": [
+      0.9906967928417428,
+      1.0732834806254248
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 64.786,
+    "p99": 82.159,
+    "p999": 147.206
+   },
+   "reference_us": {
+    "p50": 62.476,
+    "p99": 77.833,
+    "p999": 136.721
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.93",
+    "6.39"
+   ]
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "cadence",
+   "shots_pooled_per_side": 4000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 2,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.029861605857119,
+    "p99": 1.0164477710304571,
+    "p999": 1.0246875644935678
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0049221420432966,
+      1.0215726674457224
+     ],
+     "ref-first": [
+      0.9819390348436772,
+      0.9888786051233057
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.903342283970417,
+      1.070336848396875
+     ],
+     "ref-first": [
+      1.0333696336333935,
+      1.1078756962157097
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      1.1165146856392434,
+      1.324652360423311
+     ],
+     "ref-first": [
+      0.788088685763063,
+      0.8959194707097266
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 67.941,
+    "p99": 107.962,
+    "p999": 223.428
+   },
+   "reference_us": {
+    "p50": 65.971,
+    "p99": 106.215,
+    "p999": 218.045
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    5.8,
+    6.17
+   ],
+   "gap_us": 10000,
+   "keep_warm": 0,
+   "output_checksum_runs": 16,
+   "distinct_output_checksums": 1
+  },
+  {
+   "candidate": "avx2",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "cadence",
+   "shots_pooled_per_side": 4000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 2,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0254808131915023,
+    "p99": 1.158292038155739,
+    "p999": 0.9760333637241716
+   },
+   "verdict": {
+    "p50": "slower",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0056356057885945,
+      1.0171707624448645
+     ],
+     "ref-first": [
+      0.9691506899499328,
+      0.9878746636147112
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9689947022942654,
+      1.1083317791868705
+     ],
+     "ref-first": [
+      0.7555289794786467,
+      1.0147610495329387
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      1.13620858358426,
+      1.1672132401972037
+     ],
+     "ref-first": [
+      0.4819172427805314,
+      0.7944715813168262
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 67.29,
+    "p99": 115.235,
+    "p999": 216.248
+   },
+   "reference_us": {
+    "p50": 65.618,
+    "p99": 99.487,
+    "p999": 221.558
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    5.77,
+    6.2
+   ],
+   "gap_us": 10000,
+   "keep_warm": 1,
+   "keep_warm_calls": 335988,
+   "keep_warm_periodic_call_mean_ns": 1546.50625,
+   "keep_warm_final_call_mean_ns": 3229.025,
+   "output_checksum_runs": 16,
+   "distinct_output_checksums": 1
+  },
+  {
+   "candidate": "avx512-spr",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 160000,
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9981063262729696,
+    "p99": 0.9931436124075833,
+    "p999": 0.9899476276088486
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0008723123349679,
+      1.0019555178588258
+     ],
+     "ref-first": [
+      0.9974131646403123,
+      0.9996702235413281
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0002925748678189,
+      1.0059247431560812
+     ],
+     "ref-first": [
+      0.9964589235127479,
+      1.0021285919989984
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9915492510285451,
+      1.0051949297485654
+     ],
+     "ref-first": [
+      0.9821248582587879,
+      1.0083441138421734
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 42.693,
+    "p99": 48.09,
+    "p999": 63.322
+   },
+   "reference_us": {
+    "p50": 42.774,
+    "p99": 48.422,
+    "p999": 63.965
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.27",
+    "6.53"
+   ]
+  },
+  {
+   "candidate": "avx512-spr",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 160000,
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9981026286055387,
+    "p99": 1.0083346952116359,
+    "p999": 0.9921637967409431
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9962731581214993,
+      1.0009920207030407
+     ],
+     "ref-first": [
+      0.9992684868435208,
+      1.0035616379217303
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0018482190625964,
+      1.0170267421947043
+     ],
+     "ref-first": [
+      1.0049474743143625,
+      1.0131154089411138
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.7975789998639887,
+      1.0438027360462723
+     ],
+     "ref-first": [
+      0.8976465280649648,
+      1.0326422485884585
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 46.818,
+    "p99": 61.7,
+    "p999": 98.758
+   },
+   "reference_us": {
+    "p50": 46.907,
+    "p99": 61.19,
+    "p999": 99.538
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.86",
+    "6.40"
+   ]
+  },
+  {
+   "candidate": "avx512-spr",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "b2b",
+   "shots_pooled_per_side": 160000,
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9990348421966991,
+    "p99": 0.9925833560638533,
+    "p999": 0.9993413814524036
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.994661921708185,
+      0.999788813619897
+     ],
+     "ref-first": [
+      0.9988647237224088,
+      1.0001895465099748
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9920660149937747,
+      1.0112515515929688
+     ],
+     "ref-first": [
+      1.0006902593782356,
+      1.0035917575998607
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9865231021282629,
+      1.0452132966199768
+     ],
+     "ref-first": [
+      0.9683628125231094,
+      1.042680388074944
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 62.106,
+    "p99": 76.418,
+    "p999": 133.525
+   },
+   "reference_us": {
+    "p50": 62.166,
+    "p99": 76.989,
+    "p999": 133.613
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.24",
+    "7.10"
+   ]
+  },
+  {
+   "candidate": "avx512-spr",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "cadence",
+   "shots_pooled_per_side": 4000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 2,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0026216784666884,
+    "p99": 0.9937179223978649,
+    "p999": 0.9593565305183405
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0040549203178342,
+      1.0414196724605647
+     ],
+     "ref-first": [
+      0.9567933427055463,
+      0.9905851834897383
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9984501463750646,
+      1.100868268257604
+     ],
+     "ref-first": [
+      0.9657675895314798,
+      1.0120876068595883
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.7493668364588373,
+      1.2076920189986113
+     ],
+     "ref-first": [
+      0.6884844179528584,
+      0.8859905810450405
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 67.691,
+    "p99": 121.01,
+    "p999": 214.751
+   },
+   "reference_us": {
+    "p50": 67.514,
+    "p99": 121.775,
+    "p999": 223.849
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    6.0,
+    6.52
+   ],
+   "gap_us": 10000,
+   "keep_warm": 0,
+   "output_checksum_runs": 16,
+   "distinct_output_checksums": 1
+  },
+  {
+   "candidate": "avx512-spr",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "cadence",
+   "shots_pooled_per_side": 4000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 2,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 1.0034602605913066,
+    "p99": 1.0007966461198354,
+    "p999": 1.0903127216639135
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0045878482388095,
+      1.0238300758369814
+     ],
+     "ref-first": [
+      0.971183764810472,
+      0.9923929447993048
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0753551444377452,
+      1.2678827022487196
+     ],
+     "ref-first": [
+      0.8768335943242466,
+      1.0799385501267673
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      1.0370020234853026,
+      1.4493679752578208
+     ],
+     "ref-first": [
+      0.7684822761235102,
+      0.8702939629478114
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 65.539,
+    "p99": 100.501,
+    "p999": 229.03
+   },
+   "reference_us": {
+    "p50": 65.313,
+    "p99": 100.421,
+    "p999": 210.059
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    5.89,
+    6.54
+   ],
+   "gap_us": 10000,
+   "keep_warm": 1,
+   "keep_warm_calls": 335987,
+   "keep_warm_periodic_call_mean_ns": 1523.1875,
+   "keep_warm_final_call_mean_ns": 3184.1625,
+   "output_checksum_runs": 16,
+   "distinct_output_checksums": 1
+  }
+ ],
+ "pinning_rows": [
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "round": 1,
+   "condition": "busy-sibling",
+   "condition_description": "CPU 0 with a busy loop on its SMT sibling",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 45.169,
+    "p99": 52.193,
+    "p999": 72.099
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.063751118647261,
+    "p99": 1.0913101660184836,
+    "p999": 1.1424700513405592
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.56",
+    "6.69"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "round": 2,
+   "condition": "busy-sibling",
+   "condition_description": "CPU 0 with a busy loop on its SMT sibling",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 45.13,
+    "p99": 52.183,
+    "p999": 71.925
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0623822975517891,
+    "p99": 1.0878257244110903,
+    "p999": 1.1412138040460134
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.05",
+    "6.20"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "round": 1,
+   "condition": "busy-sibling",
+   "condition_description": "CPU 0 with a busy loop on its SMT sibling",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 63.747,
+    "p99": 81.928,
+    "p999": 152.369
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0334446533947215,
+    "p99": 1.0743810323122114,
+    "p999": 1.1555011223685008
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.13",
+    "6.84"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "round": 2,
+   "condition": "busy-sibling",
+   "condition_description": "CPU 0 with a busy loop on its SMT sibling",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 63.704,
+    "p99": 81.766,
+    "p999": 151.486
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0329317529551019,
+    "p99": 1.076080805422123,
+    "p999": 1.1668926205515329
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.49",
+    "7.17"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "round": 1,
+   "condition": "far-socket",
+   "condition_description": "CPU 16, the other socket (NUMA node 1)",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 43.446,
+    "p99": 50.891,
+    "p999": 63.685
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0231736611558568,
+    "p99": 1.0640864801572365,
+    "p999": 1.0091430563478483
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.39",
+    "6.63"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "round": 2,
+   "condition": "far-socket",
+   "condition_description": "CPU 16, the other socket (NUMA node 1)",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 42.931,
+    "p99": 48.669,
+    "p999": 61.672
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0106167608286252,
+    "p99": 1.014571607254534,
+    "p999": 0.9785323284410948
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.98",
+    "6.16"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "round": 1,
+   "condition": "far-socket",
+   "condition_description": "CPU 16, the other socket (NUMA node 1)",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 62.083,
+    "p99": 76.043,
+    "p999": 126.358
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.006468452110758,
+    "p99": 0.9972067771716325,
+    "p999": 0.9582448583388946
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.32",
+    "6.88"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "round": 2,
+   "condition": "far-socket",
+   "condition_description": "CPU 16, the other socket (NUMA node 1)",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 61.988,
+    "p99": 75.644,
+    "p999": 125.719
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0051075835454737,
+    "p99": 0.9955122721589789,
+    "p999": 0.9684101063010322
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.97",
+    "6.23"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "round": 1,
+   "condition": "idle",
+   "condition_description": "CPU 0 (a primary hardware thread on the GPU NUMA node 0), SMT sibling idle: the reference",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 42.462,
+    "p99": 47.826,
+    "p999": 63.108
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0,
+    "p99": 1.0,
+    "p999": 1.0
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.44",
+    "6.72"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "round": 2,
+   "condition": "idle",
+   "condition_description": "CPU 0 (a primary hardware thread on the GPU NUMA node 0), SMT sibling idle: the reference",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 42.48,
+    "p99": 47.97,
+    "p999": 63.025
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0,
+    "p99": 1.0,
+    "p999": 1.0
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.15",
+    "6.51"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "round": 1,
+   "condition": "idle",
+   "condition_description": "CPU 0 (a primary hardware thread on the GPU NUMA node 0), SMT sibling idle: the reference",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 61.684,
+    "p99": 76.256,
+    "p999": 131.864
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0,
+    "p99": 1.0,
+    "p999": 1.0
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "5.72",
+    "6.03"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "round": 2,
+   "condition": "idle",
+   "condition_description": "CPU 0 (a primary hardware thread on the GPU NUMA node 0), SMT sibling idle: the reference",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 61.673,
+    "p99": 75.985,
+    "p999": 129.82
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0,
+    "p99": 1.0,
+    "p999": 1.0
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.33",
+    "6.89"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "round": 1,
+   "condition": "secondary",
+   "condition_description": "CPU 32, the second hardware thread of the same core, sibling idle",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 42.571,
+    "p99": 48.203,
+    "p999": 62.76
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0025670010833214,
+    "p99": 1.0078827416049847,
+    "p999": 0.9944856436584902
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.44",
+    "6.65"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "round": 2,
+   "condition": "secondary",
+   "condition_description": "CPU 32, the second hardware thread of the same core, sibling idle",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 42.577,
+    "p99": 48.262,
+    "p999": 62.644
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0022834274952919,
+    "p99": 1.006087137794455,
+    "p999": 0.9939547798492662
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.04",
+    "6.26"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "round": 1,
+   "condition": "secondary",
+   "condition_description": "CPU 32, the second hardware thread of the same core, sibling idle",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 61.804,
+    "p99": 75.735,
+    "p999": 126.868
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0019453991310552,
+    "p99": 0.9931677507343685,
+    "p999": 0.9621124795243584
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.03",
+    "6.19"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "round": 2,
+   "condition": "secondary",
+   "condition_description": "CPU 32, the second hardware thread of the same core, sibling idle",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 61.906,
+    "p99": 76.641,
+    "p999": 129.429
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0037779903685566,
+    "p99": 1.00863328288478,
+    "p999": 0.9969881374210446
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.17",
+    "6.44"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "round": 1,
+   "condition": "unpinned",
+   "condition_description": "unpinned",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 45.956,
+    "p99": 54.345,
+    "p999": 70.226
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0822853374782158,
+    "p99": 1.1363066114665663,
+    "p999": 1.1127907713760539
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.29",
+    "6.47"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "preset": "a03125c3",
+   "round": 2,
+   "condition": "unpinned",
+   "condition_description": "unpinned",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 47.2,
+    "p99": 55.237,
+    "p999": 78.774
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.1111111111111112,
+    "p99": 1.151490514905149,
+    "p999": 1.249884966283221
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.05",
+    "6.25"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "round": 1,
+   "condition": "unpinned",
+   "condition_description": "unpinned",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 62.086,
+    "p99": 77.952,
+    "p999": 131.012
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0065170870890345,
+    "p99": 1.0222408728493495,
+    "p999": 0.9935387975489899
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "10.57",
+    "9.93"
+   ]
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "round": 2,
+   "condition": "unpinned",
+   "condition_description": "unpinned",
+   "build": "avx512",
+   "processes": 4,
+   "shots_per_side_per_run": 20000,
+   "shots_pooled": 320000,
+   "us": {
+    "p50": 62.368,
+    "p99": 79.484,
+    "p999": 133.305
+   },
+   "ratio_vs_idle_same_round": {
+    "p50": 1.0112691129019182,
+    "p99": 1.0460485622162268,
+    "p999": 1.0268448621167772
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    "6.75",
+    "7.85"
+   ]
+  }
+ ],
+ "pinning_summary": [
+  {
+   "condition": "idle",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "rounds": 2,
+   "ratio_range": {
+    "p50": [
+     1.0,
+     1.0
+    ],
+    "p99": [
+     1.0,
+     1.0
+    ],
+    "p999": [
+     1.0,
+     1.0
+    ]
+   },
+   "us_range": {
+    "p50": [
+     61.673,
+     61.684
+    ],
+    "p99": [
+     75.985,
+     76.256
+    ],
+    "p999": [
+     129.82,
+     131.864
+    ]
+   }
+  },
+  {
+   "condition": "idle",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "rounds": 2,
+   "ratio_range": {
+    "p50": [
+     1.0,
+     1.0
+    ],
+    "p99": [
+     1.0,
+     1.0
+    ],
+    "p999": [
+     1.0,
+     1.0
+    ]
+   },
+   "us_range": {
+    "p50": [
+     42.462,
+     42.48
+    ],
+    "p99": [
+     47.826,
+     47.97
+    ],
+    "p999": [
+     63.025,
+     63.108
+    ]
+   }
+  },
+  {
+   "condition": "secondary",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "rounds": 2,
+   "ratio_range": {
+    "p50": [
+     1.0019453991310552,
+     1.0037779903685566
+    ],
+    "p99": [
+     0.9931677507343685,
+     1.00863328288478
+    ],
+    "p999": [
+     0.9621124795243584,
+     0.9969881374210446
+    ]
+   },
+   "us_range": {
+    "p50": [
+     61.804,
+     61.906
+    ],
+    "p99": [
+     75.735,
+     76.641
+    ],
+    "p999": [
+     126.868,
+     129.429
+    ]
+   }
+  },
+  {
+   "condition": "secondary",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "rounds": 2,
+   "ratio_range": {
+    "p50": [
+     1.0022834274952919,
+     1.0025670010833214
+    ],
+    "p99": [
+     1.006087137794455,
+     1.0078827416049847
+    ],
+    "p999": [
+     0.9939547798492662,
+     0.9944856436584902
+    ]
+   },
+   "us_range": {
+    "p50": [
+     42.571,
+     42.577
+    ],
+    "p99": [
+     48.203,
+     48.262
+    ],
+    "p999": [
+     62.644,
+     62.76
+    ]
+   }
+  },
+  {
+   "condition": "busy-sibling",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "rounds": 2,
+   "ratio_range": {
+    "p50": [
+     1.0329317529551019,
+     1.0334446533947215
+    ],
+    "p99": [
+     1.0743810323122114,
+     1.076080805422123
+    ],
+    "p999": [
+     1.1555011223685008,
+     1.1668926205515329
+    ]
+   },
+   "us_range": {
+    "p50": [
+     63.704,
+     63.747
+    ],
+    "p99": [
+     81.766,
+     81.928
+    ],
+    "p999": [
+     151.486,
+     152.369
+    ]
+   }
+  },
+  {
+   "condition": "busy-sibling",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "rounds": 2,
+   "ratio_range": {
+    "p50": [
+     1.0623822975517891,
+     1.063751118647261
+    ],
+    "p99": [
+     1.0878257244110903,
+     1.0913101660184836
+    ],
+    "p999": [
+     1.1412138040460134,
+     1.1424700513405592
+    ]
+   },
+   "us_range": {
+    "p50": [
+     45.13,
+     45.169
+    ],
+    "p99": [
+     52.183,
+     52.193
+    ],
+    "p999": [
+     71.925,
+     72.099
+    ]
+   }
+  },
+  {
+   "condition": "far-socket",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "rounds": 2,
+   "ratio_range": {
+    "p50": [
+     1.0051075835454737,
+     1.006468452110758
+    ],
+    "p99": [
+     0.9955122721589789,
+     0.9972067771716325
+    ],
+    "p999": [
+     0.9582448583388946,
+     0.9684101063010322
+    ]
+   },
+   "us_range": {
+    "p50": [
+     61.988,
+     62.083
+    ],
+    "p99": [
+     75.644,
+     76.043
+    ],
+    "p999": [
+     125.719,
+     126.358
+    ]
+   }
+  },
+  {
+   "condition": "far-socket",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "rounds": 2,
+   "ratio_range": {
+    "p50": [
+     1.0106167608286252,
+     1.0231736611558568
+    ],
+    "p99": [
+     1.014571607254534,
+     1.0640864801572365
+    ],
+    "p999": [
+     0.9785323284410948,
+     1.0091430563478483
+    ]
+   },
+   "us_range": {
+    "p50": [
+     42.931,
+     43.446
+    ],
+    "p99": [
+     48.669,
+     50.891
+    ],
+    "p999": [
+     61.672,
+     63.685
+    ]
+   }
+  },
+  {
+   "condition": "unpinned",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "rounds": 2,
+   "ratio_range": {
+    "p50": [
+     1.0065170870890345,
+     1.0112691129019182
+    ],
+    "p99": [
+     1.0222408728493495,
+     1.0460485622162268
+    ],
+    "p999": [
+     0.9935387975489899,
+     1.0268448621167772
+    ]
+   },
+   "us_range": {
+    "p50": [
+     62.086,
+     62.368
+    ],
+    "p99": [
+     77.952,
+     79.484
+    ],
+    "p999": [
+     131.012,
+     133.305
+    ]
+   }
+  },
+  {
+   "condition": "unpinned",
+   "problem": "bb144_unif_p1e-3_r12_z",
+   "rounds": 2,
+   "ratio_range": {
+    "p50": [
+     1.0822853374782158,
+     1.1111111111111112
+    ],
+    "p99": [
+     1.1363066114665663,
+     1.151490514905149
+    ],
+    "p999": [
+     1.1127907713760539,
+     1.249884966283221
+    ]
+   },
+   "us_range": {
+    "p50": [
+     45.956,
+     47.2
+    ],
+    "p99": [
+     54.345,
+     55.237
+    ],
+    "p999": [
+     70.226,
+     78.774
+    ]
+   }
+  }
+ ],
+ "keep_warm_paired": [
+  {
+   "candidate": "avx512 (both handles; only the candidate handle kept warm)",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "kwab",
+   "shots_pooled_per_side": 2000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9914340570078275,
+    "p99": 0.9784452649436184,
+    "p999": 0.9556850855308057
+   },
+   "verdict": {
+    "p50": "faster",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9959746253872579,
+      0.9973808719161878
+     ],
+     "ref-first": [
+      0.9986467341889921,
+      1.0006569049183107
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9825029247815016,
+      0.9949702551294726
+     ],
+     "ref-first": [
+      0.9897229669347631,
+      1.0029889132172523
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.9493877641725371,
+      0.9676415954979611
+     ],
+     "ref-first": [
+      0.9449043990720278,
+      3.9058030818626843
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 46.991,
+    "p99": 58.83,
+    "p999": 85.422
+   },
+   "reference_us": {
+    "p50": 47.397,
+    "p99": 60.126,
+    "p999": 89.383
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    6.49,
+    6.64
+   ],
+   "gap_us": 1000,
+   "keep_warm": 2,
+   "keep_warm_calls": 5997,
+   "keep_warm_periodic_call_mean_ns": 601.625,
+   "keep_warm_final_call_mean_ns": 861.225,
+   "keep_warm_period_us": 500,
+   "output_checksum_runs": 8,
+   "distinct_output_checksums": 1
+  },
+  {
+   "candidate": "avx512 (both handles; only the candidate handle kept warm)",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "kwab",
+   "shots_pooled_per_side": 2000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9657836001940805,
+    "p99": 0.9203137230587998,
+    "p999": 0.6384722488249768
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.982817535281698,
+      0.9846298369043812
+     ],
+     "ref-first": [
+      0.971382614168823,
+      0.9959952266337655
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0571185237757275,
+      1.1474439972829462
+     ],
+     "ref-first": [
+      1.013811026545387,
+      1.0325604272062956
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.8819011041766682,
+      1.213926227941645
+     ],
+     "ref-first": [
+      1.3623359596284432,
+      1.4352938002482059
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 49.762,
+    "p99": 118.749,
+    "p999": 173.335
+   },
+   "reference_us": {
+    "p50": 51.525,
+    "p99": 129.031,
+    "p999": 271.484
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    5.76,
+    6.49
+   ],
+   "gap_us": 10000,
+   "keep_warm": 2,
+   "keep_warm_calls": 201880,
+   "keep_warm_periodic_call_mean_ns": 860.2625,
+   "keep_warm_final_call_mean_ns": 875.875,
+   "keep_warm_period_us": 100,
+   "output_checksum_runs": 8,
+   "distinct_output_checksums": 1
+  },
+  {
+   "candidate": "avx512 (both handles; only the candidate handle kept warm)",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "kwab",
+   "shots_pooled_per_side": 2000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9663259051272418,
+    "p99": 0.9970010650423214,
+    "p999": 0.6704835307548987
+   },
+   "verdict": {
+    "p50": "faster",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9929076581127501,
+      0.9939510843102738
+     ],
+     "ref-first": [
+      0.9858501878647374,
+      0.9937991987276278
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9647425371563303,
+      0.9756603280158404
+     ],
+     "ref-first": [
+      0.9254528390427029,
+      1.0143547524449879
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.7461834657668445,
+      1.4081677235731762
+     ],
+     "ref-first": [
+      0.5176930918502511,
+      1.4480010339479579
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 48.87,
+    "p99": 106.717,
+    "p999": 157.98
+   },
+   "reference_us": {
+    "p50": 50.573,
+    "p99": 107.038,
+    "p999": 235.621
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    5.56,
+    6.23
+   ],
+   "gap_us": 10000,
+   "keep_warm": 2,
+   "keep_warm_calls": 81979,
+   "keep_warm_periodic_call_mean_ns": 800.55,
+   "keep_warm_final_call_mean_ns": 812.325,
+   "keep_warm_period_us": 250,
+   "output_checksum_runs": 8,
+   "distinct_output_checksums": 1
+  },
+  {
+   "candidate": "avx512 (both handles; only the candidate handle kept warm)",
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "mode": "kwab",
+   "shots_pooled_per_side": 2000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9735256563721969,
+    "p99": 1.0410661991368682,
+    "p999": 0.9662042750041857
+   },
+   "verdict": {
+    "p50": "faster",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9836888331242158,
+      0.9851587792368411
+     ],
+     "ref-first": [
+      0.9930424291172331,
+      0.996704873956375
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.9622827214088616,
+      1.0791448407749231
+     ],
+     "ref-first": [
+      1.089180500864739,
+      1.118466336303907
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      0.6830708661417323,
+      0.9228054727716066
+     ],
+     "ref-first": [
+      0.693243219145104,
+      0.7754812532414046
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 48.797,
+    "p99": 108.071,
+    "p999": 155.813
+   },
+   "reference_us": {
+    "p50": 50.124,
+    "p99": 103.808,
+    "p999": 161.263
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    6.04,
+    6.3
+   ],
+   "gap_us": 10000,
+   "keep_warm": 2,
+   "keep_warm_calls": 41988,
+   "keep_warm_periodic_call_mean_ns": 794.7875,
+   "keep_warm_final_call_mean_ns": 817.825,
+   "keep_warm_period_us": 500,
+   "output_checksum_runs": 8,
+   "distinct_output_checksums": 1
+  },
+  {
+   "candidate": "avx512 (both handles; only the candidate handle kept warm)",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "kwab",
+   "shots_pooled_per_side": 2000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.9764255216061533,
+    "p99": 0.9739894747736917,
+    "p999": 0.8027647340038155
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      0.9999292576295646,
+      1.003564927184466
+     ],
+     "ref-first": [
+      0.9622422787116006,
+      0.9907456978967495
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      1.0142563208880362,
+      1.0647924559723552
+     ],
+     "ref-first": [
+      0.9594498874387225,
+      1.0599978418042517
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      1.1239949100029507,
+      1.365411775749585
+     ],
+     "ref-first": [
+      0.7087862057467506,
+      0.7803936161040446
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 64.489,
+    "p99": 122.336,
+    "p999": 179.674
+   },
+   "reference_us": {
+    "p50": 66.046,
+    "p99": 125.603,
+    "p999": 223.819
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    5.93,
+    6.44
+   ],
+   "gap_us": 10000,
+   "keep_warm": 2,
+   "keep_warm_calls": 81988,
+   "keep_warm_periodic_call_mean_ns": 818.9250000000001,
+   "keep_warm_final_call_mean_ns": 841.8375,
+   "keep_warm_period_us": 250,
+   "output_checksum_runs": 8,
+   "distinct_output_checksums": 1
+  },
+  {
+   "candidate": "avx512 (both handles; only the candidate handle kept warm)",
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "mode": "kwab",
+   "shots_pooled_per_side": 2000,
+   "processes": 2,
+   "shots_per_side_per_run": 500,
+   "sessions_pooled": 1,
+   "pinned_cpu": 0,
+   "ratio": {
+    "p50": 0.985443492339886,
+    "p99": 0.9348898451439313,
+    "p999": 0.7668856398607226
+   },
+   "verdict": {
+    "p50": "no_difference",
+    "p99": "no_difference",
+    "p999": "no_difference"
+   },
+   "aa_band": {
+    "p50": {
+     "cand-first": [
+      1.0065376449203416,
+      1.0081798015897467
+     ],
+     "ref-first": [
+      0.9721044611740567,
+      0.9934425728348262
+     ]
+    },
+    "p99": {
+     "cand-first": [
+      0.973316696261458,
+      1.0732056522731517
+     ],
+     "ref-first": [
+      0.8881813684731241,
+      1.0119927938496345
+     ]
+    },
+    "p999": {
+     "cand-first": [
+      1.135361257963942,
+      1.1675786255176168
+     ],
+     "ref-first": [
+      0.7769369369369369,
+      0.7927401261291357
+     ]
+    }
+   },
+   "candidate_us": {
+    "p50": 64.516,
+    "p99": 97.983,
+    "p999": 174.876
+   },
+   "reference_us": {
+    "p50": 65.469,
+    "p99": 104.807,
+    "p999": 228.034
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0,
+    "status": 0
+   },
+   "host_loadavg": [
+    5.98,
+    6.32
+   ],
+   "gap_us": 10000,
+   "keep_warm": 2,
+   "keep_warm_calls": 41998,
+   "keep_warm_periodic_call_mean_ns": 793.75,
+   "keep_warm_final_call_mean_ns": 828.35,
+   "keep_warm_period_us": 500,
+   "output_checksum_runs": 8,
+   "distinct_output_checksums": 1
+  }
+ ],
+ "keep_warm_back_to_back": [
+  {
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "gap_us": 0,
+   "calls_after_keep_warm": 1984,
+   "calls_after_none": 2008,
+   "ratio_after_keep_warm_vs_after_none": {
+    "p50": 1.0046176393824409,
+    "p99": 1.1267204327039166,
+    "p999": 1.5690465341459248
+   },
+   "after_keep_warm_ns": {
+    "p50": 50039,
+    "p99": 69993,
+    "p999": 110191
+   },
+   "after_none_ns": {
+    "p50": 49809,
+    "p99": 62121,
+    "p999": 70228
+   },
+   "own_pair_ratio_with_vs_without_keep_warm_after": {
+    "p50": 0.9986586318044405,
+    "p99": 1.0613938589963439,
+    "p999": 1.1644913251053413
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0
+   }
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "gap_us": 0,
+   "calls_after_keep_warm": 1984,
+   "calls_after_none": 2008,
+   "ratio_after_keep_warm_vs_after_none": {
+    "p50": 0.9995512604772665,
+    "p99": 0.9980016652789342,
+    "p999": 0.47088782446237626
+   },
+   "after_keep_warm_ns": {
+    "p50": 62369,
+    "p99": 77909,
+    "p999": 94769
+   },
+   "after_none_ns": {
+    "p50": 62397,
+    "p99": 78065,
+    "p999": 201256
+   },
+   "own_pair_ratio_with_vs_without_keep_warm_after": {
+    "p50": 0.9990388158210916,
+    "p99": 1.0588235294117647,
+    "p999": 0.4577702031243789
+   },
+   "output_mismatches": {
+    "correction": 0,
+    "obs": 0
+   }
+  }
+ ],
+ "keep_warm_output_invariance": [
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "runs": 84,
+   "builds": 3,
+   "keep_warm_modes": [
+    0,
+    1,
+    2,
+    5
+   ],
+   "distinct_output_checksum_pairs": 1
+  },
+  {
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "runs": 68,
+   "builds": 2,
+   "keep_warm_modes": [
+    0,
+    1,
+    2,
+    5
+   ],
+   "distinct_output_checksum_pairs": 1
+  }
+ ],
+ "two_handles_call_position_and_create_order": [
+  {
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "variant": "as-measured",
+   "pairs": 8000,
+   "first_vs_second_called_ratio": {
+    "p50": 1.0587602282187163,
+    "p99": 0.9883543613640817,
+    "p999": 0.9998895041712176
+   },
+   "first_vs_second_created_ratio": {
+    "p50": 0.9993505343331168,
+    "p99": 1.0202083476350656,
+    "p999": 0.9526576203520842
+   },
+   "first_called_ns": {
+    "p50": 52145,
+    "p99": 116016,
+    "p999": 235277
+   },
+   "second_called_ns": {
+    "p50": 49251,
+    "p99": 117383,
+    "p999": 235303
+   },
+   "first_created_ns": {
+    "p50": 50778,
+    "p99": 118891,
+    "p999": 224308
+   },
+   "second_created_ns": {
+    "p50": 50811,
+    "p99": 116536,
+    "p999": 235455
+   },
+   "runs_first_called_slower": {
+    "p50": {
+     "greater": 16,
+     "runs": 16
+    },
+    "p99": {
+     "greater": 4,
+     "runs": 16
+    }
+   },
+   "runs_first_created_slower": {
+    "p50": {
+     "greater": 8,
+     "runs": 16
+    },
+    "p99": {
+     "greater": 6,
+     "runs": 16
+    }
+   }
+  },
+  {
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "variant": "clear-each-call",
+   "pairs": 2000,
+   "first_vs_second_called_ratio": {
+    "p50": 1.0467680914432906,
+    "p99": 0.9040158616355541,
+    "p999": 1.0470767445234295
+   },
+   "first_vs_second_created_ratio": {
+    "p50": 0.9978827265776627,
+    "p99": 0.9856477251964187,
+    "p999": 0.9276021821960513
+   },
+   "first_called_ns": {
+    "p50": 52016,
+    "p99": 102133,
+    "p999": 230960
+   },
+   "second_called_ns": {
+    "p50": 49692,
+    "p99": 112977,
+    "p999": 220576
+   },
+   "first_created_ns": {
+    "p50": 50901,
+    "p99": 107889,
+    "p999": 214239
+   },
+   "second_created_ns": {
+    "p50": 51009,
+    "p99": 109460,
+    "p999": 230960
+   },
+   "runs_first_called_slower": {
+    "p50": {
+     "greater": 4,
+     "runs": 4
+    },
+    "p99": {
+     "greater": 1,
+     "runs": 4
+    }
+   },
+   "runs_first_created_slower": {
+    "p50": {
+     "greater": 2,
+     "runs": 4
+    },
+    "p99": {
+     "greater": 1,
+     "runs": 4
+    }
+   }
+  },
+  {
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "variant": "gap-0",
+   "pairs": 2000,
+   "first_vs_second_called_ratio": {
+    "p50": 1.025361078097617,
+    "p99": 1.0848388495447319,
+    "p999": 1.083212355835148
+   },
+   "first_vs_second_created_ratio": {
+    "p50": 0.9980905402179967,
+    "p99": 0.9917593864292218,
+    "p999": 0.9836377699767954
+   },
+   "first_called_ns": {
+    "p50": 50902,
+    "p99": 67554,
+    "p999": 107446
+   },
+   "second_called_ns": {
+    "p50": 49643,
+    "p99": 62271,
+    "p999": 99192
+   },
+   "first_created_ns": {
+    "p50": 50180,
+    "p99": 64267,
+    "p999": 99192
+   },
+   "second_created_ns": {
+    "p50": 50276,
+    "p99": 64801,
+    "p999": 100842
+   },
+   "runs_first_called_slower": {
+    "p50": {
+     "greater": 4,
+     "runs": 4
+    },
+    "p99": {
+     "greater": 4,
+     "runs": 4
+    }
+   },
+   "runs_first_created_slower": {
+    "p50": {
+     "greater": 2,
+     "runs": 4
+    },
+    "p99": {
+     "greater": 2,
+     "runs": 4
+    }
+   }
+  },
+  {
+   "problem": "bb288_unif_p1e-3_r18_z",
+   "preset": "a03125c3",
+   "variant": "gap-1ms",
+   "pairs": 2000,
+   "first_vs_second_called_ratio": {
+    "p50": 1.0143319562161932,
+    "p99": 1.0171838126037933,
+    "p999": 1.024964125458397
+   },
+   "first_vs_second_created_ratio": {
+    "p50": 0.9988159675236806,
+    "p99": 0.9963640141284023,
+    "p999": 0.97821062690282
+   },
+   "first_called_ns": {
+    "p50": 47631,
+    "p99": 58188,
+    "p999": 89998
+   },
+   "second_called_ns": {
+    "p50": 46958,
+    "p99": 57205,
+    "p999": 87806
+   },
+   "first_created_ns": {
+    "p50": 47240,
+    "p99": 57546,
+    "p999": 88037
+   },
+   "second_created_ns": {
+    "p50": 47296,
+    "p99": 57756,
+    "p999": 89998
+   },
+   "runs_first_called_slower": {
+    "p50": {
+     "greater": 4,
+     "runs": 4
+    },
+    "p99": {
+     "greater": 3,
+     "runs": 4
+    }
+   },
+   "runs_first_created_slower": {
+    "p50": {
+     "greater": 1,
+     "runs": 4
+    },
+    "p99": {
+     "greater": 1,
+     "runs": 4
+    }
+   }
+  },
+  {
+   "problem": "bb144_unif_p1e-3_r12_xyz",
+   "preset": "a03125c3",
+   "variant": "as-measured",
+   "pairs": 6000,
+   "first_vs_second_called_ratio": {
+    "p50": 1.0319094975330085,
+    "p99": 0.9733558317557001,
+    "p999": 1.049750758409871
+   },
+   "first_vs_second_created_ratio": {
+    "p50": 1.0117450174958162,
+    "p99": 1.0593584784847148,
+    "p999": 1.2405464822511134
+   },
+   "first_called_ns": {
+    "p50": 67135,
+    "p99": 118253,
+    "p999": 225962
+   },
+   "second_called_ns": {
+    "p50": 65059,
+    "p99": 121490,
+    "p999": 215253
+   },
+   "first_created_ns": {
+    "p50": 66502,
+    "p99": 122429,
+    "p999": 242079
+   },
+   "second_created_ns": {
+    "p50": 65730,
+    "p99": 115569,
+    "p999": 195139
+   },
+   "runs_first_called_slower": {
+    "p50": {
+     "greater": 12,
+     "runs": 12
+    },
+    "p99": {
+     "greater": 10,
+     "runs": 12
+    }
+   },
+   "runs_first_created_slower": {
+    "p50": {
+     "greater": 11,
+     "runs": 12
+    },
+    "p99": {
+     "greater": 9,
+     "runs": 12
+    }
+   }
+  }
+ ],
+ "re_measurement": {
+  "what": "An independent re-measurement of the main rows with the same command, corpus and pinned CPU (rebuilt libraries byte-identical in .text to the study's). Quote these where they differ.",
+  "avx2_screen_vs_avx512": {
+   "bb144_unif_p1e-3_r12_xyz@a03125c3": {
+    "p50": 1.0387,
+    "p99": 1.0764
+   },
+   "bb288_unif_p1e-3_r18_z@a03125c3": {
+    "p50": 1.1114,
+    "p99": 1.1344
+   },
+   "reading": "AVX2 is about 4-13 % slower on these two problems, more than the study's own range"
+  },
+  "keep_warm_paired_bb288_unif_p1e-3_r18_z_gap10000us": {
+   "period_500us_p50_ratio": 0.975,
+   "period_250us_p50_ratio": 0.9738,
+   "period_250us_verdict_p50": "no_difference",
+   "reading": "500 us reproduces (2.5 % gain); the 250 us row gives 2.6 %, not the study's 3.4 %: no preferred period between 250 and 500 us"
+  },
+  "two_handles_control_runs": {
+   "first_vs_second_called_p50": 1.0445,
+   "runs_first_called_slower": "4/4"
+  }
+ },
+ "corrections_when_quoting": [
+  "The AVX2 penalty of the study's screen (p50 1.0003-1.0698, p99 1.0137-1.0535) is smaller than the re-measurement (see re_measurement).",
+  "The 250 us keep-warm period's 3.4 % p50 gain at a 10 ms gap did not reproduce (2.6 %, no_difference).",
+  "A create-order effect exists on bb144 xyz: first/second-created p50 1.0117 with the first-created handle slower in 11 of 12 runs; on bb288 z none (8 of 16).",
+  "avx2-b0 and avx512-b0 use the default 142-block launch table (gpu_sm_budget=0), not the 64-block plan of the other five builds.",
+  "The study's keep-warm paragraph names \"bb144 z\" for the paired keep-warm rows; the rows are bb288_unif_p1e-3_r18_z."
+ ]
+}

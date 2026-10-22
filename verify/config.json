@@ -1,0 +1,119 @@
+{
+  "schema": "eldpc.verify.config.v1",
+  "comment": "Problems and shot counts of the eldpc verification suite. The base seed is public and fixed, so every user generates the same corpora on the same stim build. Problem objects use the fields of the reference construction's problem files; H, O and priors are derived from the DEM with the reference construction rule. The loss problem inserts heralded erasure before the final readout; the window problem is derived from its parent entry (detectors of rounds 1-3 and the mechanisms that touch them).",
+  "base_seed": 20261006,
+  "problems": [
+    {
+      "id": "bb72_unif_p1e-3_r6_z",
+      "family": "bb",
+      "code": {"l": 6, "m": 6, "A": [[3, 0], [0, 1], [0, 2]], "B": [[0, 3], [1, 0], [2, 0]]},
+      "basis": "z",
+      "rounds": 6,
+      "noise": {"model": "uniform", "p": 0.001},
+      "dem": {"decompose_errors": false}
+    },
+    {
+      "id": "bb72_unif_p1e-3_r6_z_loss1e-2",
+      "family": "bb",
+      "code": {"l": 6, "m": 6, "A": [[3, 0], [0, 1], [0, 2]], "B": [[0, 3], [1, 0], [2, 0]]},
+      "basis": "z",
+      "rounds": 6,
+      "noise": {"model": "uniform", "p": 0.001},
+      "dem": {"decompose_errors": false},
+      "loss": {"p_erase": 0.01, "where": "final"}
+    },
+    {
+      "id": "bb144_unif_p1e-3_r12_z",
+      "family": "bb",
+      "code": {"l": 12, "m": 6, "A": [[3, 0], [0, 1], [0, 2]], "B": [[0, 3], [1, 0], [2, 0]]},
+      "basis": "z",
+      "rounds": 12,
+      "noise": {"model": "uniform", "p": 0.001},
+      "dem": {"decompose_errors": false}
+    },
+    {
+      "id": "bb144_unif_p1e-3_r12_z_win3c1",
+      "family": "bb",
+      "code": {"l": 12, "m": 6, "A": [[3, 0], [0, 1], [0, 2]], "B": [[0, 3], [1, 0], [2, 0]]},
+      "basis": "z",
+      "rounds": 12,
+      "noise": {"model": "uniform", "p": 0.001},
+      "dem": {"decompose_errors": false},
+      "shape": {"kind": "window", "parent": "bb144_unif_p1e-3_r12_z", "start_round": 1, "w": 3, "commit": 1}
+    },
+    {
+      "id": "bb144_unif_p1e-3_r12_xyz",
+      "family": "bb",
+      "code": {"l": 12, "m": 6, "A": [[3, 0], [0, 1], [0, 2]], "B": [[0, 3], [1, 0], [2, 0]]},
+      "basis": "xyz",
+      "rounds": 12,
+      "noise": {"model": "uniform", "p": 0.001},
+      "dem": {"decompose_errors": false}
+    },
+    {
+      "id": "bb288_unif_p1e-3_r18_z",
+      "family": "bb",
+      "code": {"l": 12, "m": 12, "A": [[3, 0], [0, 2], [0, 7]], "B": [[0, 3], [1, 0], [2, 0]]},
+      "basis": "z",
+      "rounds": 18,
+      "noise": {"model": "uniform", "p": 0.001},
+      "dem": {"decompose_errors": false}
+    },
+    {
+      "id": "hgp98_unif_p1e-3_r4_z",
+      "family": "hgp",
+      "code": {"h1": {"circulant": [1, 1, 0, 1, 0, 0, 0]}, "h2": {"circulant": [1, 1, 0, 1, 0, 0, 0]}},
+      "basis": "z",
+      "rounds": 4,
+      "noise": {"model": "uniform", "p": 0.001},
+      "dem": {"decompose_errors": false}
+    },
+    {
+      "id": "hgp98_unif_p1e-3_r4_xyz",
+      "family": "hgp",
+      "code": {"h1": {"circulant": [1, 1, 0, 1, 0, 0, 0]}, "h2": {"circulant": [1, 1, 0, 1, 0, 0, 0]}},
+      "basis": "xyz",
+      "rounds": 4,
+      "noise": {"model": "uniform", "p": 0.001},
+      "dem": {"decompose_errors": false}
+    },
+    {
+      "id": "sc9_si1000_p1e-3_z",
+      "family": "surface",
+      "code": {"d": 9},
+      "basis": "z",
+      "rounds": 9,
+      "noise": {"model": "si1000", "p": 0.001},
+      "dem": {"decompose_errors": true}
+    }
+  ],
+  "shots": {
+    "quick": {
+      "bb72_unif_p1e-3_r6_z": 200,
+      "bb72_unif_p1e-3_r6_z_loss1e-2": 200,
+      "bb144_unif_p1e-3_r12_z": 200,
+      "bb144_unif_p1e-3_r12_z_win3c1": 200,
+      "bb144_unif_p1e-3_r12_xyz": 200,
+      "bb288_unif_p1e-3_r18_z": 200,
+      "hgp98_unif_p1e-3_r4_z": 200,
+      "hgp98_unif_p1e-3_r4_xyz": 200,
+      "sc9_si1000_p1e-3_z": 200
+    },
+    "full": {
+      "bb72_unif_p1e-3_r6_z": 500,
+      "bb72_unif_p1e-3_r6_z_loss1e-2": 500,
+      "bb144_unif_p1e-3_r12_z": 500,
+      "bb144_unif_p1e-3_r12_z_win3c1": 500,
+      "bb144_unif_p1e-3_r12_xyz": 500,
+      "bb288_unif_p1e-3_r18_z": 500,
+      "hgp98_unif_p1e-3_r4_z": 500,
+      "hgp98_unif_p1e-3_r4_xyz": 500,
+      "sc9_si1000_p1e-3_z": 500
+    }
+  },
+  "configs": {
+    "quick": ["a03125c3", "ms30"],
+    "full": ["a03125c3", "ms30", "a05c11", "a0375c7", "a05ms31"]
+  },
+  "upstream": true
+}

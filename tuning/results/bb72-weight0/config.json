@@ -1,0 +1,9 @@
+{
+ "decoder": "bposd",
+ "bp_method": "ms",
+ "schedule": "parallel",
+ "ms_scaling_factor": 0.375,
+ "max_iter": 1,
+ "osd_method": "osd0",
+ "osd_order": 0
+}

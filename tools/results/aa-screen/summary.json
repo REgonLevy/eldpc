@@ -1,0 +1,415 @@
+{
+  "command": "bench.py c-latency --quick --modes back_to_back,cadence --problem <problem> --lib <before>/libeldpc.so --lib-b <after>/libeldpc.so --cpu auto --out <out>",
+  "commits": {
+    "after": "55e584d1490909958f4ae4cf778931f34f5205fe",
+    "before": "914db2ce82229e16c33f4dad4c7d111877eba7a3"
+  },
+  "elapsed_s": 80.772,
+  "environment": {
+    "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx512; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2 -mavx512f -mavx512vl -mavx512dq -mavx512bw; build_type=Release; isa=avx512; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+    "clocks": {
+      "after": {
+        "graphics_mhz": 2805.0,
+        "memory_mhz": 14801.0
+      },
+      "before": {
+        "graphics_mhz": 180.0,
+        "memory_mhz": 405.0
+      }
+    },
+    "cpu": {
+      "affinity_cpus": 1,
+      "auto_selected": true,
+      "frequency": {
+        "boost": "unknown",
+        "boost_source": null,
+        "core_id": "0",
+        "cur_freq_khz": 3994761,
+        "energy_performance_preference": "performance",
+        "governor": "powersave",
+        "max_freq_khz": 5752000,
+        "min_freq_khz": 600000,
+        "scaling_driver": "amd-pstate-epp",
+        "thread_siblings_list": "0,16"
+      },
+      "hypervisor": false,
+      "hypervisor_vendor": null,
+      "logical_cores": 32,
+      "model": "AMD Ryzen 9 9950X 16-Core Processor",
+      "physical_cores": 16,
+      "pinned_cpu": 0,
+      "sockets": 1
+    },
+    "cuda_runtime": "13.0.0",
+    "driver": "580.159.03",
+    "gpu": {
+      "compute_capability": "12.0",
+      "l2_bytes": 67108864,
+      "memory_bytes": 16609378304,
+      "memory_mib": 16303.0,
+      "name": "NVIDIA GeForce RTX 5080",
+      "sm_count": 84
+    },
+    "gpu_processes": [],
+    "gpu_processes_after": [],
+    "isa": "avx512",
+    "loadavg": [
+      0.49,
+      1.55,
+      3.57
+    ],
+    "loadavg_after": [
+      0.99,
+      1.46,
+      3.37
+    ],
+    "toolkit": null,
+    "version": "0.1.0"
+  },
+  "failures": [],
+  "generated_utc": "2026-10-21T04:52:23Z",
+  "libraries": {
+    "A_before": {
+      "role": "before",
+      "sha256": "896bd01eb5f40a7560a24f56509815dd1e648292762bc748a38284d1814979cc"
+    },
+    "B_after": {
+      "role": "after",
+      "sha256": "4af1b97b2336b42c3fe51842c78af38d1be79463fbc8119e852edf8333963070"
+    }
+  },
+  "modes": {
+    "back_to_back": {
+      "comparison": {
+        "aa_band": {
+          "mean_us": [
+            -1.1745,
+            1.1562
+          ],
+          "p50_us": [
+            -1.132,
+            0.991
+          ],
+          "p99_9_us": [
+            -9.759,
+            7.715
+          ],
+          "p99_us": [
+            -3.608,
+            4.088
+          ]
+        },
+        "aa_band_note": "range of the same per-session difference statistic over the A/A control sessions (the noise band of this machine)",
+        "aa_band_sessions": 4,
+        "checksums": {
+          "v0": [
+            "6512f1b5ce291a09"
+          ],
+          "v1": [
+            "6512f1b5ce291a09"
+          ]
+        },
+        "checksums_equal": {
+          "v0": true,
+          "v1": true
+        },
+        "delta": {
+          "mean_us": -0.0866,
+          "p50_us": -0.05,
+          "p99_9_us": -1.854,
+          "p99_us": -0.812
+        },
+        "delta_blocked": {
+          "mean_us": -0.0866,
+          "p50_us": -0.0852,
+          "p99_9_us": -0.586,
+          "p99_us": -0.5785
+        },
+        "per_session_delta": [
+          {
+            "mean_us": 0.4409,
+            "p50_us": 0.281,
+            "p99_9_us": 2.656,
+            "p99_us": 1.763
+          },
+          {
+            "mean_us": -0.3924,
+            "p50_us": -0.261,
+            "p99_9_us": -2.074,
+            "p99_us": -1.593
+          },
+          {
+            "mean_us": 0.1624,
+            "p50_us": 0.05,
+            "p99_9_us": 1.171,
+            "p99_us": -0.26
+          },
+          {
+            "mean_us": -0.5573,
+            "p50_us": -0.411,
+            "p99_9_us": -4.097,
+            "p99_us": -2.224
+          }
+        ],
+        "sem": {
+          "mean_us": 0.2337,
+          "p50_us": 0.1553,
+          "p99_9_us": 1.5313,
+          "p99_us": 0.8813
+        },
+        "sides_equal": true,
+        "within_band": {
+          "mean_us": true,
+          "p50_us": true,
+          "p99_9_us": true,
+          "p99_us": true
+        },
+        "within_band_blocked": {
+          "mean_us": true,
+          "p50_us": true,
+          "p99_9_us": true,
+          "p99_us": true
+        }
+      },
+      "gap_us": 0,
+      "mode": "back_to_back",
+      "sessions_per_pair": 4,
+      "shots_per_variant_per_session": 300,
+      "variants": {
+        "A": {
+          "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+          "label": "a03125c3",
+          "pooled": {
+            "max_us": 62.017,
+            "mean_us": 36.0239,
+            "min_us": 30.828,
+            "p50_us": 35.186,
+            "p99_9_us": 59.792,
+            "p99_us": 46.818,
+            "shots": 1200
+          },
+          "status": {
+            "abstain": 0,
+            "converged": 0,
+            "higher_order_win": 0,
+            "iterations_histogram": {
+              "3": 1200
+            },
+            "iterations_max": 3,
+            "iterations_mean": 3.0,
+            "postprocessed": 1200,
+            "shots": 1200,
+            "syndrome_unmatched": 0
+          }
+        },
+        "B": {
+          "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+          "label": "a03125c3",
+          "pooled": {
+            "max_us": 62.507,
+            "mean_us": 36.1105,
+            "min_us": 31.158,
+            "p50_us": 35.236,
+            "p99_9_us": 61.646,
+            "p99_us": 47.63,
+            "shots": 1200
+          },
+          "status": {
+            "abstain": 0,
+            "converged": 0,
+            "higher_order_win": 0,
+            "iterations_histogram": {
+              "3": 1200
+            },
+            "iterations_max": 3,
+            "iterations_mean": 3.0,
+            "postprocessed": 1200,
+            "shots": 1200,
+            "syndrome_unmatched": 0
+          }
+        }
+      },
+      "warnings": []
+    },
+    "cadence": {
+      "comparison": {
+        "aa_band": {
+          "mean_us": [
+            -1.1717,
+            1.2899
+          ],
+          "p50_us": [
+            -0.982,
+            1.032
+          ],
+          "p99_9_us": [
+            -10.9,
+            12.163
+          ],
+          "p99_us": [
+            -3.857,
+            4.439
+          ]
+        },
+        "aa_band_note": "range of the same per-session difference statistic over the A/A control sessions (the noise band of this machine)",
+        "aa_band_sessions": 4,
+        "checksums": {
+          "v0": [
+            "6512f1b5ce291a09"
+          ],
+          "v1": [
+            "6512f1b5ce291a09"
+          ]
+        },
+        "checksums_equal": {
+          "v0": true,
+          "v1": true
+        },
+        "delta": {
+          "mean_us": 0.02,
+          "p50_us": -0.001,
+          "p99_9_us": -0.441,
+          "p99_us": 0.48
+        },
+        "delta_blocked": {
+          "mean_us": 0.0201,
+          "p50_us": 0.0028,
+          "p99_9_us": 0.2978,
+          "p99_us": 0.3915
+        },
+        "per_session_delta": [
+          {
+            "mean_us": 0.3798,
+            "p50_us": 0.271,
+            "p99_9_us": 2.444,
+            "p99_us": 1.995
+          },
+          {
+            "mean_us": -0.1772,
+            "p50_us": -0.24,
+            "p99_9_us": -0.231,
+            "p99_us": -0.54
+          },
+          {
+            "mean_us": 0.2925,
+            "p50_us": 0.311,
+            "p99_9_us": 2.805,
+            "p99_us": 1.573
+          },
+          {
+            "mean_us": -0.4148,
+            "p50_us": -0.331,
+            "p99_9_us": -3.827,
+            "p99_us": -1.462
+          }
+        ],
+        "sem": {
+          "mean_us": 0.1897,
+          "p50_us": 0.1677,
+          "p99_9_us": 1.5326,
+          "p99_us": 0.8302
+        },
+        "sides_equal": true,
+        "within_band": {
+          "mean_us": true,
+          "p50_us": true,
+          "p99_9_us": true,
+          "p99_us": true
+        },
+        "within_band_blocked": {
+          "mean_us": true,
+          "p50_us": true,
+          "p99_9_us": true,
+          "p99_us": true
+        }
+      },
+      "gap_us": 1000,
+      "mode": "cadence",
+      "sessions_per_pair": 4,
+      "shots_per_variant_per_session": 300,
+      "variants": {
+        "A": {
+          "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+          "label": "a03125c3",
+          "pooled": {
+            "max_us": 65.984,
+            "mean_us": 38.279,
+            "min_us": 33.073,
+            "p50_us": 37.51,
+            "p99_9_us": 64.1,
+            "p99_us": 50.134,
+            "shots": 1200
+          },
+          "status": {
+            "abstain": 0,
+            "converged": 0,
+            "higher_order_win": 0,
+            "iterations_histogram": {
+              "3": 1200
+            },
+            "iterations_max": 3,
+            "iterations_mean": 3.0,
+            "postprocessed": 1200,
+            "shots": 1200,
+            "syndrome_unmatched": 0
+          }
+        },
+        "B": {
+          "config_string": "bp_method=ms;decoder=bposd;max_iter=3;ms_scaling_factor=0.3125;osd_method=osd0;osd_order=0;schedule=parallel",
+          "label": "a03125c3",
+          "pooled": {
+            "max_us": 66.215,
+            "mean_us": 38.259,
+            "min_us": 33.102,
+            "p50_us": 37.511,
+            "p99_9_us": 64.541,
+            "p99_us": 49.654,
+            "shots": 1200
+          },
+          "status": {
+            "abstain": 0,
+            "converged": 0,
+            "higher_order_win": 0,
+            "iterations_histogram": {
+              "3": 1200
+            },
+            "iterations_max": 3,
+            "iterations_mean": 3.0,
+            "postprocessed": 1200,
+            "shots": 1200,
+            "syndrome_unmatched": 0
+          }
+        }
+      },
+      "warnings": []
+    }
+  },
+  "probe": "paired A/A and A/B of eldpc_decode (C API single-shot latency), before vs after",
+  "problem": {
+    "dem_sha256": "aec01bf7ed281c4dfbc93ea42b5cef29644a2117858ca09f7d030cc28c2fe12a",
+    "detectors": 1872,
+    "latency_shots": 2048,
+    "mechanisms": 76032,
+    "name": "model.dem",
+    "observables": 24
+  },
+  "quick": true,
+  "settings": {
+    "c_shots": 300,
+    "latency_shots": 2048,
+    "ler_shots": 4000,
+    "processes": 4,
+    "throughput_batch": 1024,
+    "throughput_reps": 16,
+    "warmup": 500,
+    "warmup_ms": 800
+  },
+  "source_results": "raw-results.sanitized.json",
+  "source_results_sha256": "b554ad6f0869b1415f4542ef26867fcd5155943fb779d16c25602da8e325d391",
+  "warnings": [
+    "CPU pinned automatically to CPU 0; pass --cpu N to fix the choice",
+    "CPU governor is 'powersave' on the pinned CPU: its frequency may change during the run; use the 'performance' governor for publishable numbers",
+    "GPU clock changed during the run: graphics_mhz 180 -> 2805 MHz (the GPU was not at a steady clock)",
+    "GPU clock changed during the run: memory_mhz 405 -> 14801 MHz (the GPU was not at a steady clock)"
+  ]
+}

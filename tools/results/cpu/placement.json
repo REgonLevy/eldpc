@@ -1,0 +1,221 @@
+{
+  "arms": {
+    "threads16_both_ccds": {
+      "call_cpu": 0,
+      "cpus": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,1",
+      "latency_ns": {
+        "max": 1166184,
+        "mean": 539639.784,
+        "min": 511145,
+        "n": 4000,
+        "p50": 531954,
+        "p90": 565190,
+        "p99": 599445,
+        "p999": 698777
+      },
+      "session_seconds": [
+        2.632,
+        2.624,
+        2.657,
+        2.623
+      ],
+      "threads": 16,
+      "variant": "cpu"
+    },
+    "threads16_ccd0_smt": {
+      "call_cpu": 0,
+      "cpus": "1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,1",
+      "latency_ns": {
+        "max": 672583,
+        "mean": 238988.4455,
+        "min": 217144,
+        "n": 4000,
+        "p50": 231782,
+        "p90": 266421,
+        "p99": 310183,
+        "p999": 401587
+      },
+      "session_seconds": [
+        2.321,
+        2.32,
+        2.314,
+        2.318
+      ],
+      "threads": 16,
+      "variant": "cpu"
+    },
+    "threads8_ccd0": {
+      "call_cpu": 0,
+      "cpus": "1,2,3,4,5,6,7,1",
+      "latency_ns": {
+        "max": 389122,
+        "mean": 235264.3595,
+        "min": 215280,
+        "n": 4000,
+        "p50": 227934,
+        "p90": 265366,
+        "p99": 298486,
+        "p999": 355198
+      },
+      "session_seconds": [
+        2.316,
+        2.312,
+        2.315,
+        2.314
+      ],
+      "threads": 8,
+      "variant": "cpu"
+    },
+    "threads8_ccd0_aa": {
+      "call_cpu": 0,
+      "cpus": "1,2,3,4,5,6,7,1",
+      "latency_ns": {
+        "max": 395184,
+        "mean": 235008.723,
+        "min": 216503,
+        "n": 4000,
+        "p50": 228976,
+        "p90": 258141,
+        "p99": 294542,
+        "p999": 354331
+      },
+      "session_seconds": [
+        2.302,
+        2.319,
+        2.315,
+        2.312
+      ],
+      "threads": 8,
+      "variant": "cpu"
+    },
+    "threads8_ccd0_smt": {
+      "call_cpu": 0,
+      "cpus": "17,18,19,20,21,22,23,17",
+      "latency_ns": {
+        "max": 5819860,
+        "mean": 238926.64725,
+        "min": 214729,
+        "n": 4000,
+        "p50": 229268,
+        "p90": 264648,
+        "p99": 293990,
+        "p999": 392421
+      },
+      "session_seconds": [
+        2.322,
+        2.314,
+        2.323,
+        2.313
+      ],
+      "threads": 8,
+      "variant": "cpu"
+    },
+    "threads8_ccd1": {
+      "call_cpu": 8,
+      "cpus": "9,10,11,12,13,14,15,9",
+      "latency_ns": {
+        "max": 409972,
+        "mean": 223211.37275,
+        "min": 194811,
+        "n": 4000,
+        "p50": 211698,
+        "p90": 251420,
+        "p99": 271453,
+        "p999": 364647
+      },
+      "session_seconds": [
+        2.154,
+        2.106,
+        2.16,
+        2.12
+      ],
+      "threads": 8,
+      "variant": "cpu"
+    }
+  },
+  "command": "python tools/cpu_placement.py --shots 1000 --rounds 4 --out eldpc/tools/results/cpu/placement.json --md eldpc/tools/results/cpu/placement.md",
+  "comparisons": {
+    "aa_p50": 1.004571498767187,
+    "aa_p99": 0.9867866499601321,
+    "threads16_both_ccds_over_threads8_ccd0_p50": 2.333807154702677,
+    "threads16_both_ccds_over_threads8_ccd0_p99": 2.008285145701976,
+    "threads16_ccd0_smt_over_threads8_ccd0_p50": 1.016882079900322,
+    "threads16_ccd0_smt_over_threads8_ccd0_p99": 1.0391877676004906,
+    "threads8_ccd0_smt_over_threads8_ccd0_p50": 1.0058525713583757,
+    "threads8_ccd0_smt_over_threads8_ccd0_p99": 0.9849373169930918,
+    "threads8_ccd1_over_threads8_ccd0_p50": 0.9287688541419885,
+    "threads8_ccd1_over_threads8_ccd0_p99": 0.9094329382282587
+  },
+  "config": "decoder=bposd;bp_method=ms;ms_scaling_factor=0.3125;max_iter=3;schedule=parallel;osd_method=osd0;osd_order=0",
+  "elapsed_s": 56.13,
+  "generated_utc": "2026-10-21T08:55:52Z",
+  "git_commit": "fecfcd052487cce6cb230bf3c0b0dec163f5de21",
+  "machine": {
+    "affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "cpu": "AMD Ryzen 9 7950X3D 16-Core Processor",
+    "cpu_count": 32,
+    "kernel": "Linux-6.8.0-142-generic-x86_64-with-glibc2.39",
+    "loadavg": "3.23 1.82 2.16 1/1050 296754",
+    "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2026 NVIDIA Corporation\nBuilt on Tue_Jun_09_02:43:40_PM_PDT_2026\nCuda compilation tools, release 13.3, V13.3.73\nBuild cuda_13.3.r13.3/compiler.38244171_0",
+    "nvidia_smi": "name, driver_version, compute_cap\nNVIDIA GeForce RTX 5080, 595.91.07, 12.0",
+    "python": "3.12.3"
+  },
+  "outputs_sha256": {
+    "threads16_both_ccds": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725",
+    "threads16_ccd0_smt": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725",
+    "threads8_ccd0": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725",
+    "threads8_ccd0_aa": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725",
+    "threads8_ccd0_smt": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725",
+    "threads8_ccd1": "2162dc286931d8c84a27aaedc7aa6222cb4a4f76f79ab9359e57995f1cf93725"
+  },
+  "package": {
+    "cpu_library": "libeldpc_cpu_avx512.so",
+    "cpu_library_sha256": "6bffce66b1090fb0dc0c45eab78181b6a7f56266d661f4fa8b5b6c6c93cd8836",
+    "isa": "avx512",
+    "libeldpc_sha256": "21a855df79e6fac6119af022eb54c49559c1b0af44280275aba70e0611a62fbb",
+    "version": "0.1.0"
+  },
+  "problem": {
+    "id": "bb144_unif_p1e-3_r12_xyz",
+    "num_detectors": 1872,
+    "num_mechanisms": 76032,
+    "num_observables": 24,
+    "rounds": 4,
+    "shots": 1000,
+    "warmup": 50
+  },
+  "schema": "eldpc.cpu_placement.v1"
+}

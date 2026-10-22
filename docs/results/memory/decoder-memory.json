@@ -1,0 +1,51 @@
+{
+ "base": {
+  "gpu_mib": 0,
+  "rss_kib": 88252
+ },
+ "command": "python docs/tools/measure_memory.py --dem docs/results/tuning-bb144/model.dem --out docs/results/memory/decoder-memory.json --markdown docs/results/memory/decoder-memory.md --commit f44723c",
+ "commit": "f44723c",
+ "context": {
+  "gpu_mib_delta": 430,
+  "rss_kib_delta": 89900
+ },
+ "environment": {
+  "cpu": "AMD EPYC 7542 32-Core Processor",
+  "cuda_driver_version": "13.0",
+  "driver": "580.126.09",
+  "eldpc": {
+   "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx2; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2; build_type=Release; isa=avx2; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+   "isa": "avx2",
+   "version": "0.1.0"
+  },
+  "gpu": {
+   "compute_capability": "8.9",
+   "l2_bytes": 100663296,
+   "name": "NVIDIA RTX 6000 Ada Generation",
+   "sm_count": 142
+  },
+  "python": "3.12.3"
+ },
+ "first_handle": {
+  "gpu_mib_delta": 26,
+  "rss_kib_delta": 82020
+ },
+ "kind": "memory",
+ "package_tree_clean": true,
+ "package_version": "0.1.0",
+ "problem": {
+  "dem_sha256": "083163f2ecf9eb495b1dfbef2fab06b21c141b2161880f97b77ac216d68f52b0",
+  "k": 24,
+  "m": 1872,
+  "n": 75600,
+  "nnz_h": 437184,
+  "nnz_o": 288776
+ },
+ "repeats": 3,
+ "schema": "eldpc.results.memory.v1",
+ "second_handle": {
+  "gpu_mib_delta": 24,
+  "rss_kib_delta": 71524
+ },
+ "settle_ms": 400
+}

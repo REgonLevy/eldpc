@@ -1,0 +1,143 @@
+{
+ "environment": {
+  "timestamp_utc": "2026-10-22T04:32:41.413939+00:00",
+  "commands": [
+   {
+    "command": "nvidia-smi --query-gpu=name,driver_version,compute_cap --format=csv",
+    "exit_code": 0,
+    "stdout": "name, driver_version, compute_cap\nNVIDIA RTX 6000 Ada Generation, 580.126.09, 8.9",
+    "stderr": ""
+   }
+  ],
+  "toolkit": {
+   "version": "13.3",
+   "nvcc": "V13.3.73",
+   "first_line": null,
+   "source": "build_info"
+  },
+  "eldpc": {
+   "version": "0.1.0",
+   "build_info": "eldpc 0.1.0; front=GNU 13.3.0; host_isa=avx2; core=compiler=GNU 13.3.0; flags=-O2 -DNDEBUG -ffp-contract=off -fno-fast-math -O3 -mavx2; build_type=Release; isa=avx2; lib=fastbpgpu6g; cuda=NVIDIA 13.3.73; cuda_arch=sm_89,sm_120,compute_120; cuda_flags=-O3 -DNDEBUG -ffp-contract=off -fno-fast-math -Wall -Xfatbin=--ident=compute_120 -fmad=false -ftz=false -prec-div=true -prec-sqrt=true; gpu_sm_budget=0; gpu_l2_budget=0; inexact_measure=0",
+   "isa": "avx2",
+   "devices": [
+    {
+     "name": "NVIDIA RTX 6000 Ada Generation",
+     "compute_capability": "8.9",
+     "sm_count": 142,
+     "l2_bytes": 100663296,
+     "cuda_driver_version": "13.0",
+     "driver_version": "13.0",
+     "nvidia_driver_version": "580.126.09",
+     "nvidia_driver_version_reason": null,
+     "core_variant": "ada64",
+     "supported": true,
+     "supported_reason": null
+    }
+   ]
+  },
+  "python": {
+   "version": "3.12.3",
+   "implementation": "CPython",
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "stim": "1.16.0",
+   "qldpc": "0.4.2.dev20261004"
+  },
+  "machine": {
+   "system": "Linux",
+   "release": "6.8.0-106-generic",
+   "machine": "x86_64",
+   "cpu_model": "AMD EPYC 7542 32-Core Processor",
+   "cpu_count": 128,
+   "gpu": {
+    "cuda_visible_devices": null,
+    "devices": [
+     {
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "compute_capability": "8.9",
+      "sm_count": 142,
+      "l2_bytes": 100663296,
+      "cuda_driver_version": "13.0",
+      "driver_version": "13.0",
+      "nvidia_driver_version": "580.126.09",
+      "nvidia_driver_version_reason": null,
+      "core_variant": "ada64",
+      "supported": true,
+      "supported_reason": null
+     }
+    ]
+   }
+  }
+ },
+ "confirmation": {
+  "point": {
+   "decoder": "bposd",
+   "ms_scaling_factor": 0.53125,
+   "max_iter": 1,
+   "config": {
+    "decoder": "bposd",
+    "bp_method": "ms",
+    "schedule": "parallel",
+    "ms_scaling_factor": 0.53125,
+    "max_iter": 1,
+    "osd_method": "osd0",
+    "osd_order": 0
+   },
+   "label": "bposd:a=0.53125:c=1"
+  },
+  "label": "bposd:a=0.53125:c=1",
+  "per_case": [
+   {
+    "calls": 400,
+    "min_us": 59.065,
+    "mean_us": 69.6769475,
+    "p50_us": 64.944,
+    "p99_us": 147.83938999999995,
+    "max_us": 183.353,
+    "quantile_method": "numpy.percentile linear",
+    "converged_calls": 0,
+    "slow_calls": 400,
+    "slow_fraction": 1.0,
+    "p99_unreliable": false,
+    "slow_median_us": 64.944,
+    "keep_warm": false,
+    "cadence_us": 0.0,
+    "case": "dem",
+    "seed": 8630826012917950796,
+    "distinct_syndromes": 400,
+    "core_variant": "ada64"
+   }
+  ],
+  "summary": {
+   "p50_us": 64.944,
+   "p99_us": 147.83938999999995,
+   "mean_us": 69.6769475,
+   "calls": 400,
+   "slow_fraction": 1.0,
+   "p99_unreliable": false,
+   "slow_calls": 400,
+   "slow_median_us": 64.944,
+   "aggregation": "worst case over physical error rates"
+  },
+  "distinct_syndromes": 400,
+  "syndrome_seeds": {
+   "dem": 8630826012917950796
+  },
+  "core_variant": "ada64",
+  "budget": {
+   "within": true,
+   "checks": {
+    "p99": {
+     "budget_us": 500.0,
+     "measured_us": 147.83938999999995,
+     "within": true,
+     "basis": "p99",
+     "slow_fraction": 1.0,
+     "p99_unreliable": false,
+     "slow_calls": 400,
+     "slow_median_us": 64.944
+    }
+   }
+  }
+ }
+}

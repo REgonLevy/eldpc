@@ -1,0 +1,266 @@
+diff --git a/src_cpp/lsd.hpp b/src_cpp/lsd.hpp
+index 314742d..f4c8c93 100644
+--- a/src_cpp/lsd.hpp
++++ b/src_cpp/lsd.hpp
+@@ -22,10 +22,16 @@
+ namespace ldpc::lsd {
+     const std::vector<double> NULL_DOUBLE_VECTOR = {};
+ 
++    // decoder-bench fork (docs/ARCHITECTURE.md section 9.1): weights ascending, ties by the
++    // *local* (cluster) index ascending. Upstream used std::sort, whose tie order is unspecified.
+     std::vector<int> sort_indices(std::vector<double> &B) {
+         std::vector<int> indices(B.size());
+         std::iota(indices.begin(), indices.end(), 0);
+-        std::sort(indices.begin(), indices.end(), [&](int i, int j) { return B[i] < B[j]; });
++        std::stable_sort(indices.begin(), indices.end(), [&](int i, int j) {
++            if (B[i] < B[j]) return true;
++            if (B[j] < B[i]) return false;
++            return i < j;
++        });
+         return indices;
+     }
+ 
+@@ -123,23 +129,29 @@ namespace ldpc::lsd {
+                     this->add_bit_node_to_cluster(bit_index);
+                 }
+             } else {
+-                std::vector<double> cluster_bit_weights;
+-                cluster_bit_weights.reserve(this->candidate_bit_nodes.size());
+-                for (auto bit: this->candidate_bit_nodes) {
+-                    cluster_bit_weights.push_back(bit_weights[bit]);
+-                }
+-                auto sorted_indices = sort_indices(cluster_bit_weights);
+-                auto candidate_bit_nodes_vector = std::vector<int>(this->candidate_bit_nodes.begin(),
+-                                                                   this->candidate_bit_nodes.end());
+-                if (this->is_randomize_same_weight_indices) {
+-                    sorted_indices = randomize_same_weight_indices(sorted_indices, cluster_bit_weights);
+-                }
++                // decoder-bench fork (docs/ARCHITECTURE.md section 9.1): the candidate bit nodes
++                // of a cluster are ordered by (posterior LLR ascending, GLOBAL column index
++                // ascending). Upstream gathered them in tsl::robin_set iteration order and broke
++                // equal-weight ties by that cluster-local position (and optionally reshuffled
++                // them with a clock-seeded generator), so the growth order was not reproducible.
++                std::vector<int> candidates(this->candidate_bit_nodes.begin(),
++                                            this->candidate_bit_nodes.end());
++                std::stable_sort(candidates.begin(), candidates.end(), [&](int i, int j) {
++                    const double wi = bit_weights[i];
++                    const double wj = bit_weights[j];
++                    const bool i_nan = std::isnan(wi);
++                    const bool j_nan = std::isnan(wj);
++                    if (i_nan != j_nan) return !i_nan;
++                    if (i_nan) return i < j;
++                    if (wi < wj) return true;
++                    if (wj < wi) return false;
++                    return i < j;
++                });
+                 int count = 0;
+-                for (auto i: sorted_indices) {
++                for (int bit_index: candidates) {
+                     if (count == bits_per_step) {
+                         break;
+                     }
+-                    int bit_index = candidate_bit_nodes_vector[i];
+                     this->add_bit_node_to_cluster(bit_index);
+                     count++;
+                 }
+@@ -164,10 +176,11 @@ namespace ldpc::lsd {
+                     other_indices.push_back(sorted_index);
+                 }
+             }
+-            // if there are bits with the same weight, randomize their indices
++            // if there are bits with the same weight, reshuffle their indices with a fixed seed.
++            // decoder-bench fork (docs/ARCHITECTURE.md section 9.1, item 2): upstream seeded this
++            // from std::random_device, so equal-weight order was not reproducible.
+             if (same_weight_indices.size() > 1) {
+-                std::shuffle(same_weight_indices.begin(), same_weight_indices.end(),
+-                             std::mt19937(std::random_device()()));
++                std::shuffle(same_weight_indices.begin(), same_weight_indices.end(), std::mt19937(0));
+                 for (auto i = 0; i < same_weight_indices.size(); i++) {
+                     reshuffeled_indices[i] = same_weight_indices[i];
+                 }
+@@ -391,27 +404,24 @@ namespace ldpc::lsd {
+             if (bit_weights.empty() or this->pluDecomposition.not_pivot_cols.size() < 2) {
+                 return;
+             }
+-            // global index to cluster index mapping
+-            tsl::robin_map<int, int> global_to_cluster_colum_map;
+-            // local weight index to global bit index mapping
+-            tsl::robin_map<int, int> weight_idx_to_global_idx;
+-            // local weights to reorder
+-            std::vector<double> weights;
+-            for (auto not_pivot_col: this->pluDecomposition.not_pivot_cols) {
+-                auto global_idx = this->cluster_bit_idx_to_pcm_bit_idx[not_pivot_col];
+-                global_to_cluster_colum_map[global_idx] = not_pivot_col;
+-                weight_idx_to_global_idx[weights.size()] = global_idx;
+-                weights.push_back(bit_weights.at(global_idx));
+-            }
+-            auto sorted_indices = sort_indices(weights);
+-            std::vector<int> resorted_np_cls;
+-            resorted_np_cls.reserve(sorted_indices.size());
+-            // iterate over resorted indices
+-            // map local weight index to global bit index and then to cluster index
+-            for (auto idx: sorted_indices) {
+-                resorted_np_cls.push_back(global_to_cluster_colum_map[weight_idx_to_global_idx[idx]]);
+-            }
+-            this->pluDecomposition.not_pivot_cols = resorted_np_cls;
++            // decoder-bench fork (docs/ARCHITECTURE.md section 9.1): the non-pivot columns are
++            // ordered by (posterior LLR ascending, GLOBAL column index ascending), so the order
++            // no longer depends on the cluster-local column order that the elimination produced.
++            std::vector<int> order = this->pluDecomposition.not_pivot_cols;  // cluster-local indices
++            std::stable_sort(order.begin(), order.end(), [&](int a, int b) {
++                const int ga = this->cluster_bit_idx_to_pcm_bit_idx[a];
++                const int gb = this->cluster_bit_idx_to_pcm_bit_idx[b];
++                const double wa = bit_weights.at(ga);
++                const double wb = bit_weights.at(gb);
++                const bool a_nan = std::isnan(wa);
++                const bool b_nan = std::isnan(wb);
++                if (a_nan != b_nan) return !a_nan;
++                if (a_nan) return ga < gb;
++                if (wa < wb) return true;
++                if (wb < wa) return false;
++                return ga < gb;
++            });
++            this->pluDecomposition.not_pivot_cols = order;
+         }
+ 
+         std::string to_string() {
+@@ -733,9 +743,15 @@ namespace ldpc::lsd {
+                         this->statistics.individual_cluster_stats[cl->cluster_id].active = cl->active;
+                     }
+                 }
++                // decoder-bench fork (docs/ARCHITECTURE.md section 9.1): grow the smallest
++                // clusters first, ties by ascending cluster id, so the growth order cannot depend
++                // on the unspecified tie order of upstream's std::sort.
+                 std::sort(invalid_clusters.begin(), invalid_clusters.end(),
+                           [](const LsdCluster *lhs, const LsdCluster *rhs) {
+-                              return lhs->bit_nodes.size() < rhs->bit_nodes.size();
++                              if (lhs->bit_nodes.size() != rhs->bit_nodes.size()) {
++                                  return lhs->bit_nodes.size() < rhs->bit_nodes.size();
++                              }
++                              return lhs->cluster_id < rhs->cluster_id;
+                           });
+                 timestep++; // for stats
+             }
+diff --git a/src_cpp/rng.hpp b/src_cpp/rng.hpp
+index 059046d..fd908f1 100644
+--- a/src_cpp/rng.hpp
++++ b/src_cpp/rng.hpp
+@@ -7,7 +7,7 @@
+ #define RNG_HPP
+ 
+ #include <random>
+-#include <chrono> // for std::chrono::system_clock
++#include <chrono>
+ #include <algorithm>
+ 
+ namespace ldpc {
+@@ -24,14 +24,12 @@ namespace ldpc {
+             /**
+              * @brief Constructs a new RandomNumberGenerator object with an optional seed
+              *
+-             * If no seed is specified, the generator is seeded using the system clock.
++             * decoder-bench fork (docs/ARCHITECTURE.md section 9.1, item 2): this generator is
++             * never reseeded from the system clock, so every configuration is reproducible.
+              *
+              * @param seed The seed value to use for the random number generator
+              */
+             explicit RandomNumberGenerator(int seed = 0) : gen(seed) {
+-                if (seed == 0) {
+-                    gen.seed(std::chrono::system_clock::now().time_since_epoch().count());
+-                }
+             }
+ 
+             ~RandomNumberGenerator() = default;
+@@ -103,17 +101,13 @@ namespace ldpc {
+             /**
+              * @brief Set the seed for the random number generator.
+              *
+-             * This function allows you to set a custom seed for the random number generator.
+-             * If the seed is zero, it uses the system clock to generate a seed.
++             * decoder-bench fork (docs/ARCHITECTURE.md section 9.1, item 2): the seed is used
++             * verbatim; seed 0 no longer falls back to the system clock, so shuffles are
++             * reproducible.
+              *
+              * @param seed The seed for the random number generator.
+              */
+             void seed(unsigned int seed) {
+-                if (seed == 0) {
+-                    // Use the system clock to generate a seed
+-                    auto now = std::chrono::system_clock::now();
+-                    seed = static_cast<unsigned int>(now.time_since_epoch().count());
+-                }
+                 generator.seed(seed);
+             }
+ 
+diff --git a/src_cpp/sort.hpp b/src_cpp/sort.hpp
+index e1c6839..ad04582 100644
+--- a/src_cpp/sort.hpp
++++ b/src_cpp/sort.hpp
+@@ -5,6 +5,8 @@
+ #include <cstdlib>
+ #include <cstring>
+ #include <cmath>
++#include <algorithm>
++#include <vector>
+ 
+ namespace ldpc::sort {
+     struct str {
+@@ -45,20 +47,29 @@ namespace ldpc::sort {
+     }
+ 
+ 
++    // decoder-bench fork (docs/ARCHITECTURE.md section 9.1): the column order is ascending soft
++    // decision, ties broken by ascending column index, with NaN after every number (NaNs by column
++    // index). Upstream used qsort with a comparator that made NaN incomparable, so the result
++    // depended on the sort implementation. The comparator below is a strict weak order, which makes
++    // the sorted sequence unique; the buffer is a vector so a shot allocates nothing here either.
+     void soft_decision_col_sort(std::vector<double> &soft_decisions, std::vector<int> &cols, int N) {
+-        struct str *objects;
+-        objects = new str[N];
++        std::vector<struct str> objects(static_cast<size_t>(N > 0 ? N : 0));
+         for (int i = 0; i < N; i++) {
+             objects[i].value = soft_decisions[i];
+             objects[i].index = i;
+         }
+-        //sort objects array according to value using qsort
+-        qsort(objects, N, sizeof(objects[0]), cmp);
++        // sort objects by (NaN last, value ascending, index ascending)
++        std::stable_sort(objects.begin(), objects.end(), [](const struct str &a, const struct str &b) {
++            const bool a_nan = std::isnan(a.value);
++            const bool b_nan = std::isnan(b.value);
++            if (a_nan != b_nan) return !a_nan;
++            if (a_nan) return a.index < b.index;
++            if (a.value < b.value) return true;
++            if (b.value < a.value) return false;
++            return a.index < b.index;
++        });
+         for (int i = 0; i < N; i++)
+             cols[i] = objects[i].index;
+-
+-        delete[] objects;
+-
+     }
+ 
+ 
+diff --git a/src_cpp/union_find.hpp b/src_cpp/union_find.hpp
+index d316c5b..23151d1 100644
+--- a/src_cpp/union_find.hpp
++++ b/src_cpp/union_find.hpp
+@@ -23,10 +23,16 @@ namespace ldpc::uf {
+     const std::vector<double> EMPTY_DOUBLE_VECTOR = {};
+     tsl::robin_set<int> EMPTY_INT_ROBIN_SET = {};
+ 
++    // decoder-bench fork (docs/ARCHITECTURE.md section 9.1): weights ascending, ties by the
++    // *local* (cluster) index ascending. Upstream used std::sort, whose tie order is unspecified.
+     std::vector<int> sort_indices(std::vector<double> &B) {
+         std::vector<int> indices(B.size());
+         std::iota(indices.begin(), indices.end(), 0);
+-        std::sort(indices.begin(), indices.end(), [&](int i, int j) { return B[i] < B[j]; });
++        std::stable_sort(indices.begin(), indices.end(), [&](int i, int j) {
++            if (B[i] < B[j]) return true;
++            if (B[j] < B[i]) return false;
++            return i < j;
++        });
+         return indices;
+     }
+ 

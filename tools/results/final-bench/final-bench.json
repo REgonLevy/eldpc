@@ -1,0 +1,4793 @@
+{
+ "schema": "eldpc.results.final_bench.v1",
+ "what": "Final latency bench of the shipped decoder core (build 6g, src/core/) on machine A of tuning/KNOWLEDGE.md section 0.2, at the overclocked and at the stock GPU profile: single-handle back-to-back rows (cap curve at alpha 0.5 and the presets), paired rows against the earlier builds 6e and 6f and against a second copy of itself (A/A), and cadence / keep-warm rows. Pre-registered plan; summary statistics as recorded (us, nearest-rank quantiles, 3 decimals).",
+ "machine": {
+  "key": "A",
+  "gpu": "NVIDIA GeForce RTX 5080 (Blackwell, sm_120, 84 SMs, 64 MiB L2)",
+  "cpu": "AMD Ryzen 7 9850X3D 8-Core Processor (Zen 5, 8 cores, AVX-512)",
+  "nvidia_driver": "615.71.09",
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-38-generic",
+  "host_setup": "bench mode: CPUs 3-7,11-15 isolated (isolcpus, nohz_full, rcu_nocbs), housekeeping on 0-2,8-10; every timed process alone on one isolated CPU; governor performance, EPP performance, boost on",
+  "profiles": {
+   "oc": {
+    "graphics_offset_mhz": 400,
+    "memory_offset_mhz": 3000,
+    "power_limit_w": 396.0
+   },
+   "stock": {
+    "graphics_offset_mhz": 0,
+    "memory_offset_mhz": 0,
+    "power_limit_w": 360.0
+   }
+  }
+ },
+ "build": "6g = the frozen core of src/core/ (fastbpgpu6g), AVX-512 host core, Release, CUDA 13.3.73, built for the measurement harness; 6e and 6f are earlier builds of the same decoder line (tuning/KNOWLEDGE.md section 0.5)",
+ "method": {
+  "single_handle": "part P (cap curve, alpha 0.5) and part S (presets): one handle per process, back to back, 20,000 shots per process; P 3 processes per row, S 4; pooled quantiles; OSD-path and converged classes split by the status word",
+  "paired": "parts A and B: candidate and reference handles in one process on the same shots, fixed pseudo-random interleave, create order alternating between processes, 20,000 shots per side per process; delta = candidate - reference of the pooled quantiles; the A/A band is the largest |delta| of the 6g-copy vs 6g rows of that preset (section 7.1 of tuning/KNOWLEDGE.md)",
+  "cadence": "parts D and G: bb144 xyz a03125c3, one handle, 6 repetitions of 2,000 calls; a busy-wait host gap before each call; keep_warm() every 0.5 ms through the gap or not",
+  "shots": "fresh shot sets of the problem, the same set for both sides of a pair; outputs compared shot by shot on every paired run"
+ },
+ "xid_lines": 0,
+ "profiles": {
+  "oc": {
+   "checks": {
+    "processes_ok": 221,
+    "processes_failed": 0,
+    "paired_shots": 2600000,
+    "correction_or_observable_mismatches": 0,
+    "cadence_output_checksums_equal": true
+   },
+   "aa_band_us": {
+    "bb144_unif_p1e-3_r12_xyz a03125c3 (0.3125, 3)": {
+     "p50": 0.16,
+     "p99": 0.22,
+     "p999": 0.702,
+     "mean": 0.157
+    },
+    "bb144_unif_p1e-3_r12_xyz a0375c7 (0.375, 7)": {
+     "p50": 0.18,
+     "p99": 0.34,
+     "p999": 0.451,
+     "mean": 0.185
+    },
+    "bb144_unif_p1e-3_r12_xyz a05c11 (0.5, 11)": {
+     "p50": 0.25,
+     "p99": 0.371,
+     "p999": 0.791,
+     "mean": 0.242
+    },
+    "bb144_unif_p1e-3_r12_xyz a05ms31 (0.5, 31)": {
+     "p50": 0.491,
+     "p99": 0.47,
+     "p999": 1.302,
+     "mean": 0.46
+    },
+    "bb144_unif_p1e-3_r12_z a04375c3 (0.4375, 3)": {
+     "p50": 0.071,
+     "p99": 0.04,
+     "p999": 0.141,
+     "mean": 0.054
+    },
+    "bb144_unif_p1e-3_r12_z a05c15 (0.5, 15)": {
+     "p50": 0.26,
+     "p99": 0.35,
+     "p999": 0.42,
+     "mean": 0.251
+    },
+    "bb144_unif_p1e-3_r12_z a05ms31 (0.5, 31)": {
+     "p50": 0.21,
+     "p99": 0.631,
+     "p999": 0.761,
+     "mean": 0.388
+    },
+    "bb288_unif_p1e-3_r18_z a05ms31 (0.5, 31)": {
+     "p50": 0.612,
+     "p99": 0.681,
+     "p999": 0.722,
+     "mean": 0.62
+    }
+   },
+   "solo": [
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 3)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 32.541,
+      "p99": 46.378,
+      "p999": 72.597,
+      "mean": 33.605,
+      "max": 107.113,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      32.512,
+      32.581
+     ],
+     "osd_path_fraction": 0.99735,
+     "osd_path_class": {
+      "p50": 32.541,
+      "p99": 46.388,
+      "p999": 72.597,
+      "mean": 33.605,
+      "max": 107.113,
+      "shots": 59841
+     },
+     "converged_class": {
+      "p50": 34.466,
+      "p99": 42.22,
+      "p999": 42.611,
+      "mean": 33.758,
+      "max": 42.611,
+      "shots": 159
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 5)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 44.744,
+      "p99": 57.108,
+      "p999": 90.441,
+      "mean": 45.752,
+      "max": 121.59,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      44.725,
+      44.764
+     ],
+     "osd_path_fraction": 0.9966,
+     "osd_path_class": {
+      "p50": 44.744,
+      "p99": 57.108,
+      "p999": 90.441,
+      "mean": 45.772,
+      "max": 121.59,
+      "shots": 59796
+     },
+     "converged_class": {
+      "p50": 40.988,
+      "p99": 55.975,
+      "p999": 56.957,
+      "mean": 40.121,
+      "max": 56.957,
+      "shots": 204
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 7)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 57.198,
+      "p99": 69.952,
+      "p999": 102.193,
+      "mean": 58.178,
+      "max": 141.487,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      57.168,
+      57.228
+     ],
+     "osd_path_fraction": 0.988,
+     "osd_path_class": {
+      "p50": 57.188,
+      "p99": 69.982,
+      "p999": 102.193,
+      "mean": 58.229,
+      "max": 141.487,
+      "shots": 59280
+     },
+     "converged_class": {
+      "p50": 58.421,
+      "p99": 68.169,
+      "p999": 68.88,
+      "mean": 53.974,
+      "max": 68.88,
+      "shots": 720
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 9)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 69.542,
+      "p99": 82.456,
+      "p999": 113.203,
+      "mean": 70.427,
+      "max": 155.864,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      69.451,
+      69.602
+     ],
+     "osd_path_fraction": 0.98585,
+     "osd_path_class": {
+      "p50": 69.562,
+      "p99": 82.496,
+      "p999": 113.203,
+      "mean": 70.569,
+      "max": 155.864,
+      "shots": 59151
+     },
+     "converged_class": {
+      "p50": 65.143,
+      "p99": 74.841,
+      "p999": 81.594,
+      "mean": 60.528,
+      "max": 81.594,
+      "shots": 849
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 13)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 94.268,
+      "p99": 106.932,
+      "p999": 134.173,
+      "mean": 94.725,
+      "max": 171.033,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      94.228,
+      94.308
+     ],
+     "osd_path_fraction": 0.97165,
+     "osd_path_class": {
+      "p50": 94.298,
+      "p99": 107.042,
+      "p999": 134.635,
+      "mean": 95.227,
+      "max": 171.033,
+      "shots": 58299
+     },
+     "converged_class": {
+      "p50": 82.596,
+      "p99": 104.538,
+      "p999": 106.812,
+      "mean": 77.519,
+      "max": 107.733,
+      "shots": 1701
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05c15 (0.5, 15)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 106.712,
+      "p99": 119.575,
+      "p999": 147.408,
+      "mean": 106.915,
+      "max": 187.865,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      106.692,
+      106.751
+     ],
+     "osd_path_fraction": 0.96825,
+     "osd_path_class": {
+      "p50": 106.782,
+      "p99": 119.686,
+      "p999": 148.03,
+      "mean": 107.709,
+      "max": 187.865,
+      "shots": 58095
+     },
+     "converged_class": {
+      "p50": 89.289,
+      "p99": 111.3,
+      "p999": 117.813,
+      "mean": 82.679,
+      "max": 119.837,
+      "shots": 1905
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 21)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 143.892,
+      "p99": 157.267,
+      "p999": 183.667,
+      "mean": 142.86,
+      "max": 222.851,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      143.861,
+      143.942
+     ],
+     "osd_path_fraction": 0.96095,
+     "osd_path_class": {
+      "p50": 144.002,
+      "p99": 157.417,
+      "p999": 183.907,
+      "mean": 144.872,
+      "max": 222.851,
+      "shots": 57657
+     },
+     "converged_class": {
+      "p50": 99.047,
+      "p99": 146.257,
+      "p999": 152.989,
+      "mean": 93.366,
+      "max": 157.217,
+      "shots": 2343
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6e",
+     "processes": 4,
+     "all_shots": {
+      "p50": 40.296,
+      "p99": 52.239,
+      "p999": 73.639,
+      "mean": 41.168,
+      "max": 132.46,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      40.256,
+      40.346
+     ],
+     "osd_path_fraction": 0.9997,
+     "osd_path_class": {
+      "p50": 40.296,
+      "p99": 52.239,
+      "p999": 73.639,
+      "mean": 41.169,
+      "max": 132.46,
+      "shots": 79976
+     },
+     "converged_class": {
+      "p50": 40.106,
+      "p99": 47.911,
+      "p999": 47.911,
+      "mean": 38.409,
+      "max": 47.911,
+      "shots": 24
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 32.121,
+      "p99": 42.37,
+      "p999": 63.39,
+      "mean": 32.75,
+      "max": 99.037,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      32.111,
+      32.141
+     ],
+     "osd_path_fraction": 0.9997,
+     "osd_path_class": {
+      "p50": 32.121,
+      "p99": 42.36,
+      "p999": 63.39,
+      "mean": 32.75,
+      "max": 99.037,
+      "shots": 79976
+     },
+     "converged_class": {
+      "p50": 36.018,
+      "p99": 45.506,
+      "p999": 45.506,
+      "mean": 34.863,
+      "max": 45.506,
+      "shots": 24
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6f",
+     "processes": 4,
+     "all_shots": {
+      "p50": 34.115,
+      "p99": 45.226,
+      "p999": 75.773,
+      "mean": 34.949,
+      "max": 110.219,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      34.105,
+      34.125
+     ],
+     "osd_path_fraction": 0.9997,
+     "osd_path_class": {
+      "p50": 34.115,
+      "p99": 45.226,
+      "p999": 75.773,
+      "mean": 34.949,
+      "max": 110.219,
+      "shots": 79976
+     },
+     "converged_class": {
+      "p50": 37.111,
+      "p99": 38.173,
+      "p999": 38.173,
+      "mean": 35.274,
+      "max": 38.173,
+      "shots": 24
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a0375c7 (0.375, 7)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 56.837,
+      "p99": 67.878,
+      "p999": 77.176,
+      "mean": 57.484,
+      "max": 134.364,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      56.767,
+      56.878
+     ],
+     "osd_path_fraction": 0.97945,
+     "osd_path_class": {
+      "p50": 56.867,
+      "p99": 67.928,
+      "p999": 78.198,
+      "mean": 57.673,
+      "max": 134.364,
+      "shots": 78356
+     },
+     "converged_class": {
+      "p50": 51.207,
+      "p99": 62.047,
+      "p999": 68.179,
+      "mean": 48.456,
+      "max": 68.57,
+      "shots": 1644
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05c11 (0.5, 11)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 81.935,
+      "p99": 95.11,
+      "p999": 126.84,
+      "mean": 82.659,
+      "max": 184.849,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      81.844,
+      82.085
+     ],
+     "osd_path_fraction": 0.98085,
+     "osd_path_class": {
+      "p50": 81.965,
+      "p99": 95.18,
+      "p999": 127.23,
+      "mean": 82.962,
+      "max": 184.849,
+      "shots": 78468
+     },
+     "converged_class": {
+      "p50": 65.684,
+      "p99": 90.191,
+      "p999": 95.049,
+      "mean": 67.158,
+      "max": 95.249,
+      "shots": 1532
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05ms31 (0.5, 31)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 205.869,
+      "p99": 219.705,
+      "p999": 243.82,
+      "mean": 202.217,
+      "max": 294.506,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      205.829,
+      205.929
+     ],
+     "osd_path_fraction": 0.95085,
+     "osd_path_class": {
+      "p50": 206.049,
+      "p99": 219.845,
+      "p999": 244.712,
+      "mean": 206.853,
+      "max": 294.506,
+      "shots": 76068
+     },
+     "converged_class": {
+      "p50": 102.463,
+      "p99": 207.482,
+      "p999": 212.14,
+      "mean": 112.542,
+      "max": 218.373,
+      "shots": 3932
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a04375c3 (0.4375, 3)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 23.445,
+      "p99": 33.243,
+      "p999": 34.776,
+      "mean": 23.89,
+      "max": 53.882,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      23.404,
+      23.484
+     ],
+     "osd_path_fraction": 0.6091,
+     "osd_path_class": {
+      "p50": 23.945,
+      "p99": 33.603,
+      "p999": 35.477,
+      "mean": 24.519,
+      "max": 53.882,
+      "shots": 48728
+     },
+     "converged_class": {
+      "p50": 22.463,
+      "p99": 31.92,
+      "p999": 32.521,
+      "mean": 22.91,
+      "max": 35.266,
+      "shots": 31272
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05c15 (0.5, 15)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 61.496,
+      "p99": 75.763,
+      "p999": 77.757,
+      "mean": 58.167,
+      "max": 89.76,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      61.416,
+      61.586
+     ],
+     "osd_path_fraction": 0.46105,
+     "osd_path_class": {
+      "p50": 67.016,
+      "p99": 76.495,
+      "p999": 78.499,
+      "mean": 67.594,
+      "max": 89.76,
+      "shots": 36884
+     },
+     "converged_class": {
+      "p50": 54.122,
+      "p99": 65.193,
+      "p999": 71.145,
+      "mean": 50.102,
+      "max": 78.017,
+      "shots": 43116
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05ms31 (0.5, 31)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 61.596,
+      "p99": 133.503,
+      "p999": 137.319,
+      "mean": 84.19,
+      "max": 152.157,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      61.526,
+      61.676
+     ],
+     "osd_path_fraction": 0.4425,
+     "osd_path_class": {
+      "p50": 124.385,
+      "p99": 134.945,
+      "p999": 139.133,
+      "mean": 125.03,
+      "max": 152.157,
+      "shots": 35400
+     },
+     "converged_class": {
+      "p50": 54.312,
+      "p99": 104.187,
+      "p999": 121.37,
+      "mean": 51.774,
+      "max": 132.059,
+      "shots": 44600
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb288_unif_p1e-3_r18_z",
+     "config": "a05ms31 (0.5, 31)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 126.88,
+      "p99": 138.521,
+      "p999": 141.688,
+      "mean": 117.988,
+      "max": 147.389,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      126.789,
+      127.02
+     ],
+     "osd_path_fraction": 0.8388,
+     "osd_path_class": {
+      "p50": 127.371,
+      "p99": 138.772,
+      "p999": 141.838,
+      "mean": 128.303,
+      "max": 147.389,
+      "shots": 67104
+     },
+     "converged_class": {
+      "p50": 58.2,
+      "p99": 118.494,
+      "p999": 128.463,
+      "mean": 64.314,
+      "max": 138.231,
+      "shots": 12896
+     }
+    }
+   ],
+   "paired": [
+    {
+     "part": "A",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 10,
+     "candidate_stats": {
+      "p50": 32.181,
+      "p99": 42.55,
+      "p999": 63.079,
+      "mean": 33.022,
+      "max": 98.817,
+      "shots": 200000
+     },
+     "reference_stats": {
+      "p50": 40.256,
+      "p99": 51.998,
+      "p999": 73.258,
+      "mean": 41.054,
+      "max": 130.737,
+      "shots": 200000
+     },
+     "delta_pooled_us": {
+      "p50": -8.075,
+      "p99": -9.448,
+      "p999": -10.179,
+      "mean": -8.032
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -8.015,
+      "p99": -9.478,
+      "p999": -9.868,
+      "mean": -7.971
+     },
+     "delta_reference_created_first_us": {
+      "p50": -8.136,
+      "p99": -9.418,
+      "p999": -10.47,
+      "mean": -8.093
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 199940,
+      "delta_us": {
+       "p50": -8.075,
+       "p99": -9.448,
+       "p999": -10.179,
+       "mean": -8.033
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 60,
+      "delta_us": {
+       "p50": -4.148,
+       "p99": -3.617,
+       "p999": -3.617,
+       "mean": -3.953
+      }
+     }
+    },
+    {
+     "part": "A",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 16,
+     "candidate_stats": {
+      "p50": 32.18,
+      "p99": 42.49,
+      "p999": 63.57,
+      "mean": 33.002,
+      "max": 105.95,
+      "shots": 320000
+     },
+     "reference_stats": {
+      "p50": 34.014,
+      "p99": 45.235,
+      "p999": 75.723,
+      "mean": 34.76,
+      "max": 120.748,
+      "shots": 320000
+     },
+     "delta_pooled_us": {
+      "p50": -1.834,
+      "p99": -2.745,
+      "p999": -12.153,
+      "mean": -1.758
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -1.683,
+      "p99": -2.556,
+      "p999": -11.922,
+      "mean": -1.614
+     },
+     "delta_reference_created_first_us": {
+      "p50": -1.975,
+      "p99": -2.896,
+      "p999": -12.263,
+      "mean": -1.903
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 319904,
+      "delta_us": {
+       "p50": -1.834,
+       "p99": -2.745,
+       "p999": -12.153,
+       "mean": -1.759
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 96,
+      "delta_us": {
+       "p50": -0.812,
+       "p99": -2.145,
+       "p999": -2.145,
+       "mean": -0.965
+      }
+     }
+    },
+    {
+     "part": "A",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 20,
+     "candidate_stats": {
+      "p50": 32.081,
+      "p99": 43.182,
+      "p999": 64.061,
+      "mean": 32.829,
+      "max": 106.591,
+      "shots": 400000
+     },
+     "reference_stats": {
+      "p50": 32.051,
+      "p99": 43.132,
+      "p999": 63.761,
+      "mean": 32.809,
+      "max": 108.115,
+      "shots": 400000
+     },
+     "delta_pooled_us": {
+      "p50": 0.03,
+      "p99": 0.05,
+      "p999": 0.3,
+      "mean": 0.02
+     },
+     "delta_candidate_created_first_us": {
+      "p50": 0.16,
+      "p99": 0.22,
+      "p999": 0.702,
+      "mean": 0.157
+     },
+     "delta_reference_created_first_us": {
+      "p50": -0.101,
+      "p99": -0.11,
+      "p999": -0.161,
+      "mean": -0.116
+     },
+     "processes_where_candidate_p50_higher": 11,
+     "osd_path_class": {
+      "shots_per_side": 399880,
+      "delta_us": {
+       "p50": 0.03,
+       "p99": 0.05,
+       "p999": 0.3,
+       "mean": 0.02
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 120,
+      "delta_us": {
+       "p50": 0.3,
+       "p99": -4.599,
+       "p999": -4.719,
+       "mean": -0.047
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a0375c7 (0.375, 7)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 56.868,
+      "p99": 66.936,
+      "p999": 76.654,
+      "mean": 57.537,
+      "max": 136.377,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 73.259,
+      "p99": 84.84,
+      "p999": 98.677,
+      "mean": 73.796,
+      "max": 158.76,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -16.391,
+      "p99": -17.904,
+      "p999": -22.023,
+      "mean": -16.26
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -16.311,
+      "p99": -17.853,
+      "p999": -22.303,
+      "mean": -16.192
+     },
+     "delta_reference_created_first_us": {
+      "p50": -16.471,
+      "p99": -18.064,
+      "p999": -21.631,
+      "mean": -16.327
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 39178,
+      "delta_us": {
+       "p50": -16.42,
+       "p99": -17.954,
+       "p999": -22.023,
+       "mean": -16.397
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 822,
+      "delta_us": {
+       "p50": -10.45,
+       "p99": -11.011,
+       "p999": -16.752,
+       "mean": -9.725
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a0375c7 (0.375, 7)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 56.897,
+      "p99": 67.167,
+      "p999": 76.785,
+      "mean": 57.543,
+      "max": 145.976,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 61.236,
+      "p99": 72.276,
+      "p999": 81.975,
+      "mean": 61.821,
+      "max": 142.91,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -4.339,
+      "p99": -5.109,
+      "p999": -5.19,
+      "mean": -4.278
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -4.169,
+      "p99": -4.929,
+      "p999": -5.561,
+      "mean": -4.119
+     },
+     "delta_reference_created_first_us": {
+      "p50": -4.509,
+      "p99": -5.329,
+      "p999": -5.28,
+      "mean": -4.437
+     },
+     "processes_where_candidate_p50_higher": 1,
+     "osd_path_class": {
+      "shots_per_side": 117534,
+      "delta_us": {
+       "p50": -4.358,
+       "p99": -5.12,
+       "p999": -5.02,
+       "mean": -4.316
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 2466,
+      "delta_us": {
+       "p50": -2.224,
+       "p99": -2.916,
+       "p999": -4.208,
+       "mean": -2.474
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a0375c7 (0.375, 7)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 56.897,
+      "p99": 67.287,
+      "p999": 77.046,
+      "mean": 57.53,
+      "max": 139.915,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 56.857,
+      "p99": 67.147,
+      "p999": 77.046,
+      "mean": 57.501,
+      "max": 140.265,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": 0.04,
+      "p99": 0.14,
+      "p999": 0.0,
+      "mean": 0.028
+     },
+     "delta_candidate_created_first_us": {
+      "p50": 0.18,
+      "p99": 0.34,
+      "p999": 0.451,
+      "mean": 0.185
+     },
+     "delta_reference_created_first_us": {
+      "p50": -0.11,
+      "p99": -0.06,
+      "p999": -0.05,
+      "mean": -0.129
+     },
+     "processes_where_candidate_p50_higher": 1,
+     "osd_path_class": {
+      "shots_per_side": 78356,
+      "delta_us": {
+       "p50": 0.04,
+       "p99": 0.14,
+       "p999": 0.161,
+       "mean": 0.03
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 1644,
+      "delta_us": {
+       "p50": -0.381,
+       "p99": -0.832,
+       "p999": -0.439,
+       "mean": -0.074
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05c11 (0.5, 11)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 81.874,
+      "p99": 93.908,
+      "p999": 126.178,
+      "mean": 82.569,
+      "max": 191.722,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 106.732,
+      "p99": 121.088,
+      "p999": 150.574,
+      "mean": 107.274,
+      "max": 219.565,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -24.858,
+      "p99": -27.18,
+      "p999": -24.396,
+      "mean": -24.706
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -24.826,
+      "p99": -27.03,
+      "p999": -23.654,
+      "mean": -24.66
+     },
+     "delta_reference_created_first_us": {
+      "p50": -24.907,
+      "p99": -27.392,
+      "p999": -25.909,
+      "mean": -24.752
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 39234,
+      "delta_us": {
+       "p50": -24.908,
+       "p99": -27.321,
+       "p999": -24.396,
+       "mean": -24.877
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 766,
+      "delta_us": {
+       "p50": -15.829,
+       "p99": -22.522,
+       "p999": -22.082,
+       "mean": -15.922
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05c11 (0.5, 11)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 81.944,
+      "p99": 94.128,
+      "p999": 126.248,
+      "mean": 82.651,
+      "max": 191.412,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 88.928,
+      "p99": 102.163,
+      "p999": 133.653,
+      "mean": 89.47,
+      "max": 196.501,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -6.984,
+      "p99": -8.035,
+      "p999": -7.405,
+      "mean": -6.819
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -6.823,
+      "p99": -7.815,
+      "p999": -6.732,
+      "mean": -6.657
+     },
+     "delta_reference_created_first_us": {
+      "p50": -7.153,
+      "p99": -8.236,
+      "p999": -7.956,
+      "mean": -6.981
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 117702,
+      "delta_us": {
+       "p50": -7.013,
+       "p99": -8.025,
+       "p999": -7.295,
+       "mean": -6.868
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 2298,
+      "delta_us": {
+       "p50": -4.509,
+       "p99": -5.992,
+       "p999": -6.433,
+       "mean": -4.294
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05c11 (0.5, 11)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 81.924,
+      "p99": 94.208,
+      "p999": 126.479,
+      "mean": 82.612,
+      "max": 184.108,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 81.855,
+      "p99": 94.087,
+      "p999": 126.799,
+      "mean": 82.56,
+      "max": 182.715,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": 0.069,
+      "p99": 0.121,
+      "p999": -0.32,
+      "mean": 0.053
+     },
+     "delta_candidate_created_first_us": {
+      "p50": 0.25,
+      "p99": 0.371,
+      "p999": 0.031,
+      "mean": 0.242
+     },
+     "delta_reference_created_first_us": {
+      "p50": -0.111,
+      "p99": -0.19,
+      "p999": 0.791,
+      "mean": -0.137
+     },
+     "processes_where_candidate_p50_higher": 2,
+     "osd_path_class": {
+      "shots_per_side": 78468,
+      "delta_us": {
+       "p50": 0.061,
+       "p99": 0.171,
+       "p999": -0.381,
+       "mean": 0.055
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 1532,
+      "delta_us": {
+       "p50": 0.02,
+       "p99": -0.291,
+       "p999": 0.09,
+       "mean": -0.054
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 205.478,
+      "p99": 218.943,
+      "p999": 244.301,
+      "mean": 201.863,
+      "max": 285.168,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 270.571,
+      "p99": 290.048,
+      "p999": 303.352,
+      "mean": 265.73,
+      "max": 355.01,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -65.093,
+      "p99": -71.105,
+      "p999": -59.051,
+      "mean": -63.867
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -65.013,
+      "p99": -70.974,
+      "p999": -59.472,
+      "mean": -63.762
+     },
+     "delta_reference_created_first_us": {
+      "p50": -65.164,
+      "p99": -71.034,
+      "p999": -59.121,
+      "mean": -63.973
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 38034,
+      "delta_us": {
+       "p50": -65.253,
+       "p99": -71.244,
+       "p999": -60.343,
+       "mean": -65.555
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 1966,
+      "delta_us": {
+       "p50": -27.922,
+       "p99": -62.418,
+       "p999": -65.604,
+       "mean": -31.209
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 205.759,
+      "p99": 219.345,
+      "p999": 243.891,
+      "mean": 202.129,
+      "max": 285.389,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 223.513,
+      "p99": 241.736,
+      "p999": 261.544,
+      "mean": 219.63,
+      "max": 312.671,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -17.754,
+      "p99": -22.391,
+      "p999": -17.653,
+      "mean": -17.501
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -17.453,
+      "p99": -22.082,
+      "p999": -18.295,
+      "mean": -17.211
+     },
+     "delta_reference_created_first_us": {
+      "p50": -18.065,
+      "p99": -22.572,
+      "p999": -16.481,
+      "mean": -17.791
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 114102,
+      "delta_us": {
+       "p50": -17.934,
+       "p99": -22.413,
+       "p999": -18.274,
+       "mean": -17.972
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 5898,
+      "delta_us": {
+       "p50": -7.584,
+       "p99": -18.515,
+       "p999": -19.457,
+       "mean": -8.394
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 205.719,
+      "p99": 219.244,
+      "p999": 243.199,
+      "mean": 202.09,
+      "max": 285.129,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 205.698,
+      "p99": 219.204,
+      "p999": 243.6,
+      "mean": 202.06,
+      "max": 287.252,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": 0.021,
+      "p99": 0.04,
+      "p999": -0.401,
+      "mean": 0.03
+     },
+     "delta_candidate_created_first_us": {
+      "p50": 0.491,
+      "p99": 0.47,
+      "p999": -1.302,
+      "mean": 0.46
+     },
+     "delta_reference_created_first_us": {
+      "p50": -0.43,
+      "p99": -0.44,
+      "p999": 0.531,
+      "mean": -0.401
+     },
+     "processes_where_candidate_p50_higher": 1,
+     "osd_path_class": {
+      "shots_per_side": 76068,
+      "delta_us": {
+       "p50": 0.02,
+       "p99": 0.12,
+       "p999": 0.581,
+       "mean": 0.034
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 3932,
+      "delta_us": {
+       "p50": -0.04,
+       "p99": -0.201,
+       "p999": -1.993,
+       "mean": -0.044
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a04375c3 (0.4375, 3)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 23.534,
+      "p99": 32.772,
+      "p999": 34.365,
+      "mean": 24.039,
+      "max": 46.167,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 30.928,
+      "p99": 40.657,
+      "p999": 41.869,
+      "mean": 29.341,
+      "max": 57.849,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -7.394,
+      "p99": -7.885,
+      "p999": -7.504,
+      "mean": -5.302
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -7.464,
+      "p99": -7.895,
+      "p999": -7.444,
+      "mean": -5.342
+     },
+     "delta_reference_created_first_us": {
+      "p50": -7.333,
+      "p99": -7.855,
+      "p999": -7.484,
+      "mean": -5.261
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 24364,
+      "delta_us": {
+       "p50": -7.424,
+       "p99": -7.975,
+       "p999": -7.264,
+       "mean": -7.394
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 15636,
+      "delta_us": {
+       "p50": -2.254,
+       "p99": -2.274,
+       "p999": -2.305,
+       "mean": -2.041
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a04375c3 (0.4375, 3)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 23.524,
+      "p99": 32.662,
+      "p999": 34.135,
+      "mean": 24.034,
+      "max": 50.205,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 27.241,
+      "p99": 36.89,
+      "p999": 38.031,
+      "mean": 27.079,
+      "max": 57.449,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -3.717,
+      "p99": -4.228,
+      "p999": -3.896,
+      "mean": -3.045
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -3.707,
+      "p99": -4.158,
+      "p999": -3.938,
+      "mean": -3.046
+     },
+     "delta_reference_created_first_us": {
+      "p50": -3.726,
+      "p99": -4.278,
+      "p999": -3.858,
+      "mean": -3.044
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 73092,
+      "delta_us": {
+       "p50": -3.717,
+       "p99": -4.239,
+       "p999": -3.817,
+       "mean": -3.683
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 46908,
+      "delta_us": {
+       "p50": -2.274,
+       "p99": -2.213,
+       "p999": -2.275,
+       "mean": -2.05
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a04375c3 (0.4375, 3)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 23.514,
+      "p99": 33.323,
+      "p999": 34.415,
+      "mean": 24.041,
+      "max": 49.684,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 23.555,
+      "p99": 33.363,
+      "p999": 34.536,
+      "mean": 24.071,
+      "max": 47.74,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": -0.041,
+      "p99": -0.04,
+      "p999": -0.121,
+      "mean": -0.03
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -0.011,
+      "p99": -0.04,
+      "p999": -0.13,
+      "mean": -0.054
+     },
+     "delta_reference_created_first_us": {
+      "p50": -0.071,
+      "p99": -0.04,
+      "p999": -0.141,
+      "mean": -0.007
+     },
+     "processes_where_candidate_p50_higher": 2,
+     "osd_path_class": {
+      "shots_per_side": 48728,
+      "delta_us": {
+       "p50": -0.039,
+       "p99": -0.03,
+       "p999": -0.241,
+       "mean": -0.045
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 31272,
+      "delta_us": {
+       "p50": 0.001,
+       "p99": 0.009,
+       "p999": 0.0,
+       "mean": -0.008
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05c15 (0.5, 15)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 61.987,
+      "p99": 75.903,
+      "p999": 78.007,
+      "mean": 58.519,
+      "max": 87.295,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 67.397,
+      "p99": 91.042,
+      "p999": 92.235,
+      "mean": 67.673,
+      "max": 103.225,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -5.41,
+      "p99": -15.139,
+      "p999": -14.228,
+      "mean": -9.154
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -5.25,
+      "p99": -15.269,
+      "p999": -14.417,
+      "mean": -9.187
+     },
+     "delta_reference_created_first_us": {
+      "p50": -5.62,
+      "p99": -15.018,
+      "p999": -14.237,
+      "mean": -9.122
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 18442,
+      "delta_us": {
+       "p50": -15.229,
+       "p99": -14.858,
+       "p999": -14.078,
+       "mean": -15.185
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 21558,
+      "delta_us": {
+       "p50": -5.05,
+       "p99": -10.179,
+       "p999": -5.22,
+       "mean": -3.995
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05c15 (0.5, 15)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 62.058,
+      "p99": 75.884,
+      "p999": 77.877,
+      "mean": 58.565,
+      "max": 89.519,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 67.247,
+      "p99": 87.335,
+      "p999": 88.717,
+      "mean": 66.028,
+      "max": 97.544,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -5.189,
+      "p99": -11.451,
+      "p999": -10.84,
+      "mean": -7.463
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -5.079,
+      "p99": -11.392,
+      "p999": -10.551,
+      "mean": -7.405
+     },
+     "delta_reference_created_first_us": {
+      "p50": -5.359,
+      "p99": -11.531,
+      "p999": -10.881,
+      "mean": -7.52
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 55326,
+      "delta_us": {
+       "p50": -11.612,
+       "p99": -11.271,
+       "p999": -10.62,
+       "mean": -11.553
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 64674,
+      "delta_us": {
+       "p50": -5.018,
+       "p99": -10.35,
+       "p999": -4.719,
+       "mean": -3.964
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05c15 (0.5, 15)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 62.037,
+      "p99": 76.004,
+      "p999": 78.148,
+      "mean": 58.534,
+      "max": 92.986,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 62.037,
+      "p99": 75.964,
+      "p999": 77.957,
+      "mean": 58.52,
+      "max": 94.929,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": 0.0,
+      "p99": 0.04,
+      "p999": 0.191,
+      "mean": 0.015
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -0.221,
+      "p99": -0.251,
+      "p999": -0.25,
+      "mean": -0.222
+     },
+     "delta_reference_created_first_us": {
+      "p50": 0.26,
+      "p99": 0.35,
+      "p999": 0.42,
+      "mean": 0.251
+     },
+     "processes_where_candidate_p50_higher": 1,
+     "osd_path_class": {
+      "shots_per_side": 36884,
+      "delta_us": {
+       "p50": 0.02,
+       "p99": 0.06,
+       "p999": 0.171,
+       "mean": 0.009
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 43116,
+      "delta_us": {
+       "p50": 0.02,
+       "p99": 0.1,
+       "p999": 0.07,
+       "mean": 0.019
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 62.037,
+      "p99": 133.883,
+      "p999": 138.121,
+      "mean": 84.605,
+      "max": 146.997,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 67.387,
+      "p99": 159.321,
+      "p999": 160.773,
+      "mean": 98.385,
+      "max": 171.735,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -5.35,
+      "p99": -25.438,
+      "p999": -22.652,
+      "mean": -13.78
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -5.31,
+      "p99": -25.487,
+      "p999": -22.653,
+      "mean": -13.796
+     },
+     "delta_reference_created_first_us": {
+      "p50": -5.44,
+      "p99": -25.498,
+      "p999": -22.753,
+      "mean": -13.765
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 17700,
+      "delta_us": {
+       "p50": -25.899,
+       "p99": -24.436,
+       "p999": -22.431,
+       "mean": -25.803
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 22300,
+      "delta_us": {
+       "p50": -5.02,
+       "p99": -14.457,
+       "p999": -18.756,
+       "mean": -4.238
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 62.027,
+      "p99": 134.003,
+      "p999": 137.82,
+      "mean": 84.652,
+      "max": 150.665,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 67.277,
+      "p99": 155.724,
+      "p999": 157.167,
+      "mean": 96.834,
+      "max": 172.867,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -5.25,
+      "p99": -21.721,
+      "p999": -19.347,
+      "mean": -12.182
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -5.2,
+      "p99": -21.601,
+      "p999": -19.227,
+      "mean": -12.091
+     },
+     "delta_reference_created_first_us": {
+      "p50": -5.37,
+      "p99": -21.711,
+      "p999": -19.157,
+      "mean": -12.273
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 53100,
+      "delta_us": {
+       "p50": -22.322,
+       "p99": -20.94,
+       "p999": -18.184,
+       "mean": -22.189
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 66900,
+      "delta_us": {
+       "p50": -5.019,
+       "p99": -14.658,
+       "p999": -21.651,
+       "mean": -4.239
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 62.007,
+      "p99": 134.054,
+      "p999": 137.91,
+      "mean": 84.597,
+      "max": 147.088,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 62.037,
+      "p99": 134.144,
+      "p999": 137.65,
+      "mean": 84.621,
+      "max": 147.789,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": -0.03,
+      "p99": -0.09,
+      "p999": 0.26,
+      "mean": -0.024
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -0.21,
+      "p99": -0.631,
+      "p999": -0.472,
+      "mean": -0.388
+     },
+     "delta_reference_created_first_us": {
+      "p50": 0.12,
+      "p99": 0.59,
+      "p999": 0.761,
+      "mean": 0.34
+     },
+     "processes_where_candidate_p50_higher": 2,
+     "osd_path_class": {
+      "shots_per_side": 35400,
+      "delta_us": {
+       "p50": 0.019,
+       "p99": 0.01,
+       "p999": 0.771,
+       "mean": -0.004
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 44600,
+      "delta_us": {
+       "p50": -0.05,
+       "p99": -0.181,
+       "p999": -0.091,
+       "mean": -0.04
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb288_unif_p1e-3_r18_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 127.42,
+      "p99": 138.972,
+      "p999": 141.507,
+      "mean": 118.649,
+      "max": 150.344,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 243.87,
+      "p99": 253.669,
+      "p999": 254.501,
+      "mean": 222.871,
+      "max": 258.518,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -116.45,
+      "p99": -114.697,
+      "p999": -112.994,
+      "mean": -104.222
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -116.44,
+      "p99": -114.657,
+      "p999": -112.823,
+      "mean": -104.273
+     },
+     "delta_reference_created_first_us": {
+      "p50": -116.44,
+      "p99": -114.656,
+      "p999": -112.723,
+      "mean": -104.171
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 33552,
+      "delta_us": {
+       "p50": -116.079,
+       "p99": -114.578,
+       "p999": -112.673,
+       "mean": -115.886
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 6448,
+      "delta_us": {
+       "p50": -38.042,
+       "p99": -95.02,
+       "p999": -110.248,
+       "mean": -43.526
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb288_unif_p1e-3_r18_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 127.431,
+      "p99": 138.973,
+      "p999": 141.527,
+      "mean": 118.66,
+      "max": 151.506,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 240.294,
+      "p99": 250.033,
+      "p999": 250.814,
+      "mean": 219.848,
+      "max": 258.017,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -112.863,
+      "p99": -111.06,
+      "p999": -109.287,
+      "mean": -101.188
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -112.962,
+      "p99": -111.15,
+      "p999": -109.507,
+      "mean": -101.276
+     },
+     "delta_reference_created_first_us": {
+      "p50": -112.793,
+      "p99": -110.99,
+      "p999": -109.116,
+      "mean": -101.1
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 100656,
+      "delta_us": {
+       "p50": -112.482,
+       "p99": -110.93,
+       "p999": -109.116,
+       "mean": -112.322
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 19344,
+      "delta_us": {
+       "p50": -37.872,
+       "p99": -94.359,
+       "p999": -109.476,
+       "mean": -43.255
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb288_unif_p1e-3_r18_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 127.361,
+      "p99": 138.902,
+      "p999": 141.587,
+      "mean": 118.386,
+      "max": 146.456,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 127.311,
+      "p99": 138.942,
+      "p999": 141.507,
+      "mean": 118.433,
+      "max": 146.066,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": 0.05,
+      "p99": -0.04,
+      "p999": 0.08,
+      "mean": -0.047
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -0.531,
+      "p99": -0.651,
+      "p999": -0.561,
+      "mean": -0.62
+     },
+     "delta_reference_created_first_us": {
+      "p50": 0.612,
+      "p99": 0.681,
+      "p999": 0.722,
+      "mean": 0.526
+     },
+     "processes_where_candidate_p50_higher": 2,
+     "osd_path_class": {
+      "shots_per_side": 67104,
+      "delta_us": {
+       "p50": 0.03,
+       "p99": -0.03,
+       "p999": 0.131,
+       "mean": -0.039
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 12896,
+      "delta_us": {
+       "p50": -0.069,
+       "p99": -0.111,
+       "p999": 1.923,
+       "mean": -0.09
+      }
+     }
+    }
+   ],
+   "cadence": [
+    {
+     "part": "D",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "host_gap_us": 10000,
+     "keep_warm": "every 0.5 ms through the gap, the last call 1 us before the decode",
+     "repetitions": 6,
+     "call": {
+      "p50": 31.72,
+      "p99": 40.606,
+      "p999": 49.324,
+      "mean": 32.46,
+      "max": 66.356,
+      "shots": 12000
+     },
+     "repetition_p50_us": [
+      31.67,
+      31.75,
+      31.8,
+      31.75,
+      31.73,
+      31.66
+     ],
+     "output_checksums_distinct": 1,
+     "graphics_clock_share_at_calls": {
+      "3187 MHz": 0.959,
+      "2610 MHz": 0.024,
+      "3142 MHz": 0.004
+     },
+     "gpu_power_mean_w": 50.7,
+     "keep_warm_call_summaries": [
+      {
+       "calls": 41998,
+       "errors": 0,
+       "periodic_call_mean_us": 1.51,
+       "periodic_call_max_us": 5.44,
+       "final_call_mean_us": 1.5,
+       "final_call_max_us": 1.86
+      },
+      {
+       "calls": 42000,
+       "errors": 0,
+       "periodic_call_mean_us": 1.5,
+       "periodic_call_max_us": 5.41,
+       "final_call_mean_us": 1.5,
+       "final_call_max_us": 1.76
+      }
+     ]
+    },
+    {
+     "part": "D",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "host_gap_us": 10000,
+     "keep_warm": "every 0.5 ms through the gap, the last call 25 us before the decode",
+     "repetitions": 6,
+     "call": {
+      "p50": 32.261,
+      "p99": 41.107,
+      "p999": 50.495,
+      "mean": 32.989,
+      "max": 67.357,
+      "shots": 12000
+     },
+     "repetition_p50_us": [
+      32.21,
+      32.25,
+      32.25,
+      32.35,
+      32.25,
+      32.25
+     ],
+     "output_checksums_distinct": 1,
+     "graphics_clock_share_at_calls": {
+      "3187 MHz": 0.968,
+      "2610 MHz": 0.02,
+      "2767 MHz": 0.004
+     },
+     "gpu_power_mean_w": 50.6,
+     "keep_warm_call_summaries": [
+      {
+       "calls": 42000,
+       "errors": 0,
+       "periodic_call_mean_us": 1.5,
+       "periodic_call_max_us": 3.64,
+       "final_call_mean_us": 1.49,
+       "final_call_max_us": 1.85
+      },
+      {
+       "calls": 42000,
+       "errors": 0,
+       "periodic_call_mean_us": 1.5,
+       "periodic_call_max_us": 4.31,
+       "final_call_mean_us": 1.5,
+       "final_call_max_us": 5.39
+      }
+     ]
+    },
+    {
+     "part": "D",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "host_gap_us": 10000,
+     "keep_warm": "none",
+     "repetitions": 6,
+     "call": {
+      "p50": 37.02,
+      "p99": 46.177,
+      "p999": 58.24,
+      "mean": 37.564,
+      "max": 77.076,
+      "shots": 12000
+     },
+     "repetition_p50_us": [
+      36.99,
+      36.96,
+      37.01,
+      36.99,
+      37.02,
+      37.09
+     ],
+     "output_checksums_distinct": 1,
+     "graphics_clock_share_at_calls": {
+      "2677 MHz": 0.713,
+      "2670 MHz": 0.26,
+      "2610 MHz": 0.019
+     },
+     "gpu_power_mean_w": 41.7,
+     "keep_warm_call_summaries": [
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      },
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      }
+     ]
+    },
+    {
+     "part": "G",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "host_gap_us": 0,
+     "keep_warm": "none",
+     "repetitions": 6,
+     "call": {
+      "p50": 32.281,
+      "p99": 42.901,
+      "p999": 64.892,
+      "mean": 32.955,
+      "max": 100.109,
+      "shots": 120000
+     },
+     "repetition_p50_us": [
+      32.27,
+      32.31,
+      32.27,
+      32.26,
+      32.28,
+      32.26
+     ],
+     "output_checksums_distinct": null,
+     "keep_warm_call_summaries": [
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      },
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      }
+     ]
+    },
+    {
+     "part": "G",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "host_gap_us": 10,
+     "keep_warm": "none",
+     "repetitions": 6,
+     "call": {
+      "p50": 32.291,
+      "p99": 41.398,
+      "p999": 64.993,
+      "mean": 33.034,
+      "max": 100.89,
+      "shots": 120000
+     },
+     "repetition_p50_us": [
+      32.28,
+      32.26,
+      32.31,
+      32.3,
+      32.28,
+      32.3
+     ],
+     "output_checksums_distinct": null,
+     "keep_warm_call_summaries": [
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      },
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      }
+     ]
+    }
+   ]
+  },
+  "stock": {
+   "checks": {
+    "processes_ok": 221,
+    "processes_failed": 0,
+    "paired_shots": 2600000,
+    "correction_or_observable_mismatches": 0,
+    "cadence_output_checksums_equal": true
+   },
+   "aa_band_us": {
+    "bb144_unif_p1e-3_r12_xyz a03125c3 (0.3125, 3)": {
+     "p50": 0.119,
+     "p99": 0.182,
+     "p999": 0.662,
+     "mean": 0.117
+    },
+    "bb144_unif_p1e-3_r12_xyz a0375c7 (0.375, 7)": {
+     "p50": 0.13,
+     "p99": 0.18,
+     "p999": 0.14,
+     "mean": 0.136
+    },
+    "bb144_unif_p1e-3_r12_xyz a05c11 (0.5, 11)": {
+     "p50": 0.213,
+     "p99": 0.279,
+     "p999": 0.508,
+     "mean": 0.216
+    },
+    "bb144_unif_p1e-3_r12_xyz a05ms31 (0.5, 31)": {
+     "p50": 0.442,
+     "p99": 0.51,
+     "p999": 0.72,
+     "mean": 0.422
+    },
+    "bb144_unif_p1e-3_r12_z a04375c3 (0.4375, 3)": {
+     "p50": 0.02,
+     "p99": 0.051,
+     "p999": 0.08,
+     "mean": 0.029
+    },
+    "bb144_unif_p1e-3_r12_z a05c15 (0.5, 15)": {
+     "p50": 0.231,
+     "p99": 0.311,
+     "p999": 0.35,
+     "mean": 0.247
+    },
+    "bb144_unif_p1e-3_r12_z a05ms31 (0.5, 31)": {
+     "p50": 0.26,
+     "p99": 0.711,
+     "p999": 0.941,
+     "mean": 0.448
+    },
+    "bb288_unif_p1e-3_r18_z a05ms31 (0.5, 31)": {
+     "p50": 0.622,
+     "p99": 0.681,
+     "p999": 0.391,
+     "mean": 0.596
+    }
+   },
+   "solo": [
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 3)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 34.435,
+      "p99": 48.171,
+      "p999": 73.649,
+      "mean": 35.451,
+      "max": 109.176,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      34.404,
+      34.495
+     ],
+     "osd_path_fraction": 0.99735,
+     "osd_path_class": {
+      "p50": 34.435,
+      "p99": 48.181,
+      "p999": 73.649,
+      "mean": 35.452,
+      "max": 109.176,
+      "shots": 59841
+     },
+     "converged_class": {
+      "p50": 36.278,
+      "p99": 44.194,
+      "p999": 44.264,
+      "mean": 35.181,
+      "max": 44.264,
+      "shots": 159
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 5)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 47.75,
+      "p99": 60.153,
+      "p999": 93.596,
+      "mean": 48.767,
+      "max": 133.462,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      47.711,
+      47.78
+     ],
+     "osd_path_fraction": 0.9966,
+     "osd_path_class": {
+      "p50": 47.76,
+      "p99": 60.164,
+      "p999": 93.596,
+      "mean": 48.79,
+      "max": 133.462,
+      "shots": 59796
+     },
+     "converged_class": {
+      "p50": 43.201,
+      "p99": 56.116,
+      "p999": 59.292,
+      "mean": 41.979,
+      "max": 59.292,
+      "shots": 204
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 7)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 61.316,
+      "p99": 74.06,
+      "p999": 105.63,
+      "mean": 62.291,
+      "max": 146.076,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      61.285,
+      61.376
+     ],
+     "osd_path_fraction": 0.988,
+     "osd_path_class": {
+      "p50": 61.306,
+      "p99": 74.079,
+      "p999": 105.63,
+      "mean": 62.351,
+      "max": 146.076,
+      "shots": 59280
+     },
+     "converged_class": {
+      "p50": 62.107,
+      "p99": 71.626,
+      "p999": 73.168,
+      "mean": 57.307,
+      "max": 73.168,
+      "shots": 720
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 9)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 74.781,
+      "p99": 87.615,
+      "p999": 120.548,
+      "mean": 75.643,
+      "max": 170.973,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      74.711,
+      74.902
+     ],
+     "osd_path_fraction": 0.98585,
+     "osd_path_class": {
+      "p50": 74.801,
+      "p99": 87.685,
+      "p999": 120.548,
+      "mean": 75.801,
+      "max": 170.973,
+      "shots": 59151
+     },
+     "converged_class": {
+      "p50": 69.601,
+      "p99": 79.921,
+      "p999": 85.341,
+      "mean": 64.61,
+      "max": 85.341,
+      "shots": 849
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 13)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 101.712,
+      "p99": 114.677,
+      "p999": 140.685,
+      "mean": 102.124,
+      "max": 189.227,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      101.632,
+      101.772
+     ],
+     "osd_path_fraction": 0.97165,
+     "osd_path_class": {
+      "p50": 101.742,
+      "p99": 114.797,
+      "p999": 141.647,
+      "mean": 102.686,
+      "max": 189.227,
+      "shots": 58299
+     },
+     "converged_class": {
+      "p50": 88.797,
+      "p99": 110.318,
+      "p999": 113.003,
+      "mean": 82.859,
+      "max": 113.504,
+      "shots": 1701
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05c15 (0.5, 15)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 115.127,
+      "p99": 128.252,
+      "p999": 157.508,
+      "mean": 115.243,
+      "max": 197.112,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      115.068,
+      115.198
+     ],
+     "osd_path_fraction": 0.96825,
+     "osd_path_class": {
+      "p50": 115.188,
+      "p99": 128.352,
+      "p999": 157.728,
+      "mean": 116.121,
+      "max": 197.112,
+      "shots": 58095
+     },
+     "converged_class": {
+      "p50": 95.521,
+      "p99": 119.165,
+      "p999": 125.567,
+      "mean": 88.482,
+      "max": 126.409,
+      "shots": 1905
+     }
+    },
+    {
+     "part": "P",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "(0.5, 21)",
+     "build": "6g (shipped)",
+     "processes": 3,
+     "all_shots": {
+      "p50": 155.503,
+      "p99": 168.889,
+      "p999": 194.317,
+      "mean": 154.267,
+      "max": 234.342,
+      "shots": 60000
+     },
+     "process_p50_range_us": [
+      155.453,
+      155.584
+     ],
+     "osd_path_fraction": 0.96095,
+     "osd_path_class": {
+      "p50": 155.614,
+      "p99": 169.009,
+      "p999": 194.397,
+      "mean": 156.468,
+      "max": 234.342,
+      "shots": 57657
+     },
+     "converged_class": {
+      "p50": 106.22,
+      "p99": 157.938,
+      "p999": 165.863,
+      "mean": 100.099,
+      "max": 166.575,
+      "shots": 2343
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6e",
+     "processes": 4,
+     "all_shots": {
+      "p50": 42.61,
+      "p99": 54.683,
+      "p999": 76.305,
+      "mean": 43.502,
+      "max": 143.912,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      42.53,
+      42.7
+     ],
+     "osd_path_fraction": 0.9997,
+     "osd_path_class": {
+      "p50": 42.61,
+      "p99": 54.683,
+      "p999": 76.305,
+      "mean": 43.503,
+      "max": 143.912,
+      "shots": 79976
+     },
+     "converged_class": {
+      "p50": 42.009,
+      "p99": 51.357,
+      "p999": 51.357,
+      "mean": 40.426,
+      "max": 51.357,
+      "shots": 24
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 34.025,
+      "p99": 44.154,
+      "p999": 66.075,
+      "mean": 34.622,
+      "max": 100.429,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      33.994,
+      34.054
+     ],
+     "osd_path_fraction": 0.9997,
+     "osd_path_class": {
+      "p50": 34.025,
+      "p99": 44.154,
+      "p999": 66.075,
+      "mean": 34.622,
+      "max": 100.429,
+      "shots": 79976
+     },
+     "converged_class": {
+      "p50": 37.301,
+      "p99": 38.162,
+      "p999": 38.162,
+      "mean": 35.484,
+      "max": 38.162,
+      "shots": 24
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6f",
+     "processes": 4,
+     "all_shots": {
+      "p50": 36.249,
+      "p99": 47.36,
+      "p999": 77.246,
+      "mean": 37.081,
+      "max": 112.693,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      36.219,
+      36.269
+     ],
+     "osd_path_fraction": 0.9997,
+     "osd_path_class": {
+      "p50": 36.249,
+      "p99": 47.359,
+      "p999": 77.246,
+      "mean": 37.081,
+      "max": 112.693,
+      "shots": 79976
+     },
+     "converged_class": {
+      "p50": 38.593,
+      "p99": 49.093,
+      "p999": 49.093,
+      "mean": 37.939,
+      "max": 49.093,
+      "shots": 24
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a0375c7 (0.375, 7)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 61.005,
+      "p99": 72.196,
+      "p999": 80.322,
+      "mean": 61.64,
+      "max": 141.196,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      60.895,
+      61.096
+     ],
+     "osd_path_fraction": 0.97945,
+     "osd_path_class": {
+      "p50": 61.035,
+      "p99": 72.246,
+      "p999": 80.462,
+      "mean": 61.854,
+      "max": 141.196,
+      "shots": 78356
+     },
+     "converged_class": {
+      "p50": 54.724,
+      "p99": 66.155,
+      "p999": 71.635,
+      "mean": 51.456,
+      "max": 72.316,
+      "shots": 1644
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05c11 (0.5, 11)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 88.267,
+      "p99": 101.261,
+      "p999": 132.24,
+      "mean": 88.938,
+      "max": 188.005,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      88.247,
+      88.277
+     ],
+     "osd_path_fraction": 0.98085,
+     "osd_path_class": {
+      "p50": 88.296,
+      "p99": 101.322,
+      "p999": 132.29,
+      "mean": 89.276,
+      "max": 188.005,
+      "shots": 78468
+     },
+     "converged_class": {
+      "p50": 70.062,
+      "p99": 95.08,
+      "p999": 99.257,
+      "mean": 71.627,
+      "max": 100.37,
+      "shots": 1532
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05ms31 (0.5, 31)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 222.981,
+      "p99": 237.218,
+      "p999": 261.294,
+      "mean": 218.915,
+      "max": 307.271,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      222.831,
+      223.141
+     ],
+     "osd_path_fraction": 0.95085,
+     "osd_path_class": {
+      "p50": 223.181,
+      "p99": 237.358,
+      "p999": 263.367,
+      "mean": 223.976,
+      "max": 307.271,
+      "shots": 76068
+     },
+     "converged_class": {
+      "p50": 110.138,
+      "p99": 223.933,
+      "p999": 234.113,
+      "mean": 121.013,
+      "max": 237.208,
+      "shots": 3932
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a04375c3 (0.4375, 3)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 24.636,
+      "p99": 34.476,
+      "p999": 35.867,
+      "mean": 24.954,
+      "max": 48.141,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      24.616,
+      24.667
+     ],
+     "osd_path_fraction": 0.6091,
+     "osd_path_class": {
+      "p50": 25.138,
+      "p99": 34.806,
+      "p999": 36.719,
+      "mean": 25.68,
+      "max": 48.141,
+      "shots": 48728
+     },
+     "converged_class": {
+      "p50": 23.414,
+      "p99": 32.942,
+      "p999": 33.493,
+      "mean": 23.822,
+      "max": 36.128,
+      "shots": 31272
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05c15 (0.5, 15)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 65.564,
+      "p99": 80.723,
+      "p999": 82.997,
+      "mean": 62.325,
+      "max": 92.345,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      65.393,
+      65.874
+     ],
+     "osd_path_fraction": 0.46105,
+     "osd_path_class": {
+      "p50": 71.986,
+      "p99": 81.514,
+      "p999": 83.908,
+      "mean": 72.567,
+      "max": 92.345,
+      "shots": 36884
+     },
+     "converged_class": {
+      "p50": 57.97,
+      "p99": 69.852,
+      "p999": 75.172,
+      "mean": 53.562,
+      "max": 81.544,
+      "shots": 43116
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05ms31 (0.5, 31)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 65.534,
+      "p99": 143.822,
+      "p999": 147.819,
+      "mean": 90.532,
+      "max": 156.506,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      65.454,
+      65.674
+     ],
+     "osd_path_fraction": 0.4425,
+     "osd_path_class": {
+      "p50": 134.384,
+      "p99": 145.184,
+      "p999": 149.472,
+      "mean": 135.04,
+      "max": 156.506,
+      "shots": 35400
+     },
+     "converged_class": {
+      "p50": 58.0,
+      "p99": 112.232,
+      "p999": 130.727,
+      "mean": 55.205,
+      "max": 139.754,
+      "shots": 44600
+     }
+    },
+    {
+     "part": "S",
+     "problem": "bb288_unif_p1e-3_r18_z",
+     "config": "a05ms31 (0.5, 31)",
+     "build": "6g (shipped)",
+     "processes": 4,
+     "all_shots": {
+      "p50": 137.14,
+      "p99": 148.982,
+      "p999": 152.107,
+      "mean": 127.336,
+      "max": 159.22,
+      "shots": 80000
+     },
+     "process_p50_range_us": [
+      137.129,
+      137.169
+     ],
+     "osd_path_fraction": 0.8388,
+     "osd_path_class": {
+      "p50": 137.68,
+      "p99": 149.212,
+      "p999": 152.308,
+      "mean": 138.618,
+      "max": 159.22,
+      "shots": 67104
+     },
+     "converged_class": {
+      "p50": 62.028,
+      "p99": 126.549,
+      "p999": 138.381,
+      "mean": 68.632,
+      "max": 148.27,
+      "shots": 12896
+     }
+    }
+   ],
+   "paired": [
+    {
+     "part": "A",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 10,
+     "candidate_stats": {
+      "p50": 34.185,
+      "p99": 44.394,
+      "p999": 65.524,
+      "mean": 34.998,
+      "max": 101.065,
+      "shots": 200000
+     },
+     "reference_stats": {
+      "p50": 42.518,
+      "p99": 54.34,
+      "p999": 75.994,
+      "mean": 43.274,
+      "max": 134.545,
+      "shots": 200000
+     },
+     "delta_pooled_us": {
+      "p50": -8.333,
+      "p99": -9.946,
+      "p999": -10.47,
+      "mean": -8.276
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -8.255,
+      "p99": -9.982,
+      "p999": -10.39,
+      "mean": -8.194
+     },
+     "delta_reference_created_first_us": {
+      "p50": -8.415,
+      "p99": -9.909,
+      "p999": -10.344,
+      "mean": -8.358
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 199940,
+      "delta_us": {
+       "p50": -8.333,
+       "p99": -9.946,
+       "p999": -10.47,
+       "mean": -8.277
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 60,
+      "delta_us": {
+       "p50": -3.836,
+       "p99": -8.854,
+       "p999": -8.854,
+       "mean": -4.415
+      }
+     }
+    },
+    {
+     "part": "A",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 16,
+     "candidate_stats": {
+      "p50": 34.185,
+      "p99": 44.413,
+      "p999": 65.353,
+      "mean": 34.987,
+      "max": 106.375,
+      "shots": 320000
+     },
+     "reference_stats": {
+      "p50": 36.179,
+      "p99": 47.431,
+      "p999": 77.752,
+      "mean": 36.89,
+      "max": 124.465,
+      "shots": 320000
+     },
+     "delta_pooled_us": {
+      "p50": -1.994,
+      "p99": -3.018,
+      "p999": -12.399,
+      "mean": -1.903
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -1.865,
+      "p99": -2.897,
+      "p999": -12.013,
+      "mean": -1.78
+     },
+     "delta_reference_created_first_us": {
+      "p50": -2.114,
+      "p99": -3.136,
+      "p999": -12.675,
+      "mean": -2.027
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 319904,
+      "delta_us": {
+       "p50": -1.994,
+       "p99": -3.018,
+       "p999": -12.399,
+       "mean": -1.903
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 96,
+      "delta_us": {
+       "p50": -1.112,
+       "p99": -2.904,
+       "p999": -2.904,
+       "mean": -1.262
+      }
+     }
+    },
+    {
+     "part": "A",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 20,
+     "candidate_stats": {
+      "p50": 34.034,
+      "p99": 45.256,
+      "p999": 65.8,
+      "mean": 34.731,
+      "max": 108.946,
+      "shots": 400000
+     },
+     "reference_stats": {
+      "p50": 34.034,
+      "p99": 45.207,
+      "p999": 65.985,
+      "mean": 34.731,
+      "max": 108.689,
+      "shots": 400000
+     },
+     "delta_pooled_us": {
+      "p50": 0.0,
+      "p99": 0.049,
+      "p999": -0.185,
+      "mean": 0.0
+     },
+     "delta_candidate_created_first_us": {
+      "p50": 0.118,
+      "p99": 0.182,
+      "p999": 0.652,
+      "mean": 0.117
+     },
+     "delta_reference_created_first_us": {
+      "p50": -0.119,
+      "p99": -0.08,
+      "p999": -0.662,
+      "mean": -0.117
+     },
+     "processes_where_candidate_p50_higher": 8,
+     "osd_path_class": {
+      "shots_per_side": 399880,
+      "delta_us": {
+       "p50": 0.0,
+       "p99": 0.05,
+       "p999": -0.185,
+       "mean": 0.0
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 120,
+      "delta_us": {
+       "p50": 0.169,
+       "p99": -4.538,
+       "p999": -0.882,
+       "mean": -0.233
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a0375c7 (0.375, 7)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 60.985,
+      "p99": 71.154,
+      "p999": 82.066,
+      "mean": 61.602,
+      "max": 141.057,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 77.917,
+      "p99": 89.649,
+      "p999": 103.366,
+      "mean": 78.414,
+      "max": 160.343,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -16.932,
+      "p99": -18.495,
+      "p999": -21.3,
+      "mean": -16.812
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -16.892,
+      "p99": -18.475,
+      "p999": -21.46,
+      "mean": -16.762
+     },
+     "delta_reference_created_first_us": {
+      "p50": -16.982,
+      "p99": -18.625,
+      "p999": -19.526,
+      "mean": -16.862
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 39178,
+      "delta_us": {
+       "p50": -16.962,
+       "p99": -18.526,
+       "p999": -21.3,
+       "mean": -16.959
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 822,
+      "delta_us": {
+       "p50": -11.843,
+       "p99": -13.015,
+       "p999": -16.13,
+       "mean": -9.821
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a0375c7 (0.375, 7)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 61.085,
+      "p99": 71.344,
+      "p999": 80.883,
+      "mean": 61.703,
+      "max": 149.433,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 65.864,
+      "p99": 77.045,
+      "p999": 86.934,
+      "mean": 66.418,
+      "max": 157.578,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -4.779,
+      "p99": -5.701,
+      "p999": -6.051,
+      "mean": -4.714
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -4.618,
+      "p99": -5.52,
+      "p999": -6.141,
+      "mean": -4.556
+     },
+     "delta_reference_created_first_us": {
+      "p50": -4.93,
+      "p99": -5.911,
+      "p999": -6.202,
+      "mean": -4.873
+     },
+     "processes_where_candidate_p50_higher": 2,
+     "osd_path_class": {
+      "shots_per_side": 117534,
+      "delta_us": {
+       "p50": -4.79,
+       "p99": -5.72,
+       "p999": -6.131,
+       "mean": -4.758
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 2466,
+      "delta_us": {
+       "p50": -2.695,
+       "p99": -3.657,
+       "p999": -6.573,
+       "mean": -2.625
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a0375c7 (0.375, 7)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 61.006,
+      "p99": 71.405,
+      "p999": 79.841,
+      "mean": 61.631,
+      "max": 140.996,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 60.996,
+      "p99": 71.365,
+      "p999": 79.731,
+      "mean": 61.613,
+      "max": 141.357,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": 0.01,
+      "p99": 0.04,
+      "p999": 0.11,
+      "mean": 0.019
+     },
+     "delta_candidate_created_first_us": {
+      "p50": 0.13,
+      "p99": 0.18,
+      "p999": -0.06,
+      "mean": 0.136
+     },
+     "delta_reference_created_first_us": {
+      "p50": -0.109,
+      "p99": -0.111,
+      "p999": 0.14,
+      "mean": -0.099
+     },
+     "processes_where_candidate_p50_higher": 1,
+     "osd_path_class": {
+      "shots_per_side": 78356,
+      "delta_us": {
+       "p50": 0.019,
+       "p99": 0.04,
+       "p999": -0.18,
+       "mean": 0.019
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 1644,
+      "delta_us": {
+       "p50": 0.109,
+       "p99": 1.031,
+       "p999": -0.781,
+       "mean": -0.019
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05c11 (0.5, 11)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 88.285,
+      "p99": 100.397,
+      "p999": 132.978,
+      "mean": 88.945,
+      "max": 191.236,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 114.022,
+      "p99": 128.7,
+      "p999": 160.228,
+      "mean": 114.494,
+      "max": 232.313,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -25.737,
+      "p99": -28.303,
+      "p999": -27.25,
+      "mean": -25.549
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -25.707,
+      "p99": -28.393,
+      "p999": -27.411,
+      "mean": -25.531
+     },
+     "delta_reference_created_first_us": {
+      "p50": -25.758,
+      "p99": -28.052,
+      "p999": -26.84,
+      "mean": -25.567
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 39234,
+      "delta_us": {
+       "p50": -25.767,
+       "p99": -28.253,
+       "p999": -27.25,
+       "mean": -25.723
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 766,
+      "delta_us": {
+       "p50": -16.501,
+       "p99": -23.154,
+       "p999": -22.342,
+       "mean": -16.661
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05c11 (0.5, 11)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 88.347,
+      "p99": 100.587,
+      "p999": 132.52,
+      "mean": 89.008,
+      "max": 196.501,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 95.981,
+      "p99": 109.226,
+      "p999": 141.006,
+      "mean": 96.477,
+      "max": 200.728,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -7.634,
+      "p99": -8.639,
+      "p999": -8.486,
+      "mean": -7.47
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -7.492,
+      "p99": -8.519,
+      "p999": -7.862,
+      "mean": -7.314
+     },
+     "delta_reference_created_first_us": {
+      "p50": -7.777,
+      "p99": -8.788,
+      "p999": -9.248,
+      "mean": -7.625
+     },
+     "processes_where_candidate_p50_higher": 1,
+     "osd_path_class": {
+      "shots_per_side": 117702,
+      "delta_us": {
+       "p50": -7.664,
+       "p99": -8.646,
+       "p999": -8.357,
+       "mean": -7.525
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 2298,
+      "delta_us": {
+       "p50": -4.819,
+       "p99": -6.52,
+       "p999": -7.124,
+       "mean": -4.634
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05c11 (0.5, 11)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 88.254,
+      "p99": 100.54,
+      "p999": 132.737,
+      "mean": 88.911,
+      "max": 188.08,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 88.226,
+      "p99": 100.547,
+      "p999": 133.038,
+      "mean": 88.893,
+      "max": 187.008,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": 0.028,
+      "p99": -0.007,
+      "p999": -0.301,
+      "mean": 0.018
+     },
+     "delta_candidate_created_first_us": {
+      "p50": 0.213,
+      "p99": 0.279,
+      "p999": 0.251,
+      "mean": 0.216
+     },
+     "delta_reference_created_first_us": {
+      "p50": -0.169,
+      "p99": -0.23,
+      "p999": -0.508,
+      "mean": -0.18
+     },
+     "processes_where_candidate_p50_higher": 3,
+     "osd_path_class": {
+      "shots_per_side": 78468,
+      "delta_us": {
+       "p50": 0.03,
+       "p99": 0.003,
+       "p999": -0.415,
+       "mean": 0.018
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 1532,
+      "delta_us": {
+       "p50": 0.049,
+       "p99": 0.383,
+       "p999": 1.754,
+       "mean": 0.008
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 223.07,
+      "p99": 236.767,
+      "p999": 261.753,
+      "mean": 219.005,
+      "max": 307.301,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 290.158,
+      "p99": 310.646,
+      "p999": 322.98,
+      "mean": 284.87,
+      "max": 375.77,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -67.088,
+      "p99": -73.879,
+      "p999": -61.227,
+      "mean": -65.866
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -67.107,
+      "p99": -73.89,
+      "p999": -60.726,
+      "mean": -65.828
+     },
+     "delta_reference_created_first_us": {
+      "p50": -67.126,
+      "p99": -73.578,
+      "p999": -61.505,
+      "mean": -65.903
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 38034,
+      "delta_us": {
+       "p50": -67.285,
+       "p99": -73.841,
+       "p999": -61.154,
+       "mean": -67.619
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 1966,
+      "delta_us": {
+       "p50": -28.785,
+       "p99": -63.048,
+       "p999": -63.38,
+       "mean": -31.948
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 223.101,
+      "p99": 236.957,
+      "p999": 262.485,
+      "mean": 219.042,
+      "max": 306.027,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 242.466,
+      "p99": 261.824,
+      "p999": 281.872,
+      "mean": 238.159,
+      "max": 332.708,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -19.365,
+      "p99": -24.867,
+      "p999": -19.387,
+      "mean": -19.117
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -19.076,
+      "p99": -24.367,
+      "p999": -17.863,
+      "mean": -18.834
+     },
+     "delta_reference_created_first_us": {
+      "p50": -19.638,
+      "p99": -25.307,
+      "p999": -19.156,
+      "mean": -19.4
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 114102,
+      "delta_us": {
+       "p50": -19.565,
+       "p99": -24.896,
+       "p999": -18.573,
+       "mean": -19.633
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 5898,
+      "delta_us": {
+       "p50": -8.325,
+       "p99": -18.766,
+       "p999": -20.359,
+       "mean": -9.145
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 223.039,
+      "p99": 237.006,
+      "p999": 261.263,
+      "mean": 218.97,
+      "max": 311.707,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 223.021,
+      "p99": 237.117,
+      "p999": 261.714,
+      "mean": 218.954,
+      "max": 311.917,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": 0.018,
+      "p99": -0.111,
+      "p999": -0.451,
+      "mean": 0.015
+     },
+     "delta_candidate_created_first_us": {
+      "p50": 0.442,
+      "p99": 0.289,
+      "p999": 0.27,
+      "mean": 0.422
+     },
+     "delta_reference_created_first_us": {
+      "p50": -0.402,
+      "p99": -0.51,
+      "p999": -0.72,
+      "mean": -0.392
+     },
+     "processes_where_candidate_p50_higher": 2,
+     "osd_path_class": {
+      "shots_per_side": 76068,
+      "delta_us": {
+       "p50": 0.011,
+       "p99": -0.091,
+       "p999": -0.331,
+       "mean": 0.017
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 3932,
+      "delta_us": {
+       "p50": -0.02,
+       "p99": -0.553,
+       "p999": -1.264,
+       "mean": -0.012
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a04375c3 (0.4375, 3)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 24.737,
+      "p99": 33.873,
+      "p999": 35.657,
+      "mean": 25.163,
+      "max": 47.851,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 32.541,
+      "p99": 42.38,
+      "p999": 43.752,
+      "mean": 30.76,
+      "max": 60.223,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -7.804,
+      "p99": -8.507,
+      "p999": -8.095,
+      "mean": -5.597
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -7.924,
+      "p99": -8.657,
+      "p999": -8.265,
+      "mean": -5.667
+     },
+     "delta_reference_created_first_us": {
+      "p50": -7.685,
+      "p99": -8.396,
+      "p999": -7.965,
+      "mean": -5.528
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 24364,
+      "delta_us": {
+       "p50": -7.836,
+       "p99": -8.516,
+       "p999": -8.115,
+       "mean": -7.799
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 15636,
+      "delta_us": {
+       "p50": -2.394,
+       "p99": -2.285,
+       "p999": -2.245,
+       "mean": -2.168
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a04375c3 (0.4375, 3)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 24.717,
+      "p99": 33.834,
+      "p999": 35.407,
+      "mean": 25.155,
+      "max": 48.602,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 28.674,
+      "p99": 38.363,
+      "p999": 39.555,
+      "mean": 28.374,
+      "max": 60.825,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -3.957,
+      "p99": -4.529,
+      "p999": -4.148,
+      "mean": -3.22
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -3.978,
+      "p99": -4.539,
+      "p999": -4.159,
+      "mean": -3.248
+     },
+     "delta_reference_created_first_us": {
+      "p50": -3.919,
+      "p99": -4.508,
+      "p999": -4.128,
+      "mean": -3.192
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 73092,
+      "delta_us": {
+       "p50": -3.947,
+       "p99": -4.518,
+       "p999": -4.077,
+       "mean": -3.884
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 46908,
+      "delta_us": {
+       "p50": -2.415,
+       "p99": -2.344,
+       "p999": -2.434,
+       "mean": -2.185
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a04375c3 (0.4375, 3)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 24.747,
+      "p99": 34.676,
+      "p999": 35.837,
+      "mean": 25.198,
+      "max": 48.171,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 24.747,
+      "p99": 34.645,
+      "p999": 35.808,
+      "mean": 25.173,
+      "max": 48.191,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": 0.0,
+      "p99": 0.031,
+      "p999": 0.029,
+      "mean": 0.024
+     },
+     "delta_candidate_created_first_us": {
+      "p50": 0.02,
+      "p99": 0.051,
+      "p999": 0.08,
+      "mean": 0.02
+     },
+     "delta_reference_created_first_us": {
+      "p50": -0.009,
+      "p99": 0.021,
+      "p999": -0.06,
+      "mean": 0.029
+     },
+     "processes_where_candidate_p50_higher": 2,
+     "osd_path_class": {
+      "shots_per_side": 48728,
+      "delta_us": {
+       "p50": -0.009,
+       "p99": 0.0,
+       "p999": 0.121,
+       "mean": -0.004
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 31272,
+      "delta_us": {
+       "p50": 0.04,
+       "p99": 0.07,
+       "p999": 0.021,
+       "mean": 0.069
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05c15 (0.5, 15)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 66.125,
+      "p99": 80.962,
+      "p999": 83.087,
+      "mean": 62.793,
+      "max": 92.394,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 71.355,
+      "p99": 96.783,
+      "p999": 98.095,
+      "mean": 72.256,
+      "max": 116.279,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -5.23,
+      "p99": -15.821,
+      "p999": -15.008,
+      "mean": -9.463
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -5.341,
+      "p99": -15.9,
+      "p999": -15.24,
+      "mean": -9.528
+     },
+     "delta_reference_created_first_us": {
+      "p50": -5.11,
+      "p99": -15.73,
+      "p999": -14.587,
+      "mean": -9.397
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 18442,
+      "delta_us": {
+       "p50": -15.87,
+       "p99": -15.47,
+       "p999": -14.386,
+       "mean": -15.83
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 21558,
+      "delta_us": {
+       "p50": -5.12,
+       "p99": -10.611,
+       "p999": -6.622,
+       "mean": -4.015
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05c15 (0.5, 15)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 66.094,
+      "p99": 80.973,
+      "p999": 83.056,
+      "mean": 62.784,
+      "max": 95.31,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 71.285,
+      "p99": 92.966,
+      "p999": 94.207,
+      "mean": 70.571,
+      "max": 109.547,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -5.191,
+      "p99": -11.993,
+      "p999": -11.151,
+      "mean": -7.787
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -5.241,
+      "p99": -11.953,
+      "p999": -11.101,
+      "mean": -7.817
+     },
+     "delta_reference_created_first_us": {
+      "p50": -5.15,
+      "p99": -12.042,
+      "p999": -11.171,
+      "mean": -7.757
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 55326,
+      "delta_us": {
+       "p50": -12.193,
+       "p99": -11.672,
+       "p999": -10.831,
+       "mean": -12.121
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 64674,
+      "delta_us": {
+       "p50": -5.169,
+       "p99": -10.76,
+       "p999": -6.803,
+       "mean": -4.08
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05c15 (0.5, 15)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 65.965,
+      "p99": 81.023,
+      "p999": 83.157,
+      "mean": 62.722,
+      "max": 97.915,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 65.995,
+      "p99": 81.023,
+      "p999": 83.227,
+      "mean": 62.736,
+      "max": 100.33,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": -0.03,
+      "p99": 0.0,
+      "p999": -0.07,
+      "mean": -0.015
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -0.231,
+      "p99": -0.291,
+      "p999": -0.35,
+      "mean": -0.247
+     },
+     "delta_reference_created_first_us": {
+      "p50": 0.141,
+      "p99": 0.311,
+      "p999": 0.13,
+      "mean": 0.218
+     },
+     "processes_where_candidate_p50_higher": 2,
+     "osd_path_class": {
+      "shots_per_side": 36884,
+      "delta_us": {
+       "p50": 0.001,
+       "p99": 0.039,
+       "p999": 0.281,
+       "mean": 0.001
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 43116,
+      "delta_us": {
+       "p50": -0.029,
+       "p99": -0.11,
+       "p999": -0.48,
+       "mean": -0.028
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 65.884,
+      "p99": 144.112,
+      "p999": 147.498,
+      "mean": 90.848,
+      "max": 161.666,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 71.235,
+      "p99": 169.971,
+      "p999": 171.354,
+      "mean": 105.054,
+      "max": 182.024,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -5.351,
+      "p99": -25.859,
+      "p999": -23.856,
+      "mean": -14.206
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -5.28,
+      "p99": -25.909,
+      "p999": -23.824,
+      "mean": -14.291
+     },
+     "delta_reference_created_first_us": {
+      "p50": -5.37,
+      "p99": -25.799,
+      "p999": -23.946,
+      "mean": -14.12
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 17700,
+      "delta_us": {
+       "p50": -26.851,
+       "p99": -25.127,
+       "p999": -22.672,
+       "mean": -26.699
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 22300,
+      "delta_us": {
+       "p50": -5.079,
+       "p99": -15.058,
+       "p999": -16.279,
+       "mean": -4.29
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 66.025,
+      "p99": 143.952,
+      "p999": 147.688,
+      "mean": 90.897,
+      "max": 160.814,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 71.115,
+      "p99": 166.303,
+      "p999": 167.767,
+      "mean": 103.468,
+      "max": 180.641,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -5.09,
+      "p99": -22.351,
+      "p999": -20.079,
+      "mean": -12.571
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -5.079,
+      "p99": -22.412,
+      "p999": -20.409,
+      "mean": -12.613
+     },
+     "delta_reference_created_first_us": {
+      "p50": -5.03,
+      "p99": -22.272,
+      "p999": -19.877,
+      "mean": -12.53
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 53100,
+      "delta_us": {
+       "p50": -23.224,
+       "p99": -21.56,
+       "p999": -18.666,
+       "mean": -23.076
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 66900,
+      "delta_us": {
+       "p50": -5.049,
+       "p99": -15.168,
+       "p999": -18.545,
+       "mean": -4.234
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb144_unif_p1e-3_r12_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 65.924,
+      "p99": 143.992,
+      "p999": 148.12,
+      "mean": 90.833,
+      "max": 156.897,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 65.965,
+      "p99": 144.031,
+      "p999": 148.16,
+      "mean": 90.848,
+      "max": 157.367,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": -0.041,
+      "p99": -0.039,
+      "p999": -0.04,
+      "mean": -0.015
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -0.26,
+      "p99": -0.711,
+      "p999": -0.941,
+      "mean": -0.448
+     },
+     "delta_reference_created_first_us": {
+      "p50": 0.22,
+      "p99": 0.611,
+      "p999": 0.571,
+      "mean": 0.418
+     },
+     "processes_where_candidate_p50_higher": 2,
+     "osd_path_class": {
+      "shots_per_side": 35400,
+      "delta_us": {
+       "p50": -0.01,
+       "p99": -0.039,
+       "p999": -0.241,
+       "mean": -0.016
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 44600,
+      "delta_us": {
+       "p50": -0.011,
+       "p99": -0.111,
+       "p999": 0.26,
+       "mean": -0.014
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb288_unif_p1e-3_r18_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6e",
+     "processes": 2,
+     "candidate_stats": {
+      "p50": 137.81,
+      "p99": 149.532,
+      "p999": 152.428,
+      "mean": 128.075,
+      "max": 161.576,
+      "shots": 40000
+     },
+     "reference_stats": {
+      "p50": 257.025,
+      "p99": 266.884,
+      "p999": 267.675,
+      "mean": 234.821,
+      "max": 275.3,
+      "shots": 40000
+     },
+     "delta_pooled_us": {
+      "p50": -119.215,
+      "p99": -117.352,
+      "p999": -115.247,
+      "mean": -106.745
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -119.786,
+      "p99": -117.934,
+      "p999": -115.568,
+      "mean": -107.254
+     },
+     "delta_reference_created_first_us": {
+      "p50": -118.624,
+      "p99": -116.69,
+      "p999": -114.817,
+      "mean": -106.237
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 33552,
+      "delta_us": {
+       "p50": -118.815,
+       "p99": -117.121,
+       "p999": -115.247,
+       "mean": -118.706
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 6448,
+      "delta_us": {
+       "p50": -38.913,
+       "p99": -96.622,
+       "p999": -112.422,
+       "mean": -44.506
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb288_unif_p1e-3_r18_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (shipped)",
+     "reference": "6f",
+     "processes": 6,
+     "candidate_stats": {
+      "p50": 137.76,
+      "p99": 149.613,
+      "p999": 152.678,
+      "mean": 128.06,
+      "max": 159.671,
+      "shots": 120000
+     },
+     "reference_stats": {
+      "p50": 253.158,
+      "p99": 263.057,
+      "p999": 263.828,
+      "mean": 231.489,
+      "max": 268.608,
+      "shots": 120000
+     },
+     "delta_pooled_us": {
+      "p50": -115.398,
+      "p99": -113.444,
+      "p999": -111.15,
+      "mean": -103.429
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -116.029,
+      "p99": -114.015,
+      "p999": -111.782,
+      "mean": -104.022
+     },
+     "delta_reference_created_first_us": {
+      "p50": -114.748,
+      "p99": -112.663,
+      "p999": -110.399,
+      "mean": -102.836
+     },
+     "processes_where_candidate_p50_higher": 0,
+     "osd_path_class": {
+      "shots_per_side": 100656,
+      "delta_us": {
+       "p50": -115.007,
+       "p99": -113.284,
+       "p999": -111.049,
+       "mean": -114.863
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 19344,
+      "delta_us": {
+       "p50": -38.373,
+       "p99": -95.71,
+       "p999": -111.881,
+       "mean": -43.932
+      }
+     }
+    },
+    {
+     "part": "B",
+     "problem": "bb288_unif_p1e-3_r18_z",
+     "config": "a05ms31 (0.5, 31)",
+     "candidate": "6g (second copy, A/A control)",
+     "reference": "6g (shipped)",
+     "processes": 4,
+     "candidate_stats": {
+      "p50": 137.66,
+      "p99": 149.342,
+      "p999": 152.468,
+      "mean": 127.783,
+      "max": 160.523,
+      "shots": 80000
+     },
+     "reference_stats": {
+      "p50": 137.599,
+      "p99": 149.442,
+      "p999": 152.619,
+      "mean": 127.827,
+      "max": 156.927,
+      "shots": 80000
+     },
+     "delta_pooled_us": {
+      "p50": 0.061,
+      "p99": -0.1,
+      "p999": -0.151,
+      "mean": -0.044
+     },
+     "delta_candidate_created_first_us": {
+      "p50": -0.521,
+      "p99": -0.681,
+      "p999": -0.391,
+      "mean": -0.596
+     },
+     "delta_reference_created_first_us": {
+      "p50": 0.622,
+      "p99": 0.48,
+      "p999": 0.261,
+      "mean": 0.509
+     },
+     "processes_where_candidate_p50_higher": 4,
+     "osd_path_class": {
+      "shots_per_side": 67104,
+      "delta_us": {
+       "p50": 0.05,
+       "p99": -0.07,
+       "p999": -0.091,
+       "mean": -0.041
+      }
+     },
+     "converged_class": {
+      "shots_per_side": 12896,
+      "delta_us": {
+       "p50": -0.041,
+       "p99": 0.0,
+       "p999": -0.321,
+       "mean": -0.059
+      }
+     }
+    }
+   ],
+   "cadence": [
+    {
+     "part": "D",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "host_gap_us": 10000,
+     "keep_warm": "every 0.5 ms through the gap, the last call 1 us before the decode",
+     "repetitions": 6,
+     "call": {
+      "p50": 33.804,
+      "p99": 42.911,
+      "p999": 51.247,
+      "mean": 34.5,
+      "max": 66.876,
+      "shots": 12000
+     },
+     "repetition_p50_us": [
+      33.65,
+      33.74,
+      33.91,
+      33.88,
+      33.83,
+      33.78
+     ],
+     "output_checksums_distinct": 1,
+     "graphics_clock_share_at_calls": {
+      "2895 MHz": 0.627,
+      "2910 MHz": 0.228,
+      "2902 MHz": 0.092
+     },
+     "gpu_power_mean_w": 53.0,
+     "keep_warm_call_summaries": [
+      {
+       "calls": 42000,
+       "errors": 0,
+       "periodic_call_mean_us": 1.5,
+       "periodic_call_max_us": 5.45,
+       "final_call_mean_us": 1.49,
+       "final_call_max_us": 1.79
+      },
+      {
+       "calls": 42000,
+       "errors": 0,
+       "periodic_call_mean_us": 1.5,
+       "periodic_call_max_us": 5.37,
+       "final_call_mean_us": 1.5,
+       "final_call_max_us": 1.79
+      }
+     ]
+    },
+    {
+     "part": "D",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "host_gap_us": 10000,
+     "keep_warm": "every 0.5 ms through the gap, the last call 25 us before the decode",
+     "repetitions": 6,
+     "call": {
+      "p50": 34.265,
+      "p99": 43.031,
+      "p999": 52.309,
+      "mean": 34.982,
+      "max": 69.361,
+      "shots": 12000
+     },
+     "repetition_p50_us": [
+      34.16,
+      34.22,
+      34.31,
+      34.33,
+      34.27,
+      34.27
+     ],
+     "output_checksums_distinct": 1,
+     "graphics_clock_share_at_calls": {
+      "2895 MHz": 0.615,
+      "2910 MHz": 0.265,
+      "2902 MHz": 0.059
+     },
+     "gpu_power_mean_w": 53.0,
+     "keep_warm_call_summaries": [
+      {
+       "calls": 42000,
+       "errors": 0,
+       "periodic_call_mean_us": 1.5,
+       "periodic_call_max_us": 3.59,
+       "final_call_mean_us": 1.5,
+       "final_call_max_us": 2.11
+      },
+      {
+       "calls": 42000,
+       "errors": 0,
+       "periodic_call_mean_us": 1.51,
+       "periodic_call_max_us": 5.36,
+       "final_call_mean_us": 1.5,
+       "final_call_max_us": 1.9
+      }
+     ]
+    },
+    {
+     "part": "D",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "host_gap_us": 10000,
+     "keep_warm": "none",
+     "repetitions": 6,
+     "call": {
+      "p50": 36.639,
+      "p99": 45.797,
+      "p999": 59.202,
+      "mean": 37.272,
+      "max": 79.109,
+      "shots": 12000
+     },
+     "repetition_p50_us": [
+      36.7,
+      36.62,
+      36.65,
+      36.74,
+      36.56,
+      36.54
+     ],
+     "output_checksums_distinct": 1,
+     "graphics_clock_share_at_calls": {
+      "2640 MHz": 0.565,
+      "2647 MHz": 0.411,
+      "2610 MHz": 0.016
+     },
+     "gpu_power_mean_w": 44.0,
+     "keep_warm_call_summaries": [
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      },
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      }
+     ]
+    },
+    {
+     "part": "G",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "host_gap_us": 0,
+     "keep_warm": "none",
+     "repetitions": 6,
+     "call": {
+      "p50": 34.184,
+      "p99": 44.645,
+      "p999": 65.954,
+      "mean": 34.824,
+      "max": 102.964,
+      "shots": 120000
+     },
+     "repetition_p50_us": [
+      34.28,
+      34.17,
+      34.17,
+      34.16,
+      34.16,
+      34.13
+     ],
+     "output_checksums_distinct": null,
+     "keep_warm_call_summaries": [
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      },
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      }
+     ]
+    },
+    {
+     "part": "G",
+     "problem": "bb144_unif_p1e-3_r12_xyz",
+     "config": "a03125c3 (0.3125, 3)",
+     "build": "6g (shipped)",
+     "host_gap_us": 10,
+     "keep_warm": "none",
+     "repetitions": 6,
+     "call": {
+      "p50": 34.205,
+      "p99": 43.292,
+      "p999": 66.295,
+      "mean": 34.94,
+      "max": 103.716,
+      "shots": 120000
+     },
+     "repetition_p50_us": [
+      34.27,
+      34.26,
+      34.17,
+      34.19,
+      34.11,
+      34.23
+     ],
+     "output_checksums_distinct": null,
+     "keep_warm_call_summaries": [
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      },
+      {
+       "calls": 0,
+       "errors": 0,
+       "periodic_call_mean_us": 0.0,
+       "periodic_call_max_us": 0.0,
+       "final_call_mean_us": 0.0,
+       "final_call_max_us": 0.0
+      }
+     ]
+    }
+   ]
+  }
+ }
+}
